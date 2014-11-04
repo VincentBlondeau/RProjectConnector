@@ -7,14 +7,6 @@ Class {
 	#category : #RConnector
 }
 
-{ #category : #'as yet unclassified' }
-RConnect class >> R_GlobalEnv [
-    <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
-    ^ self
-        nbGetSymbolAddress: #R_GlobalEnv
-        module: #R
-]
-
 { #category : #'R session' }
 RConnect class >> Rf_endEmbeddedR [
 	^ self Rf_endEmbeddedR: 0
@@ -68,17 +60,30 @@ RConnect class >> unif_rand [
 ]
 
 { #category : #'stats functions' }
+RConnect >> checkSession [
+	(NativeBoost sessionChanged: RSession)
+		ifTrue: [ 	
+				self halt.
+			RSession := NativeBoost uniqueSessionObject.
+			RLibTypes initialize.
+			self class Rf_initEmbeddedR: #(#R '--no-save' 'silent').
+	
+			]
+
+]
+
+{ #category : #'stats functions' }
 RConnect >> doesNotUnderstand: aMessage [
 	^ self class perform: aMessage selector withArguments: aMessage arguments
 ]
 
 { #category : #'stats functions' }
 RConnect >> initialize [
-	Smalltalk session ~= RSession
-		ifTrue: [ 
-			RSession := Smalltalk session.
-			RLibTypes initialize.
-			self class Rf_initEmbeddedR: #(#R '--no-save' 'silent').
+	self checkSession
+
+]
+
+{ #category : #'stats functions' }
+RConnect >> norm10 [
 	
-			]
 ]

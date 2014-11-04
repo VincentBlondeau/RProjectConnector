@@ -9,5 +9,5 @@ Class {
 
 { #category : #'as yet unclassified' }
 RLibTypes class >> initialize [
-	SEXP := #NBXRSEXP
+	SEXP := #NBExRSEXP
 ]
