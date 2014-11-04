@@ -29,7 +29,7 @@ RConnect class >> Rf_endEmbeddedR: arg [
 
 { #category : #'R session' }
 RConnect class >> Rf_initEmbeddedR: params [
-	| strings |
+	| strings par |
 	^ [ 
 	"This is 32bit... too bad..."
 	strings := OrderedCollection new.
@@ -54,16 +54,6 @@ RConnect class >> Rf_initEmbeddedRargc: argc argv: argv [
         nbCall: #(int Rf_initEmbeddedR(int argc, char *argv))
 ]
 
-{ #category : #'stats functions' }
-RConnect class >> initialize [
-	Smalltalk session ~= RSession
-		ifTrue: [ 
-			RSession := Smalltalk session.
-			RLibTypes initialize.
-			self Rf_initEmbeddedR: #(#R '--no-save' 'silent').
-			]
-]
-
 { #category : #testing }
 RConnect class >> isExistsRf_initEmbeddedR [
 	^ (self nbGetSymbolAddress: 'Rf_initEmbeddedR' module: #R) isNotNil
@@ -75,4 +65,20 @@ RConnect class >> unif_rand [
     ^ self
         nbCall: #( double unif_rand(void) )
         module: #R
+]
+
+{ #category : #'stats functions' }
+RConnect >> doesNotUnderstand: aMessage [
+	^ self class perform: aMessage selector withArguments: aMessage arguments
+]
+
+{ #category : #'stats functions' }
+RConnect >> initialize [
+	Smalltalk session ~= RSession
+		ifTrue: [ 
+			RSession := Smalltalk session.
+			RLibTypes initialize.
+			self class Rf_initEmbeddedR: #(#R '--no-save' 'silent').
+	
+			]
 ]
