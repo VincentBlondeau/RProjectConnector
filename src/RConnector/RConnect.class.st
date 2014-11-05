@@ -1,13 +1,15 @@
 Class {
 	#name : #RConnect,
 	#superclass : #Object,
+	#traits : 'TRLibrary',
+	#classTraits : 'TRLibrary classTrait',
 	#classVars : [
 		'RSession'
 	],
 	#category : #RConnector
 }
 
-{ #category : #'R session' }
+{ #category : #private }
 RConnect class >> Rf_endEmbeddedR [
 	^ self Rf_endEmbeddedR: 0
 ]
@@ -19,7 +21,7 @@ RConnect class >> Rf_endEmbeddedR: arg [
         nbCall: #(int  Rf_endEmbeddedR( int arg ))
 ]
 
-{ #category : #'R session' }
+{ #category : #private }
 RConnect class >> Rf_initEmbeddedR: params [
 	| strings par |
 	^ [ 
@@ -46,6 +48,15 @@ RConnect class >> Rf_initEmbeddedRargc: argc argv: argv [
         nbCall: #(int Rf_initEmbeddedR(int argc, char *argv))
 ]
 
+{ #category : #'R session' }
+RConnect class >> checkSession [
+	(NativeBoost sessionChanged: RSession)
+		ifTrue: [ 
+			RSession := NativeBoost uniqueSessionObject.
+			RLibTypes initialize.
+			self Rf_initEmbeddedR: #(#R '--no-save' 'silent') ]
+]
+
 { #category : #testing }
 RConnect class >> isExistsRf_initEmbeddedR [
 	^ (self nbGetSymbolAddress: 'Rf_initEmbeddedR' module: #R) isNotNil
@@ -60,30 +71,17 @@ RConnect class >> unif_rand [
 ]
 
 { #category : #'stats functions' }
-RConnect >> checkSession [
-	(NativeBoost sessionChanged: RSession)
-		ifTrue: [ 	
-				self halt.
-			RSession := NativeBoost uniqueSessionObject.
-			RLibTypes initialize.
-			self class Rf_initEmbeddedR: #(#R '--no-save' 'silent').
-	
-			]
-
-]
-
-{ #category : #'stats functions' }
 RConnect >> doesNotUnderstand: aMessage [
 	^ self class perform: aMessage selector withArguments: aMessage arguments
 ]
 
 { #category : #'stats functions' }
 RConnect >> initialize [
-	self checkSession
+	self class checkSession
 
 ]
 
 { #category : #'stats functions' }
 RConnect >> norm10 [
-	
+	^ NBExRSEXP findFun: 'rnorm'
 ]
