@@ -35,13 +35,13 @@ Class {
 	#category : #RConnector
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'class initialization' }
 RLibTypes class >> initialize [
-	SEXP := #NBExRSEXP.
+	SEXP := #RObject.
 	self initializeObjectTypes
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 RLibTypes class >> initializeObjectTypes [
 	NILSXP := 0.	"NULL"
 	SYMSXP := 1.	"symbols"

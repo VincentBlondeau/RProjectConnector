@@ -62,6 +62,11 @@ RConnect class >> isExistsRf_initEmbeddedR [
 	^ (self nbGetSymbolAddress: 'Rf_initEmbeddedR' module: #R) isNotNil
 ]
 
+{ #category : #'as yet unclassified' }
+RConnect class >> nbLibraryNameOrHandle [
+ ^ #R
+]
+
 { #category : #'stats functions' }
 RConnect class >> unif_rand [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
@@ -81,7 +86,12 @@ RConnect >> initialize [
 
 ]
 
+{ #category : #'as yet unclassified' }
+RConnect >> nbLibraryNameOrHandle [
+ ^ self class nbLibraryNameOrHandle
+]
+
 { #category : #'stats functions' }
 RConnect >> norm10 [
-	^ NBExRSEXP findFun: 'rnorm'
+	^ RObject findFun: 'rnorm'
 ]

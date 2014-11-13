@@ -1,176 +1,144 @@
-Class {
-	#name : #RHelpers,
-	#superclass : #Object,
+Trait {
+	#name : #TRHelpers,
 	#traits : 'TRLibrary',
 	#classTraits : 'TRLibrary classTrait',
-	#pools : [
-		'RLibTypes'
-	],
 	#category : #RConnector
 }
 
 { #category : #'as yet unclassified' }
-RHelpers class >> PrintValue: aRObject [
+TRHelpers >> isComplex [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
-        nbCall: #(void Rf_PrintValue(RList aRObject))
+        nbCall: #(bool Rf_isComplex(self))
 ]
 
 { #category : #'as yet unclassified' }
-RHelpers >> PrintValue: aRObject [
+TRHelpers >> isEnvironment [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
-        nbCall: #(void Rf_PrintValue(RList aRObject))
+        nbCall: #(bool Rf_isEnvironment(self))
 ]
 
 { #category : #'as yet unclassified' }
-RHelpers >> Rf_isComplex: aRObject [
+TRHelpers >> isExpression [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
-        nbCall: #(bool Rf_isComplex(SEXP aRObject))
+        nbCall: #(bool Rf_isExpression(self))
 ]
 
 { #category : #'as yet unclassified' }
-RHelpers >> Rf_isEnvironment: aRObject [
+TRHelpers >> isInteger [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
-        nbCall: #(bool Rf_isEnvironment(SEXP aRObject))
+        nbCall: #(bool Rf_isInteger(self))
 ]
 
 { #category : #'as yet unclassified' }
-RHelpers >> Rf_isExpression: aRObject [
+TRHelpers >> isList [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
-        nbCall: #(bool Rf_isExpression(SEXP aRObject))
+        nbCall: #(bool Rf_isList(self))
 ]
 
 { #category : #'as yet unclassified' }
-RHelpers >> Rf_isInteger: aRObject [
+TRHelpers >> isLogical [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
-        nbCall: #(bool Rf_isInteger(RObject * aRObject))
+        nbCall: #(bool Rf_isLogical(self))
 ]
 
 { #category : #'as yet unclassified' }
-RHelpers >> Rf_isLanguage [
+TRHelpers >> isNull [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
-        nbCall: #(bool Rf_isLanguage(self))
+        nbCall: #(bool Rf_isNull(self))
 ]
 
 { #category : #'as yet unclassified' }
-RHelpers >> Rf_isLanguage: aRObject [
+TRHelpers >> isNumber [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
-        nbCall: #(bool Rf_isLanguage(RObject * aRObject))
+        nbCall: #(bool Rf_isNumber(self))
 ]
 
 { #category : #'as yet unclassified' }
-RHelpers >> Rf_isList: aRObject [
+TRHelpers >> isNumeric [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
-        nbCall: #(bool Rf_isList(RList * aRObject))
+        nbCall: #(bool Rf_isNumeric(self))
 ]
 
 { #category : #'as yet unclassified' }
-RHelpers >> Rf_isLogical: aRObject [
+TRHelpers >> isObject [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
-        nbCall: #(bool Rf_isLogical(SEXP aRObject))
+        nbCall: #(bool Rf_isObject(self))
 ]
 
 { #category : #'as yet unclassified' }
-RHelpers >> Rf_isNull: aRObject [
-    <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
-    ^ self
-        nbCall: #(bool Rf_isNull(SEXP aRObject))
-]
-
-{ #category : #'as yet unclassified' }
-RHelpers >> Rf_isNumber: aRObject [
-    <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
-    ^ self
-        nbCall: #(bool Rf_isNumber(RObject * aRObject))
-]
-
-{ #category : #'as yet unclassified' }
-RHelpers >> Rf_isNumeric: aRObject [
-    <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
-    ^ self
-        nbCall: #(bool Rf_isNumeric(RObject * aRObject))
-]
-
-{ #category : #'as yet unclassified' }
-RHelpers >> Rf_isObject: aRObject [
-    <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
-    ^ self
-        nbCall: #(bool Rf_isObject(SEXP aRObject))
-]
-
-{ #category : #'as yet unclassified' }
-RHelpers >> Rf_isPairList: aRObject [
+TRHelpers >> isPairList [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
         nbCall: #(bool Rf_isPairList(self))
 ]
 
 { #category : #'as yet unclassified' }
-RHelpers >> Rf_isReal: aRObject [
+TRHelpers >> isReal [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
-        nbCall: #(bool Rf_isReal(SEXP aRObject))
+        nbCall: #(bool Rf_isReal(self))
 ]
 
 { #category : #'as yet unclassified' }
-RHelpers >> Rf_isString: aRObject [
+TRHelpers >> isString [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
-        nbCall: #(bool Rf_isString(SEXP aRObject))
+        nbCall: #(bool Rf_isString(self))
 ]
 
 { #category : #'as yet unclassified' }
-RHelpers >> Rf_isSymbol: aRObject [
+TRHelpers >> isSymbol [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
-        nbCall: #(bool Rf_isSymbol(SEXP aRObject))
+        nbCall: #(bool Rf_isSymbol(self))
 ]
 
 { #category : #'as yet unclassified' }
-RHelpers >> Rf_isValidString: aRObject [
+TRHelpers >> isValidString [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
-        nbCall: #(bool Rf_isValidString(RObject aRObject))
+        nbCall: #(bool Rf_isValidString(self))
 ]
 
 { #category : #'as yet unclassified' }
-RHelpers >> Rf_isVector: aRObject [
+TRHelpers >> isVector [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
-        nbCall: #(bool Rf_isVector(ulong aRObject))
+        nbCall: #(bool Rf_isVector(self))
 ]
 
 { #category : #'as yet unclassified' }
-RHelpers >> Rf_isVectorList: aRObject [
+TRHelpers >> isVectorList [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
-        nbCall: #(bool Rf_isVectorList(ulong aRObject))
+        nbCall: #(bool Rf_isVectorList(self))
 ]
 
 { #category : #'as yet unclassified' }
-RHelpers >> printValue [
+TRHelpers >> print [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
         nbCall: #(void Rf_PrintValue(self))
 ]
 
 { #category : #'as yet unclassified' }
-RHelpers >> raw: aRObject [
+TRHelpers >> raw [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
-        nbCall: #(uchar *RAW(RObject aRObject))
+        nbCall: #(uchar RAW(self))
 ]
 
 { #category : #'as yet unclassified' }
-RHelpers >> type: aRObject [
-	^ self selectors detect: [ :s | (s beginsWith: #Rf_is) and: [ (RHelpers perform: s with: aRObject ) ] ] ifNone: [ nil ]
+TRHelpers >> types [
+	^ self class selectors detect: [ :s | (s beginsWith: #is) and: [ self perform: s ] ] ifNone: [ #() ]
 ]
