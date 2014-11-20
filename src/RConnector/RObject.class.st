@@ -71,8 +71,3 @@ RObject >> primR_tryEval: env error: errorOccurred [
     ^ self
         nbCall: #(SEXP R_tryEval(SEXP self,SEXP env, int * errorOccurred))
 ]
-
-{ #category : #'as yet unclassified' }
-RObject >> types [
-	^ self class selectors detect: [ :s | (s beginsWith: #is) and: [ (self perform: s) ] ] ifNone: [ #() ]
-]

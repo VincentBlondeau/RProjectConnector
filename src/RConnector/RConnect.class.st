@@ -57,6 +57,12 @@ RConnect class >> checkSession [
 			self Rf_initEmbeddedR: #(#R '--no-save' 'silent') ]
 ]
 
+{ #category : #'stats functions' }
+RConnect class >> initialize [
+	Smalltalk addToStartUpList: self.
+	
+]
+
 { #category : #testing }
 RConnect class >> isExistsRf_initEmbeddedR [
 	^ (self nbGetSymbolAddress: 'Rf_initEmbeddedR' module: #R) isNotNil
@@ -65,6 +71,11 @@ RConnect class >> isExistsRf_initEmbeddedR [
 { #category : #'as yet unclassified' }
 RConnect class >> nbLibraryNameOrHandle [
  ^ #R
+]
+
+{ #category : #'stats functions' }
+RConnect class >> startUp [
+	self checkSession 
 ]
 
 { #category : #'stats functions' }

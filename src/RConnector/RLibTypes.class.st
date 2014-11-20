@@ -68,3 +68,9 @@ RLibTypes class >> initializeObjectTypes [
 	RAWSXP := 24."raw vector"
 	S4SXP := 25"S4 classes not of simple type"
 ]
+
+{ #category : #initialization }
+RLibTypes class >> typeRelatedToNumber: index [
+	^ self classVarNames detect: [ :classvarname | (self classVarNamed: classvarname) = index ]
+
+]

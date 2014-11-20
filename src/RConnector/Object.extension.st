@@ -1,6 +1,15 @@
 Extension { #name : #Object }
 
 { #category : #'*RConnector' }
+Object >> asDereferencedPointer [
+	|  pointerToTheValueOfThePointer handle |
+	pointerToTheValueOfThePointer := NBExternalAddress null.
+	handle := [self handle] onDNU: #handle do: [ self value ].
+	pointerToTheValueOfThePointer value: handle.
+	^ pointerToTheValueOfThePointer ulongAt: 0
+]
+
+{ #category : #'*RConnector' }
 Object >> dereferencePointer: aNbPointer [
 	|  pointerToTheValueOfThePointer handle |
 	pointerToTheValueOfThePointer := NBExternalAddress null.

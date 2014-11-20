@@ -1,16 +1,11 @@
 Class {
-	#name : #RScalarInt,
+	#name : #RInt,
 	#superclass : #RObject,
-	#traits : 'TRLibrary',
-	#classTraits : 'TRLibrary classTrait',
-	#pools : [
-		'RLibTypes'
-	],
 	#category : #RConnector
 }
 
 { #category : #'as yet unclassified' }
-RScalarInt class >> newFrom: aInt [
+RInt class >> newFrom: aInt [
 	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
 	^ self nbCall: #(SEXP	 Rf_ScalarInteger(int aInt))
 ]
