@@ -21,6 +21,6 @@ RDoubleVector class >> type [
 ]
 
 { #category : #'as yet unclassified' }
-RDoubleVector >> array [
-	^ array ifNil: [ array := (NBExternalArray ofType: 'double') onAddress: (NBExternalAddress value: self real) size: self length ]
+RDoubleVector >> firstPointer [
+	^ self real
 ]

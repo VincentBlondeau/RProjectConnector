@@ -24,13 +24,55 @@ TRHelpers classSide >> Rf_install: aString [
 ]
 
 { #category : #'as yet unclassified' }
+TRHelpers classSide >> createNewObjectFrom: aRObject withClass: class [
+	| instance |
+	self halt.
+	instance := class new: aRObject length.
+	instance handle: aRObject handle.
+	^ instance
+]
+
+{ #category : #'as yet unclassified' }
+TRHelpers classSide >> findClassOf: aRObject [
+	| type classes |
+	type := aRObject prim_typeOf.
+	classes := (RObject allSubclasses union: RVector allSubclasses)
+		select: [ :c | [ c type = type ] onDNU: #type do: [ false ] ].
+	classes size = 1
+		ifFalse: [ Error signal ].	"detect should be used"
+	^ classes first
+]
+
+{ #category : #'as yet unclassified' }
 TRHelpers classSide >> findFun: aStringOfFunctionName [
 	^ self Rf_findFun: (self Rf_install: aStringOfFunctionName) option: self R_GlobalEnv
+]
+
+{ #category : #'as yet unclassified' }
+TRHelpers classSide >> getRObjectFromGlobalVariable: varName [
+	^ RObject new  handle: (self nbGetGlobalVariable: varName)
 ]
 
 { #category : #'library path' }
 TRHelpers classSide >> nbLibraryNameOrHandle [
  ^ #R
+]
+
+{ #category : #'as yet unclassified' }
+TRHelpers classSide >> newFromRObject: aRObject [
+	| class |
+	class := self findClassOf: aRObject.
+	^ self createNewObjectFrom: aRObject withClass: class
+]
+
+{ #category : #testing }
+TRHelpers >> asPureRObject [
+	^ self class createNewObjectFrom: self withClass: RObject
+]
+
+{ #category : #testing }
+TRHelpers >> asRObject [
+	^ self class newFromRObject: self 
 ]
 
 { #category : #'as yet unclassified' }

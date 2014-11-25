@@ -21,6 +21,6 @@ RIntVector class >> type [
 ]
 
 { #category : #'as yet unclassified' }
-RIntVector >> array [
-	^ array ifNil: [ array := (NBExternalArray ofType: 'int') onAddress: (NBExternalAddress value: self int) size: self length ]
+RIntVector >> firstPointer [
+	^ self int
 ]

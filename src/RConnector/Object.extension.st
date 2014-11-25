@@ -10,6 +10,11 @@ Object >> asDereferencedPointer [
 ]
 
 { #category : #'*RConnector' }
+Object >> asPureRObject [
+	^ self asRObject asPureRObject
+]
+
+{ #category : #'*RConnector' }
 Object >> dereferencePointer: aNbPointer [
 	|  pointerToTheValueOfThePointer handle |
 	pointerToTheValueOfThePointer := NBExternalAddress null.

@@ -18,29 +18,8 @@ RObject class >> createNewObjectFrom: aRObject withClass: class [
 ]
 
 { #category : #'as yet unclassified' }
-RObject class >> findClassOf: aRObject [
-	| type classes |
-	type := aRObject prim_typeOf.
-	classes := RObject allSubclasses select: [ :c | [c type = type] onDNU: #type do: [ false ] ].
-	classes size = 1 ifFalse: [ Error signal ]."detect should be used"
-	^ classes first 
-]
-
-{ #category : #'as yet unclassified' }
-RObject class >> getRObjectFromGlobalVariable: varName [
-	^ RObject new  handle: (self nbGetGlobalVariable: varName)
-]
-
-{ #category : #'as yet unclassified' }
 RObject class >> new: size [
 	^ self primNew: size type: self type
-]
-
-{ #category : #'as yet unclassified' }
-RObject class >> newFromRObject: aRObject [
-	| class |
-	class := self findClassOf: aRObject.
-	^ self createNewObjectFrom: aRObject withClass: class
 ]
 
 { #category : #'as yet unclassified' }
@@ -55,33 +34,10 @@ RObject class >> type [
 ]
 
 { #category : #testing }
-RObject >> asPureRObject [
-	^ self class createNewObjectFrom: self withClass: RObject
-]
-
-{ #category : #testing }
-RObject >> asRObject [
-	^ self class newFromRObject: self 
-]
-
-{ #category : #'as yet unclassified' }
-RObject >> int [
-	self isInteger ifFalse: [ CannotBeConvertedToType signal ].
-	^ self prim_int
-]
-
-{ #category : #testing }
 RObject >> isComplex [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
         nbCall: #(bool Rf_isComplex(self))
-]
-
-{ #category : #testing }
-RObject >> isEnvironment [
-    <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
-    ^ self
-        nbCall: #(bool Rf_isEnvironment(self))
 ]
 
 { #category : #testing }

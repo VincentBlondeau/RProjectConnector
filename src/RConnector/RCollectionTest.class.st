@@ -8,7 +8,7 @@ Class {
 RCollectionTest >> testDoubleVectorSet [
 	| vector |
 	vector := RDoubleVector new: 1.
-	vector at: 1 put: 1.2.
+	vector add: 1.2.
 	self assert: (vector at: 1) equals: 1.2
 ]
 
@@ -16,6 +16,6 @@ RCollectionTest >> testDoubleVectorSet [
 RCollectionTest >> testIntVectorSet [
 	| vector |
 	vector := RIntVector new: 1.
-	vector at: 1 put: 12.
+	vector add: 12.
 	self assert: (vector at: 1) equals: 12
 ]
