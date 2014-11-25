@@ -1,28 +1,31 @@
 Class {
-	#name : #RConnect,
+	#name : #RSession,
 	#superclass : #Object,
 	#traits : 'TRLibrary',
 	#classTraits : 'TRLibrary classTrait',
 	#classVars : [
 		'RSession'
 	],
-	#category : #RConnector
+	#pools : [
+		'RLibTypes'
+	],
+	#category : #'RConnector-Core'
 }
 
 { #category : #private }
-RConnect class >> Rf_endEmbeddedR [
+RSession class >> Rf_endEmbeddedR [
 	^ self Rf_endEmbeddedR: 0
 ]
 
 { #category : #private }
-RConnect class >> Rf_endEmbeddedR: arg [
+RSession class >> Rf_endEmbeddedR: arg [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
         nbCall: #(int  Rf_endEmbeddedR( int arg ))
 ]
 
 { #category : #private }
-RConnect class >> Rf_initEmbeddedR: params [
+RSession class >> Rf_initEmbeddedR: params [
 	| strings par |
 	^ [ 
 	"This is 32bit... too bad..."
@@ -42,14 +45,26 @@ RConnect class >> Rf_initEmbeddedR: params [
 ]
 
 { #category : #private }
-RConnect class >> Rf_initEmbeddedRargc: argc argv: argv [
+RSession class >> Rf_initEmbeddedRargc: argc argv: argv [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
         nbCall: #(int Rf_initEmbeddedR(int argc, char *argv))
 ]
 
+{ #category : #private }
+RSession class >> Rf_install: aLibName [
+    <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
+    ^ self
+        nbCall: #(SEXP Rf_install(String aLibName))
+]
+
+{ #category : #'stats functions' }
+RSession class >> checkLibs [
+	 self isExistsRf_initEmbeddedR ifFalse: [ Error signal: 'The R lib cannot be used. Please install the libraries in the Pharo.exe folder' ]
+]
+
 { #category : #'R session' }
-RConnect class >> checkSession [
+RSession class >> checkSession [
 	(NativeBoost sessionChanged: RSession)
 		ifTrue: [ 
 			RSession := NativeBoost uniqueSessionObject.
@@ -58,51 +73,49 @@ RConnect class >> checkSession [
 ]
 
 { #category : #'stats functions' }
-RConnect class >> initialize [
+RSession class >> checkWorking [
+	(self unif_rand between: 0 and: 1)
+		ifFalse: [ Error signal: 'Should not be false' ]
+]
+
+{ #category : #'stats functions' }
+RSession class >> initialize [
 	Smalltalk addToStartUpList: self.
 	
 ]
 
+{ #category : #'stats functions' }
+RSession class >> invalidateOldHandles [
+	self flag: 'To implement after'.
+]
+
 { #category : #testing }
-RConnect class >> isExistsRf_initEmbeddedR [
+RSession class >> isExistsRf_initEmbeddedR [
 	^ (self nbGetSymbolAddress: 'Rf_initEmbeddedR' module: #R) isNotNil
 ]
 
-{ #category : #'as yet unclassified' }
-RConnect class >> nbLibraryNameOrHandle [
+{ #category : #'library path' }
+RSession class >> nbLibraryNameOrHandle [
  ^ #R
 ]
 
 { #category : #'stats functions' }
-RConnect class >> startUp [
-	self checkSession 
+RSession class >> startUp [
+	self checkLibs.
+	self checkSession.
+	self checkWorking.
+	self invalidateOldHandles.
 ]
 
 { #category : #'stats functions' }
-RConnect class >> unif_rand [
+RSession class >> unif_rand [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
         nbCall: #( double unif_rand(void) )
         module: #R
 ]
 
-{ #category : #'stats functions' }
-RConnect >> doesNotUnderstand: aMessage [
-	^ self class perform: aMessage selector withArguments: aMessage arguments
-]
-
-{ #category : #'stats functions' }
-RConnect >> initialize [
-	self class checkSession
-
-]
-
-{ #category : #'as yet unclassified' }
-RConnect >> nbLibraryNameOrHandle [
+{ #category : #'library path' }
+RSession >> nbLibraryNameOrHandle [
  ^ self class nbLibraryNameOrHandle
-]
-
-{ #category : #'stats functions' }
-RConnect >> norm10 [
-	^ RObject findFun: 'rnorm'
 ]

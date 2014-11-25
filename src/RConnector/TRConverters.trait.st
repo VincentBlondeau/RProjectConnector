@@ -2,10 +2,10 @@ Trait {
 	#name : #TRConverters,
 	#traits : 'TRLibrary',
 	#classTraits : 'TRLibrary classTrait',
-	#category : #RConnector
+	#category : #'RConnector-Core'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'library path' }
 TRConverters classSide >> nbLibraryNameOrHandle [
  ^ #R
 ]
@@ -15,7 +15,7 @@ TRConverters >> asRList [
 	^ RList newFromRObject: self
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'library path' }
 TRConverters >> nbLibraryNameOrHandle [
  ^ self class nbLibraryNameOrHandle
 ]

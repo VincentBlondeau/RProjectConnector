@@ -1,14 +1,18 @@
+"
+A TRLibrary is a trait defining the name of the external library.
+
+"
 Trait {
 	#name : #TRLibrary,
-	#category : #RConnector
+	#category : #'RConnector-Core'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'library path' }
 TRLibrary classSide >> nbLibraryNameOrHandle [
  ^ #R
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'library path' }
 TRLibrary >> nbLibraryNameOrHandle [
  ^ self class nbLibraryNameOrHandle
 ]

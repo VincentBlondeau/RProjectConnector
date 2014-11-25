@@ -1,19 +1,8 @@
 Class {
 	#name : #RVector,
 	#superclass : #RCollection,
-	#category : #RConnector
+	#category : #'RConnector-Core'
 }
-
-{ #category : #'as yet unclassified' }
-RVector class >> checkIsVector: aRObject [
-	aRObject isVectorList
-		ifFalse: [ CannotBeConvertedToType signal ]
-]
-
-{ #category : #'as yet unclassified' }
-RVector class >> new: size [
-	^ self primNew: size type: self type
-]
 
 { #category : #'as yet unclassified' }
 RVector class >> newFromRObject: aRObject [
@@ -25,20 +14,18 @@ RVector class >> newFromRObject: aRObject [
 ]
 
 { #category : #'as yet unclassified' }
-RVector class >> primNew: size type: type [
-	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
-	^ self nbCall: #(RVector Rf_allocVector (int type, int size))
-]
-
-{ #category : #'as yet unclassified' }
-RVector class >> type [
-	^ VECSXP 
-]
-
-{ #category : #'as yet unclassified' }
 RVector >> at: index [
 	(index between: 1 and: self length) ifTrue: [^ self prim_at: index].
 	^ self errorSubscriptBounds: index
+]
+
+{ #category : #'as yet unclassified' }
+RVector >> error: t [
+    <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
+    ^ self
+        nbCall: #(void Rf_error(String t))
+
+
 ]
 
 { #category : #'as yet unclassified' }

@@ -32,7 +32,7 @@ Class {
 		'VECSXP',
 		'WEAKREFSXP'
 	],
-	#category : #RConnector
+	#category : #'RConnector-Core'
 }
 
 { #category : #'class initialization' }

@@ -6,68 +6,74 @@ Class {
 	#pools : [
 		'RLibTypes'
 	],
-	#classInstVars : [
-		'par'
-	],
 	#category : #RConnector
 }
 
 { #category : #'as yet unclassified' }
-RObject class >> R_BaseEnv [
-	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
-	^ self getRObjectFromGlobalVariable: #R_BaseEnv
+RObject class >> createNewObjectFrom: aRObject withClass: class [
+	| instance |
+	instance := class new: aRObject length.
+	instance handle: aRObject handle.
+	^ instance
 ]
 
 { #category : #'as yet unclassified' }
-RObject class >> R_EmptyEnv [
-	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
-	^ self getRObjectFromGlobalVariable: #R_EmptyEnv
+RObject class >> findClassOf: aRObject [
+	| type classes |
+	type := aRObject prim_typeOf.
+	classes := RObject allSubclasses select: [ :c | [c type = type] onDNU: #type do: [ false ] ].
+	classes size = 1 ifFalse: [ Error signal ]."detect should be used"
+	^ classes first 
+]
+
+{ #category : #'library path' }
+RObject class >> nbLibraryNameOrHandle [
+ ^ #R
 ]
 
 { #category : #'as yet unclassified' }
-RObject class >> R_GlobalEnv [
-	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
-	^ self getRObjectFromGlobalVariable: #R_GlobalEnv
+RObject class >> new: size [
+	^ self primNew: size type: self type
 ]
 
 { #category : #'as yet unclassified' }
-RObject class >> R_NilValue [
-	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
-	^ self getRObjectFromGlobalVariable: #R_NilValue
+RObject class >> newFromRObject: aRObject [
+	| class |
+	class := self findClassOf: aRObject.
+	^ self createNewObjectFrom: aRObject withClass: class
 ]
 
 { #category : #'as yet unclassified' }
-RObject class >> Rf_findFun: aNBSEXPfunction option: aNbSEXPoption [
+RObject class >> primNew: size type: type [
+	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
+	^ self nbCall: #(SEXP Rf_allocVector (int type, int size))
+]
+
+{ #category : #'as yet unclassified' }
+RObject class >> type [
+	^ NILSXP
+]
+
+{ #category : #testing }
+RObject >> asPureRObject [
+	^ self class createNewObjectFrom: self withClass: RObject
+]
+
+{ #category : #testing }
+RObject >> asRObject [
+	^ self class newFromRObject: self 
+]
+
+{ #category : #private }
+RObject >> prim_int [
+    <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
+    ^ (self
+        nbCall: #(ulong INTEGER(self))) 
+]
+
+{ #category : #private }
+RObject >> prim_typeOf [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
-        nbCall: #(SEXP Rf_findFun(SEXP aNBSEXPfunction, SEXP aNbSEXPoption))
-]
-
-{ #category : #'as yet unclassified' }
-RObject class >> Rf_install: aString [
-    <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
-    ^ self
-        nbCall: #(SEXP Rf_install(const char * aString))
-]
-
-{ #category : #'as yet unclassified' }
-RObject class >> findFun: aStringOfFunctionName [
-	^ self Rf_findFun: (self Rf_install: aStringOfFunctionName) option: self R_GlobalEnv
-]
-
-{ #category : #'as yet unclassified' }
-RObject class >> getRObjectFromGlobalVariable: varName [
-	^ RObject new  handle: (self nbGetGlobalVariable: varName)
-]
-
-{ #category : #'as yet unclassified' }
-RObject >> R_tryEval [
-    ^ self primR_tryEval: self class R_GlobalEnv error: NBExternalAddress null
-]
-
-{ #category : #'as yet unclassified' }
-RObject >> primR_tryEval: env error: errorOccurred [
-    <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
-    ^ self
-        nbCall: #(SEXP R_tryEval(SEXP self,SEXP env, int * errorOccurred))
+        nbCall: #(int TYPEOF(self))
 ]

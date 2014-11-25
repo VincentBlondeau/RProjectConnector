@@ -1,16 +1,16 @@
 Class {
-	#name : #RString,
-	#superclass : #RCollection,
+	#name : #RIntVector,
+	#superclass : #RVector,
 	#category : #'RConnector-Core'
 }
 
 { #category : #'as yet unclassified' }
-RString class >> primNew: size type: type [
+RIntVector class >> primNew: size type: type [
 	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
-	^ self nbCall: #(RString Rf_allocVector (int type, int size))
+	^ self nbCall: #(RIntVector Rf_allocVector (int type, int size))
 ]
 
 { #category : #'as yet unclassified' }
-RString class >> type [
-	^ STRSXP
+RIntVector class >> type [
+	^ INTSXP
 ]

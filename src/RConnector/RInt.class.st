@@ -1,7 +1,7 @@
 Class {
 	#name : #RInt,
 	#superclass : #RObject,
-	#category : #RConnector
+	#category : #'RConnector-Core'
 }
 
 { #category : #'as yet unclassified' }

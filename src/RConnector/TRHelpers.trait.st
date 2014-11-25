@@ -1,14 +1,23 @@
+"
+A TRHelpers is a trait containing all the current function that can be used over a RObject.
+
+"
 Trait {
 	#name : #TRHelpers,
 	#traits : 'TRLibrary',
 	#classTraits : 'TRLibrary classTrait',
-	#category : #RConnector
+	#category : #'RConnector-Core'
 }
+
+{ #category : #'library path' }
+TRHelpers classSide >> nbLibraryNameOrHandle [
+ ^ #R
+]
 
 { #category : #'as yet unclassified' }
 TRHelpers >> int [
 	self isInteger ifFalse: [ CannotBeConvertedToType signal ].
-	^ self prim_int asDereferencedPointer
+	^ self prim_int
 ]
 
 { #category : #testing }
@@ -137,11 +146,23 @@ TRHelpers >> length [
         nbCall: #(int Rf_length(self))
 ]
 
+{ #category : #'library path' }
+TRHelpers >> nbLibraryNameOrHandle [
+ ^ self class nbLibraryNameOrHandle
+]
+
 { #category : #private }
 TRHelpers >> prim_int [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ (self
-        nbCall: #(int * INTEGER(self))) 
+        nbCall: #(ulong INTEGER(self))) 
+]
+
+{ #category : #'as yet unclassified' }
+TRHelpers >> prim_real [
+    <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
+    ^ self
+        nbCall: #(ulong REAL(self))
 ]
 
 { #category : #private }
@@ -174,14 +195,13 @@ TRHelpers >> raw [
 
 { #category : #'as yet unclassified' }
 TRHelpers >> real [
-    <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
-    ^ self
-        nbCall: #(double *REAL(self))
+	self isReal ifFalse: [ CannotBeConvertedToType signal ].
+	^ self prim_real
 ]
 
 { #category : #'as yet unclassified' }
 TRHelpers >> typeOf [
-	^RLibTypes typeRelatedToNumber: self prim_typeOf
+	^ RLibTypes typeRelatedToNumber: self prim_typeOf
 
 ]
 
