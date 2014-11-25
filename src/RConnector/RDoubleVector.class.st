@@ -1,3 +1,7 @@
+"
+A RDoubleVector is a RVector representing doubles (not floats).
+
+"
 Class {
 	#name : #RDoubleVector,
 	#superclass : #RVector,

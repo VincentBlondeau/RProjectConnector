@@ -1,3 +1,15 @@
+"
+A RVector is is an abstract reprensentation of a vector in R. Its subclasses OrdreredCollection to use all the potential of the class. Some functions could be not working since the collection attached to the vector is a subclass of NBExternalArray instead of an Array.
+
+
+Instance Variables
+	handle:		a NBExternalHandle
+
+handle
+	- the handle represents (as in NBExternalObject) the pointer to the R external object. The array containing the data (is the vector elements) is included in the R external object and his pointer can be accessed by the firstPointer method (see subclasses for impl). This pointer should NOT be reallocated with the methods of NBExternalArray. A new RVector object  has to be created with the Rf_AllocVector primitive and the handles swapped (see growAtLast for impl).
+
+
+"
 Class {
 	#name : #RVector,
 	#superclass : #OrderedCollection,

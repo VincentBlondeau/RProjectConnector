@@ -94,11 +94,6 @@ RSession class >> isExistsRf_initEmbeddedR [
 	^ (self nbGetSymbolAddress: 'Rf_initEmbeddedR' module: #R) isNotNil
 ]
 
-{ #category : #'library path' }
-RSession class >> nbLibraryNameOrHandle [
- ^ #R
-]
-
 { #category : #'stats functions' }
 RSession class >> startUp [
 	self checkLibs.
@@ -113,9 +108,4 @@ RSession class >> unif_rand [
     ^ self
         nbCall: #( double unif_rand(void) )
         module: #R
-]
-
-{ #category : #'library path' }
-RSession >> nbLibraryNameOrHandle [
- ^ self class nbLibraryNameOrHandle
 ]

@@ -1,5 +1,5 @@
 "
-A TRGlobals is a trait that defines global  variables available in R.
+A TRGlobals is a trait that defines global variables available in R.
 
 "
 Trait {

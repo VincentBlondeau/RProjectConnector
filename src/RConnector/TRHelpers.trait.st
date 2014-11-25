@@ -1,6 +1,7 @@
 "
-A TRHelpers is a trait containing all the current function that can be used over a RObject.
+A TRHelpers is a trait containing all the current function that can be used over any RObject.
 
+The primitives should NOT be used directly unless you want to crash your image...
 "
 Trait {
 	#name : #TRHelpers,
@@ -9,14 +10,14 @@ Trait {
 	#category : #'RConnector-Core'
 }
 
-{ #category : #'library path' }
+{ #category : #'as yet unclassified' }
 TRHelpers classSide >> Rf_findFun: aNBSEXPfunction option: aNbSEXPoption [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
         nbCall: #(SEXP Rf_findFun(SEXP aNBSEXPfunction, SEXP aNbSEXPoption))
 ]
 
-{ #category : #'library path' }
+{ #category : #'as yet unclassified' }
 TRHelpers classSide >> Rf_install: aString [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
@@ -52,11 +53,6 @@ TRHelpers classSide >> getRObjectFromGlobalVariable: varName [
 	^ RObject new  handle: (self nbGetGlobalVariable: varName)
 ]
 
-{ #category : #'library path' }
-TRHelpers classSide >> nbLibraryNameOrHandle [
- ^ #R
-]
-
 { #category : #'as yet unclassified' }
 TRHelpers classSide >> newFromRObject: aRObject [
 	| class |
@@ -64,213 +60,208 @@ TRHelpers classSide >> newFromRObject: aRObject [
 	^ class createNewObjectFrom: aRObject 
 ]
 
-{ #category : #testing }
+{ #category : #'trait - converting' }
 TRHelpers >> asPureRObject [
 	^ RObject createNewObjectFrom: self 
 ]
 
-{ #category : #testing }
+{ #category : #'trait - converting' }
 TRHelpers >> asRObject [
 	^ self class newFromRObject: self 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'trait - converting' }
 TRHelpers >> int [
 	self isInteger ifFalse: [ CannotBeConvertedToType signal ].
 	^ self prim_int
 ]
 
-{ #category : #testing }
+{ #category : #'trait - testing' }
 TRHelpers >> isComplex [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
         nbCall: #(bool Rf_isComplex(self))
 ]
 
-{ #category : #testing }
+{ #category : #'trait - testing' }
 TRHelpers >> isEnvironment [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
         nbCall: #(bool Rf_isEnvironment(self))
 ]
 
-{ #category : #testing }
+{ #category : #'trait - testing' }
 TRHelpers >> isExpression [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
         nbCall: #(bool Rf_isExpression(self))
 ]
 
-{ #category : #testing }
+{ #category : #'trait - testing' }
 TRHelpers >> isInteger [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
         nbCall: #(bool Rf_isInteger(self))
 ]
 
-{ #category : #testing }
+{ #category : #'trait - testing' }
 TRHelpers >> isList [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
         nbCall: #(bool Rf_isList(self))
 ]
 
-{ #category : #testing }
+{ #category : #'trait - testing' }
 TRHelpers >> isLogical [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
         nbCall: #(bool Rf_isLogical(self))
 ]
 
-{ #category : #testing }
+{ #category : #'trait - testing' }
 TRHelpers >> isNull [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
         nbCall: #(bool Rf_isNull(self))
 ]
 
-{ #category : #testing }
+{ #category : #'trait - testing' }
 TRHelpers >> isNumber [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
         nbCall: #(bool Rf_isNumber(self))
 ]
 
-{ #category : #testing }
+{ #category : #'trait - testing' }
 TRHelpers >> isNumeric [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
         nbCall: #(bool Rf_isNumeric(self))
 ]
 
-{ #category : #testing }
+{ #category : #'trait - testing' }
 TRHelpers >> isObject [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
         nbCall: #(bool Rf_isObject(self))
 ]
 
-{ #category : #testing }
+{ #category : #'trait - testing' }
 TRHelpers >> isPairList [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
         nbCall: #(bool Rf_isPairList(self))
 ]
 
-{ #category : #testing }
+{ #category : #'trait - testing' }
 TRHelpers >> isReal [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
         nbCall: #(bool Rf_isReal(self))
 ]
 
-{ #category : #testing }
+{ #category : #'trait - testing' }
 TRHelpers >> isString [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
         nbCall: #(bool Rf_isString(self))
 ]
 
-{ #category : #testing }
+{ #category : #'trait - testing' }
 TRHelpers >> isSymbol [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
         nbCall: #(bool Rf_isSymbol(self))
 ]
 
-{ #category : #testing }
+{ #category : #'trait - testing' }
 TRHelpers >> isValidString [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
         nbCall: #(bool Rf_isValidString(self))
 ]
 
-{ #category : #testing }
+{ #category : #'trait - testing' }
 TRHelpers >> isVector [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
         nbCall: #(bool Rf_isVector(self))
 ]
 
-{ #category : #testing }
+{ #category : #'trait - testing' }
 TRHelpers >> isVectorList [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
         nbCall: #(bool Rf_isVectorList(self))
 ]
 
-{ #category : #accessing }
+{ #category : #'trait - accessing' }
 TRHelpers >> length [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
         nbCall: #(int Rf_length(self))
 ]
 
-{ #category : #'library path' }
-TRHelpers >> nbLibraryNameOrHandle [
- ^ self class nbLibraryNameOrHandle
-]
-
-{ #category : #private }
+{ #category : #'trait - private primitives' }
 TRHelpers >> prim_int [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ (self
         nbCall: #(ulong INTEGER(self))) 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'trait - private primitives' }
 TRHelpers >> prim_real [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
         nbCall: #(ulong REAL(self))
 ]
 
-{ #category : #private }
+{ #category : #'trait - private primitives' }
 TRHelpers >> prim_typeOf [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
         nbCall: #(int TYPEOF(self))
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'trait - not used' }
 TRHelpers >> print [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
         nbCall: #(void Rf_PrintValue(self))
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'trait - memory protection' }
 TRHelpers >> protect [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
         nbCall: #(SEXP Rf_protect(self))
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'trait - not used' }
 TRHelpers >> raw [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
         nbCall: #(uchar RAW(self))
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'trait - converting' }
 TRHelpers >> real [
 	self isReal ifFalse: [ CannotBeConvertedToType signal ].
 	^ self prim_real
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'trait - accessing' }
 TRHelpers >> typeOf [
 	^ RLibTypes typeRelatedToNumber: self prim_typeOf
 
 ]
 
-{ #category : #accessing }
+{ #category : #'trait - accessing' }
 TRHelpers >> types [
 	^ RObject selectors select: [ :s | ((s beginsWith: #is) and: [ self perform: s ] )] 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'trait - accessing' }
 TRHelpers >> xlength [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self

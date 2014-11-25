@@ -1,3 +1,8 @@
+"
+A RIntVector is a RVector representing integers.
+.
+
+"
 Class {
 	#name : #RIntVector,
 	#superclass : #RVector,
