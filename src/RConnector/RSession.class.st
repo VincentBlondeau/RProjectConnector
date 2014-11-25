@@ -1,3 +1,7 @@
+"
+A RSession class is a class checking that the R sesssion is well initialized. Indeed before any action in the R lib, Rf_initEmbedded should be ran. Nethertheless, this action is automaticaly done at statup (see startUp impl) but the remaining pointers from the last session are still be there. The method invalidateOldHandles should be implemented to do that.
+
+"
 Class {
 	#name : #RSession,
 	#superclass : #Object,
@@ -58,7 +62,7 @@ RSession class >> Rf_install: aLibName [
         nbCall: #(SEXP Rf_install(String aLibName))
 ]
 
-{ #category : #'stats functions' }
+{ #category : #private }
 RSession class >> checkLibs [
 	 self isExistsRf_initEmbeddedR ifFalse: [ Error signal: 'The R lib cannot be used. Please install the libraries in the Pharo.exe folder' ]
 ]
@@ -72,19 +76,19 @@ RSession class >> checkSession [
 			self Rf_initEmbeddedR: #(#R '--no-save' 'silent') ]
 ]
 
-{ #category : #'stats functions' }
+{ #category : #private }
 RSession class >> checkWorking [
 	(self unif_rand between: 0 and: 1)
 		ifFalse: [ Error signal: 'Should not be false' ]
 ]
 
-{ #category : #'stats functions' }
+{ #category : #'class initialization' }
 RSession class >> initialize [
 	Smalltalk addToStartUpList: self.
 	
 ]
 
-{ #category : #'stats functions' }
+{ #category : #'system startup' }
 RSession class >> invalidateOldHandles [
 	self flag: 'To implement after'.
 ]
@@ -94,7 +98,7 @@ RSession class >> isExistsRf_initEmbeddedR [
 	^ (self nbGetSymbolAddress: 'Rf_initEmbeddedR' module: #R) isNotNil
 ]
 
-{ #category : #'stats functions' }
+{ #category : #'system startup' }
 RSession class >> startUp [
 	self checkLibs.
 	self checkSession.

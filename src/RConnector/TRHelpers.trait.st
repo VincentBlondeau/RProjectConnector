@@ -10,21 +10,21 @@ Trait {
 	#category : #'RConnector-Core'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'trait - private primitives' }
 TRHelpers classSide >> Rf_findFun: aNBSEXPfunction option: aNbSEXPoption [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
         nbCall: #(SEXP Rf_findFun(SEXP aNBSEXPfunction, SEXP aNbSEXPoption))
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'trait - private primitives' }
 TRHelpers classSide >> Rf_install: aString [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
         nbCall: #(SEXP Rf_install(const char * aString))
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'trait - instance creation' }
 TRHelpers classSide >> createNewObjectFrom: aRObject withClass: class [
 	| instance |
 	instance := class new: aRObject length.
@@ -32,7 +32,7 @@ TRHelpers classSide >> createNewObjectFrom: aRObject withClass: class [
 	^ instance
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'trait - function finding' }
 TRHelpers classSide >> findClassOf: aRObject [
 	| type classes |
 	type := aRObject prim_typeOf.
@@ -43,17 +43,17 @@ TRHelpers classSide >> findClassOf: aRObject [
 	^ classes first
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'trait - function finding' }
 TRHelpers classSide >> findFun: aStringOfFunctionName [
 	^ self Rf_findFun: (self Rf_install: aStringOfFunctionName) option: self R_GlobalEnv
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'trait - function finding' }
 TRHelpers classSide >> getRObjectFromGlobalVariable: varName [
-	^ RObject new  handle: (self nbGetGlobalVariable: varName)
+	^ RObject new handle: (self nbGetGlobalVariable: varName)
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'trait - instance creation' }
 TRHelpers classSide >> newFromRObject: aRObject [
 	| class |
 	class := self findClassOf: aRObject.

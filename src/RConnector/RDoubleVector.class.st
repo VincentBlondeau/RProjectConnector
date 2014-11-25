@@ -8,28 +8,28 @@ Class {
 	#category : #'RConnector-Core'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #private }
 RDoubleVector class >> arrayType [
 	^ NBExternalArray ofType: 'double'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 RDoubleVector class >> firstPointer [
 	^ #real
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'private - instance creation' }
 RDoubleVector class >> primNew: size type: type [
 	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
 	^ self nbCall: #(RDoubleVector Rf_allocVector (int type, int size))
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 RDoubleVector class >> type [
 	^ REALSXP
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 RDoubleVector >> firstPointer [
 	^ self real
 ]

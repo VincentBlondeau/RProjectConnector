@@ -24,19 +24,19 @@ Class {
 	#category : #'RConnector-Core'
 }
 
-{ #category : #'library path' }
+{ #category : #converting }
 RVector class >> asNBExternalType: gen [
 	^ NBExternalObjectType objectClass: self
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance creation' }
 RVector class >> basicNew [
 	^ super basicNew
 		initializeHandle;
 		yourself
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance creation' }
 RVector class >> createNewObjectFrom: aRObject [
 	| instance |
 	instance := self basicNew handle: aRObject handle.
@@ -47,13 +47,13 @@ RVector class >> createNewObjectFrom: aRObject [
 	^ instance
 ]
 
-{ #category : #'library path' }
+{ #category : #'instance creation' }
 RVector class >> new [
 	"If the array is not initialized at size 1 first. Then some synchronization problems with the external array can appears..."
 	^ self new: 1
 ]
 
-{ #category : #'library path' }
+{ #category : #'instance creation' }
 RVector class >> new: size [
 	| instance |
 	instance := self primNew: size.
@@ -61,49 +61,49 @@ RVector class >> new: size [
 	^ instance
 ]
 
-{ #category : #'library path' }
+{ #category : #'private - instance creation' }
 RVector class >> primNew: size [
 	^ self primNew: size type: self type
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'private - instance creation' }
 RVector class >> primNew: size type: type [
 	^ self shouldNotImplement 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 RVector class >> type [
 	^self shouldNotImplement 
 ]
 
-{ #category : #testing }
+{ #category : #adding }
 RVector >> addFirst: anElement [
 	super addFirst: anElement.
 	self setLength: self size
 ]
 
-{ #category : #testing }
+{ #category : #adding }
 RVector >> addLast: anElement [
 	super addLast: anElement.
 	self setLength: self size."((self size) min: self capacity)"
 ]
 
-{ #category : #testing }
+{ #category : #converting }
 RVector >> asPureRObject [
 	^ RObject createNewObjectFrom: self 
 ]
 
-{ #category : #testing }
+{ #category : #converting }
 RVector >> asRObject [
 	^ self
 ]
 
-{ #category : #'library path' }
+{ #category : #accessing }
 RVector >> firstPointer [
 	^ self shouldNotImplement  
 ]
 
-{ #category : #accessing }
+{ #category : #private }
 RVector >> growAtLast [
 	"overridden to create external objects"
 	"We should recreate a new instance because there is no reallocation in the RAPI. So we swap the handles"
@@ -136,7 +136,7 @@ RVector >> initializeHandle [
 	handle := NBExternalHandle new
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'private - notused' }
 RVector >> prim_at: index [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
@@ -145,7 +145,7 @@ RVector >> prim_at: index [
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'private - notused' }
 RVector >> prim_sat: index [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
@@ -154,20 +154,20 @@ RVector >> prim_sat: index [
 
 ]
 
-{ #category : #accessing }
+{ #category : #private }
 RVector >> resetSize [
 	firstIndex := 1.
 	lastIndex := (self capacity)
 ]
 
-{ #category : #testing }
+{ #category : #private }
 RVector >> setLength: length [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
         nbCall: #(void SETLENGTH(self, int length))
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'private - notused' }
 RVector >> truelength [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
