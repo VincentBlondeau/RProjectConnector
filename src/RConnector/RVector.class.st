@@ -1,31 +1,25 @@
 Class {
 	#name : #RVector,
-	#superclass : #RCollection,
+	#superclass : #OrderedCollection,
+	#traits : 'TRHelpers',
+	#classTraits : 'TRHelpers classTrait',
+	#pools : [
+		'RLibTypes'
+	],
 	#category : #'RConnector-Core'
 }
 
-{ #category : #'as yet unclassified' }
-RVector class >> newFromRObject: aRObject [
-	| vect |
-	"self checkIsVector: aRObject."
-	vect := self new.
-	vect handle: aRObject handle.
-	^ vect
+{ #category : #'library path' }
+RVector class >> asNBExternalType: gen [
+	^ NBExternalObjectType objectClass: self
 ]
 
-{ #category : #'as yet unclassified' }
-RVector >> at: index [
-	(index between: 1 and: self length) ifTrue: [^ self prim_at: index].
-	^ self errorSubscriptBounds: index
-]
-
-{ #category : #'as yet unclassified' }
-RVector >> error: t [
-    <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
-    ^ self
-        nbCall: #(void Rf_error(String t))
-
-
+{ #category : #'library path' }
+RVector class >> new: size [
+	| instance |
+	instance := self primNew: size type: self type.
+	instance setCollection: (self arrayType onAddress: (NBExternalAddress value: instance real) size: size).
+	^ instance
 ]
 
 { #category : #'as yet unclassified' }

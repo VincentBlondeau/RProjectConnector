@@ -10,6 +10,25 @@ Trait {
 }
 
 { #category : #'library path' }
+TRHelpers classSide >> Rf_findFun: aNBSEXPfunction option: aNbSEXPoption [
+    <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
+    ^ self
+        nbCall: #(SEXP Rf_findFun(SEXP aNBSEXPfunction, SEXP aNbSEXPoption))
+]
+
+{ #category : #'library path' }
+TRHelpers classSide >> Rf_install: aString [
+    <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
+    ^ self
+        nbCall: #(SEXP Rf_install(const char * aString))
+]
+
+{ #category : #'as yet unclassified' }
+TRHelpers classSide >> findFun: aStringOfFunctionName [
+	^ self Rf_findFun: (self Rf_install: aStringOfFunctionName) option: self R_GlobalEnv
+]
+
+{ #category : #'library path' }
 TRHelpers classSide >> nbLibraryNameOrHandle [
  ^ #R
 ]

@@ -1,11 +1,13 @@
 Class {
 	#name : #RDoubleVector,
 	#superclass : #RVector,
-	#instVars : [
-		'array'
-	],
 	#category : #'RConnector-Core'
 }
+
+{ #category : #'as yet unclassified' }
+RDoubleVector class >> arrayType [
+	^ NBExternalArray ofType: 'double'
+]
 
 { #category : #'as yet unclassified' }
 RDoubleVector class >> primNew: size type: type [
@@ -20,5 +22,5 @@ RDoubleVector class >> type [
 
 { #category : #'as yet unclassified' }
 RDoubleVector >> array [
-	array := (NBExternalArray ofType: 'double') onAddress: (NBExternalAddress value: self real) size: self length
+	^ array ifNil: [ array := (NBExternalArray ofType: 'double') onAddress: (NBExternalAddress value: self real) size: self length ]
 ]

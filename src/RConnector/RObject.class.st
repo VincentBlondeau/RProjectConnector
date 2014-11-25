@@ -1,51 +1,13 @@
 Class {
 	#name : #RObject,
 	#superclass : #NBExternalObject,
-	#traits : 'TRHelpers',
-	#classTraits : 'TRHelpers classTrait',
+	#traits : 'TRHelpers + TRGlobals',
+	#classTraits : 'TRHelpers classTrait + TRGlobals classTrait',
 	#pools : [
 		'RLibTypes'
 	],
 	#category : #'RConnector-Core'
 }
-
-{ #category : #'library path' }
-RObject class >> R_BaseEnv [
-	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
-	^ self getRObjectFromGlobalVariable: #R_BaseEnv
-]
-
-{ #category : #'library path' }
-RObject class >> R_EmptyEnv [
-	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
-	^ self getRObjectFromGlobalVariable: #R_EmptyEnv
-]
-
-{ #category : #'library path' }
-RObject class >> R_GlobalEnv [
-	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
-	^ self getRObjectFromGlobalVariable: #R_GlobalEnv
-]
-
-{ #category : #'library path' }
-RObject class >> R_NilValue [
-	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
-	^ self getRObjectFromGlobalVariable: #R_NilValue
-]
-
-{ #category : #'library path' }
-RObject class >> Rf_findFun: aNBSEXPfunction option: aNbSEXPoption [
-    <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
-    ^ self
-        nbCall: #(SEXP Rf_findFun(SEXP aNBSEXPfunction, SEXP aNbSEXPoption))
-]
-
-{ #category : #'library path' }
-RObject class >> Rf_install: aString [
-    <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
-    ^ self
-        nbCall: #(SEXP Rf_install(const char * aString))
-]
 
 { #category : #'as yet unclassified' }
 RObject class >> createNewObjectFrom: aRObject withClass: class [
@@ -62,11 +24,6 @@ RObject class >> findClassOf: aRObject [
 	classes := RObject allSubclasses select: [ :c | [c type = type] onDNU: #type do: [ false ] ].
 	classes size = 1 ifFalse: [ Error signal ]."detect should be used"
 	^ classes first 
-]
-
-{ #category : #'as yet unclassified' }
-RObject class >> findFun: aStringOfFunctionName [
-	^ self Rf_findFun: (self Rf_install: aStringOfFunctionName) option: self R_GlobalEnv
 ]
 
 { #category : #'as yet unclassified' }
@@ -244,25 +201,11 @@ RObject >> nbLibraryNameOrHandle [
  ^ self class nbLibraryNameOrHandle
 ]
 
-{ #category : #private }
-RObject >> prim_int [
-    <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
-    ^ (self
-        nbCall: #(ulong INTEGER(self))) 
-]
-
 { #category : #'as yet unclassified' }
 RObject >> prim_real [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
         nbCall: #(ulong REAL(self))
-]
-
-{ #category : #private }
-RObject >> prim_typeOf [
-    <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
-    ^ self
-        nbCall: #(int TYPEOF(self))
 ]
 
 { #category : #'as yet unclassified' }
