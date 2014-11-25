@@ -39,6 +39,18 @@ RVector class >> type [
 ]
 
 { #category : #testing }
+RVector >> addFirst: anElement [
+	super addFirst: anElement.
+	self setLength: (self capacity)
+]
+
+{ #category : #testing }
+RVector >> addLast: anElement [
+	super addLast: anElement.
+	self setLength: (self capacity)
+]
+
+{ #category : #testing }
 RVector >> asRObject [
 	^ self
 ]
@@ -74,6 +86,13 @@ RVector >> prim_sat: index [
         nbCall: #(SEXP STRING_ELT(self, int index))
 
 
+]
+
+{ #category : #testing }
+RVector >> setLength: length [
+    <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
+    ^ self
+        nbCall: #(void SETLENGTH(self, int length))
 ]
 
 { #category : #'as yet unclassified' }
