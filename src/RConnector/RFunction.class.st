@@ -9,6 +9,11 @@ Class {
 }
 
 { #category : #initialize }
+RFunction class >> eval: aString withParameters: aCollection [
+	^ (self functionName: aString parameters: aCollection) eval
+]
+
+{ #category : #initialize }
 RFunction class >> functionName: aString parameters: aCollection [
 	^ self new functionName: aString; parameters: aCollection; yourself
 ]

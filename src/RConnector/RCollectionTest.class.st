@@ -5,6 +5,41 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
+RCollectionTest >> testConversionRObjectToSubTypeOfRObject [
+	| data  dataExternalArrayHandle rObject newData |
+	data := RIntVector new.
+	data
+		addAll:
+			{-1.
+			1.
+			0.
+			51.
+			-42}.
+	dataExternalArrayHandle := data collector address.
+	rObject := data asPureRObject.
+	newData := rObject asRObject.
+	self assert: data int equals: newData collector address value.
+	self assert: data int equals: dataExternalArrayHandle value.
+	self assert:  newData collector address value  equals: dataExternalArrayHandle value.
+	
+	
+]
+
+{ #category : #'as yet unclassified' }
+RCollectionTest >> testConversionRObjectToSubTypeOfRObject2 [
+	| data  dataExternalArrayHandle rObject newData |
+	data := RIntVector new.
+	dataExternalArrayHandle := data collector address.
+	rObject := data asPureRObject.
+	newData := rObject asRObject.
+	self assert: data int equals: newData collector address value.
+	self assert: data int equals: dataExternalArrayHandle value.
+	self assert:  newData collector address value  equals: dataExternalArrayHandle value.
+	
+	
+]
+
+{ #category : #'as yet unclassified' }
 RCollectionTest >> testDoubleVectorSet [
 	| vector |
 	vector := RDoubleVector new: 1.
@@ -42,4 +77,19 @@ RCollectionTest >> testIntVectorSetOverFlowCapacity [
 	self assert: (vector at: 2) equals: 22.
 	self assert: vector length equals: 2."the true length for R"
 	
+]
+
+{ #category : #'as yet unclassified' }
+RCollectionTest >> testIntVectorSetWithAddAll [
+	| data |
+	data := RIntVector new.
+	data
+		addAll:
+			{-1.
+			1.
+			0.
+			51.
+			-42}.
+	self assert: data length equals: 5.
+	self assert: data size equals: 5
 ]

@@ -26,7 +26,6 @@ TRHelpers classSide >> Rf_install: aString [
 { #category : #'as yet unclassified' }
 TRHelpers classSide >> createNewObjectFrom: aRObject withClass: class [
 	| instance |
-	self halt.
 	instance := class new: aRObject length.
 	instance handle: aRObject handle.
 	^ instance
@@ -62,12 +61,12 @@ TRHelpers classSide >> nbLibraryNameOrHandle [
 TRHelpers classSide >> newFromRObject: aRObject [
 	| class |
 	class := self findClassOf: aRObject.
-	^ self createNewObjectFrom: aRObject withClass: class
+	^ class createNewObjectFrom: aRObject 
 ]
 
 { #category : #testing }
 TRHelpers >> asPureRObject [
-	^ self class createNewObjectFrom: self withClass: RObject
+	^ RObject createNewObjectFrom: self 
 ]
 
 { #category : #testing }

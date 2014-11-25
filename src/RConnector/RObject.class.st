@@ -10,9 +10,9 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-RObject class >> createNewObjectFrom: aRObject withClass: class [
+RObject class >> createNewObjectFrom: aRObject [
 	| instance |
-	instance := class new: aRObject length.
+	instance := self new: aRObject length.
 	instance handle: aRObject handle.
 	^ instance
 ]
@@ -20,6 +20,13 @@ RObject class >> createNewObjectFrom: aRObject withClass: class [
 { #category : #'as yet unclassified' }
 RObject class >> new: size [
 	^ self primNew: size type: self type
+]
+
+{ #category : #'as yet unclassified' }
+RObject class >> newFromRObject: aRObject [
+	| class |
+	class := self findClassOf: aRObject.
+	^ class createNewObjectFrom: aRObject
 ]
 
 { #category : #'as yet unclassified' }

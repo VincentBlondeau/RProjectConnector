@@ -22,6 +22,8 @@ RLangageExpression >> eval [
 		ifTrue: [ CannotExecuteRemoteCall signal ].
 	res := self primR_tryEval: self class R_GlobalEnv error: NBExternalAddress null.
 	^ res asRObject
+	
+
 ]
 
 { #category : #'as yet unclassified' }
