@@ -2,7 +2,7 @@ Class {
 	#name : #RObject,
 	#superclass : #NBExternalObject,
 	#traits : 'TRHelpers + TRGlobals',
-	#classTraits : 'TRHelpers classTrait + TRGlobals classTrait',
+	#classTraits : 'TRGlobals classTrait + TRHelpers classTrait',
 	#pools : [
 		'RLibTypes'
 	],
@@ -38,4 +38,10 @@ RObject class >> primNew: size type: type [
 { #category : #'as yet unclassified' }
 RObject class >> type [
 	^ NILSXP
+]
+
+{ #category : #'as yet unclassified' }
+RObject >> char [
+	self isString ifFalse: [ CannotBeConvertedToType signal ].
+	^ (self prim_string_elm: 0) prim_char
 ]

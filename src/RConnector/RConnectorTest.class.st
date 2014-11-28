@@ -13,7 +13,7 @@ RConnectorTest >> testIfSessionIsValid [
 { #category : #'as yet unclassified' }
 RConnectorTest >> testInstallPackageShouldWork [
 	| evn |
-	self fail.
+	self fail. "The following elements crash the image"
 	evn := RSession Rf_install: 'forecast'.
 	RObject findFun: 'forecast'.
 	

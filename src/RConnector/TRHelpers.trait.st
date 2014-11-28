@@ -24,6 +24,20 @@ TRHelpers classSide >> Rf_install: aString [
         nbCall: #(SEXP Rf_install(const char * aString))
 ]
 
+{ #category : #'as yet unclassified' }
+TRHelpers classSide >> Rf_isBasicClass: aString [
+    <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
+    ^ self
+        nbCall: #(int Rf_isBasicClass(String aString))
+]
+
+{ #category : #'as yet unclassified' }
+TRHelpers classSide >> SYMVALUE [
+    <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
+    ^ self
+        nbCall: #(SEXP (SYMVALUE)(self))
+]
+
 { #category : #'trait - instance creation' }
 TRHelpers classSide >> createNewObjectFrom: aRObject withClass: class [
 	| instance |
@@ -60,6 +74,13 @@ TRHelpers classSide >> newFromRObject: aRObject [
 	^ class createNewObjectFrom: aRObject 
 ]
 
+{ #category : #'trait - testing' }
+TRHelpers >> SYMVALUE [
+    <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
+    ^ self
+        nbCall: #(SEXP SYMVALUE(self))
+]
+
 { #category : #'trait - converting' }
 TRHelpers >> asPureRObject [
 	^ RObject createNewObjectFrom: self 
@@ -68,6 +89,20 @@ TRHelpers >> asPureRObject [
 { #category : #'trait - converting' }
 TRHelpers >> asRObject [
 	^ self class newFromRObject: self 
+]
+
+{ #category : #'as yet unclassified' }
+TRHelpers >> char [
+	self halt.
+	self isString ifFalse: [ CannotBeConvertedToType signal ].
+	^ self prim_char
+]
+
+{ #category : #'as yet unclassified' }
+TRHelpers >> curErrorBuf [
+    <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
+    ^ self
+        nbCall: #(String R_curErrorBuf())
 ]
 
 { #category : #'trait - converting' }
@@ -202,6 +237,19 @@ TRHelpers >> length [
         nbCall: #(int Rf_length(self))
 ]
 
+{ #category : #'trait - converting' }
+TRHelpers >> logical [
+	self isLogical ifFalse: [ CannotBeConvertedToType signal ].
+	^ self prim_logical
+]
+
+{ #category : #'trait - private primitives' }
+TRHelpers >> prim_char [
+    <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
+    ^ self
+        nbCall: #(String R_CHAR(self))
+]
+
 { #category : #'trait - private primitives' }
 TRHelpers >> prim_int [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
@@ -210,10 +258,24 @@ TRHelpers >> prim_int [
 ]
 
 { #category : #'trait - private primitives' }
+TRHelpers >> prim_logical [
+    <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
+    ^ self
+        nbCall: #(ulong LOGICAL(self))
+]
+
+{ #category : #'trait - private primitives' }
 TRHelpers >> prim_real [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
         nbCall: #(ulong REAL(self))
+]
+
+{ #category : #'as yet unclassified' }
+TRHelpers >> prim_string_elm: index [
+    <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
+    ^ self
+        nbCall: #(SEXP STRING_ELT(self, int index))
 ]
 
 { #category : #'trait - private primitives' }

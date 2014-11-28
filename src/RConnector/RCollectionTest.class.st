@@ -93,3 +93,23 @@ RCollectionTest >> testIntVectorSetWithAddAll [
 	self assert: data length equals: 5.
 	self assert: data size equals: 5
 ]
+
+{ #category : #'as yet unclassified' }
+RCollectionTest >> testLangageListAddThreeElements [
+	| langageList |
+	langageList := RLangageExpression newEmptyChainedList.
+	langageList add: 2.
+	langageList add: (RObject findFun:'~').
+	langageList add: 3.
+	self assert: langageList length equals: 1.
+	self assert: langageList first asRObject asOrderedCollection equals: #(2) asOrderedCollection
+]
+
+{ #category : #'as yet unclassified' }
+RCollectionTest >> testLangageListCreationFromNil [
+	| langageList |
+	langageList := RLangageExpression newEmptyChainedList.
+	langageList add: 2.
+	self assert: langageList length equals: 1.
+	self assert: langageList first asRObject asOrderedCollection equals: #(2) asOrderedCollection
+]

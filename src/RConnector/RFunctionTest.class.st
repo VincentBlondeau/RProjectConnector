@@ -5,6 +5,33 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
+RFunctionTest >> test1Plus1Equals2 [
+	| res |
+	res := RFunction
+		eval: '+'
+		withParameters:
+			{1.
+			1}.
+	self assert: (res isKindOf: RIntVector).
+	self assert: res first equals: 2
+]
+
+{ #category : #'as yet unclassified' }
+RFunctionTest >> test2Div1Equals2 [
+	"lm(x ~ y)"
+
+	| res |
+	res := RFunction
+		eval: '/'
+		withParameters:
+			{2.
+			1}.
+	self assert: (res isKindOf: RDoubleVector).
+	self assert: res length equals: 1.
+	self assert: res first equals: 2.
+]
+
+{ #category : #'as yet unclassified' }
 RFunctionTest >> testCorrelationXXShouldGiveOne [
 	| rnorm  abs  res  |
 	rnorm := RFunction eval:  'rnorm' withParameters: { 500 . 0 . 1 }.
@@ -43,6 +70,22 @@ RFunctionTest >> testFunctionCombinaisonAbsRnormShouldGiveAnArrayOfFloats [
 	self assert: (res2 isKindOf: RDoubleVector ).
 	self assert: res2 length equals: 500.
 	self deny: (res2 first = 0)	
+	
+	
+]
+
+{ #category : #'as yet unclassified' }
+RFunctionTest >> testLinearRegression [
+	"lm(x ~ y)"
+	|    x y expr lm |
+	x := RIntVector new addAll: { 1 . 2 . 3 }; yourself.
+	y := RIntVector new addAll: { 4 . 5 . 6 }; yourself.
+	expr := (RFunction functionName: '~' parameters: { x . y }) getLangageExpression.
+	lm := RFunction eval: 'lm' withParameters: { expr }.
+	self assert: (lm isKindOf: RIntVector ).
+	self assert: lm length equals: 10.
+	self assert: lm asOrderedCollection equals: (1 to: 10 ) asOrderedCollection.
+	
 	
 	
 ]

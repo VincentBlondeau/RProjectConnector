@@ -33,7 +33,7 @@ RFunction >> checkParameters [
 ]
 
 { #category : #'as yet unclassified' }
-RFunction >> createAndExecuteLangageExpression [
+RFunction >> createLangageExpression [
 	| expression |
 	expression := RLangageExpression new: self argsSize.
 	expression first: self functionName.	"Hack because we cannot access a list by the item number"
@@ -43,13 +43,13 @@ RFunction >> createAndExecuteLangageExpression [
 		ifTrue: [ expression third: self parameters second asPureRObject ].
 	self parameters size >= 3
 		ifTrue: [ expression fourth: self parameters third asPureRObject ].
-	^ expression eval
+	^ expression 
 ]
 
 { #category : #'as yet unclassified' }
 RFunction >> eval [
-	self checkParameters.
-	^ self createAndExecuteLangageExpression
+	^ self getLangageExpression eval
+
 ]
 
 { #category : #accessing }
@@ -65,6 +65,13 @@ RFunction >> functionName: aString [
 { #category : #initialize }
 RFunction >> functionName: aString parameters: aCollection [ 
 	self shouldBeImplemented.
+]
+
+{ #category : #'as yet unclassified' }
+RFunction >> getLangageExpression [
+	self checkParameters.
+	^ self createLangageExpression
+
 ]
 
 { #category : #accessing }
