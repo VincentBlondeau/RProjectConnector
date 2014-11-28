@@ -24,6 +24,13 @@ RLangageExpression class >> primNew: size type: type [
 	^ self nbCall: #(RLangageExpression Rf_allocVector (int type, int size))
 ]
 
+{ #category : #temp }
+RLangageExpression class >> primR_tryEval: anobject env: env error: errorOccurred [
+    <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
+    ^ self
+        nbCall: #(SEXP R_tryEval(SEXP anobject,SEXP env, int * errorOccurred))
+]
+
 { #category : #'as yet unclassified' }
 RLangageExpression class >> type [ 
 	^ LANGSXP 

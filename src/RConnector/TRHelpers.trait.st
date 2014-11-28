@@ -2,6 +2,8 @@
 A TRHelpers is a trait containing all the current function that can be used over any RObject.
 
 The primitives should NOT be used directly unless you want to crash your image...
+
+By the way, if you want to create a new primitive containing a String. Convert all 'char * ' into 'String'. because the String are null ternimated and 'char*' are not in every case
 "
 Trait {
 	#name : #TRHelpers,
@@ -18,10 +20,17 @@ TRHelpers classSide >> Rf_findFun: aNBSEXPfunction option: aNbSEXPoption [
 ]
 
 { #category : #'trait - private primitives' }
+TRHelpers classSide >> Rf_findVar: aNBSEXPfunction option: aNbSEXPoption [
+    <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
+    ^ self
+        nbCall: #(SEXP Rf_findVar(SEXP aNBSEXPfunction, SEXP aNbSEXPoption))
+]
+
+{ #category : #'trait - private primitives' }
 TRHelpers classSide >> Rf_install: aString [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
-        nbCall: #(SEXP Rf_install(const char * aString))
+        nbCall: #(SEXP Rf_install(String aString))
 ]
 
 { #category : #'as yet unclassified' }
@@ -93,7 +102,6 @@ TRHelpers >> asRObject [
 
 { #category : #'as yet unclassified' }
 TRHelpers >> char [
-	self halt.
 	self isString ifFalse: [ CannotBeConvertedToType signal ].
 	^ self prim_char
 ]

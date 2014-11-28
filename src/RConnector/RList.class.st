@@ -20,6 +20,12 @@ RList class >> type [
 ]
 
 { #category : #'as yet unclassified' }
+RList >> attribute [
+	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
+	^ self nbCall: #(RObject ATTRIB (self))
+]
+
+{ #category : #'as yet unclassified' }
 RList >> first [
 	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
 	^ self nbCall: #(#RObject #CAR #(#RList #self))
@@ -85,6 +91,12 @@ RList >> second: element [
     ^ self
         nbCall: #(RList SETCADR(RList self, SEXP element))
 
+]
+
+{ #category : #'as yet unclassified' }
+RList >> tag [
+	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
+	^ self nbCall: #(RObject TAG (self))
 ]
 
 { #category : #'as yet unclassified' }

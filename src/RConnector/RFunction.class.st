@@ -1,12 +1,19 @@
 Class {
 	#name : #RFunction,
-	#superclass : #Object,
+	#superclass : #RLangageElement,
 	#instVars : [
-		'functionName',
 		'parameters'
 	],
 	#category : #'RConnector-Core'
 }
+
+{ #category : #'as yet unclassified' }
+RFunction class >> eval: aString [
+	^ self new
+		functionName: aString;
+		parameters: #();
+		eval
+]
 
 { #category : #initialize }
 RFunction class >> eval: aString withParameters: aCollection [
