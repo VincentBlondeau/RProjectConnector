@@ -53,8 +53,8 @@ RLangageExpression >> eval [
 	self length < 1
 		ifTrue: [ CannotExecuteRemoteCall signal ].
 	res := self primR_tryEval: self class R_GlobalEnv error: error.
-	res protect.
 	res ifNil: [ Error signal: self curErrorBuf ].
+		res protect.
 	^ res asRObject
 	
 

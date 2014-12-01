@@ -97,12 +97,13 @@ RCollectionTest >> testIntVectorSetWithAddAll [
 { #category : #'as yet unclassified' }
 RCollectionTest >> testLangageListAddThreeElements [
 	| langageList |
+	"List = Last In First Out"
 	langageList := RLangageExpression newEmptyChainedList.
 	langageList add: 2.
 	langageList add: (RObject findFun:'~').
 	langageList add: 3.
 	self assert: langageList length equals: 1.
-	self assert: langageList first asRObject asOrderedCollection equals: #(2) asOrderedCollection
+	self assert: langageList first asRObject asOrderedCollection equals: #(3) asOrderedCollection
 ]
 
 { #category : #'as yet unclassified' }

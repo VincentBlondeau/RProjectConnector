@@ -32,6 +32,19 @@ RFunctionTest >> test2Div1Equals2 [
 ]
 
 { #category : #'as yet unclassified' }
+RFunctionTest >> testADefinedVariableShouldBeAbleToBeGet [
+	| var |
+	var := RIntVector new
+		addAll:
+				{1.
+					2.
+					3};
+		yourself.
+	var defineAsVarNamed: #toto.
+	self assert: (RObject findVar: 'toto') asRObject equals: var
+]
+
+{ #category : #'as yet unclassified' }
 RFunctionTest >> testCorrelationXXShouldGiveOne [
 	| rnorm  abs  res  |
 	rnorm := RFunction eval:  'rnorm' withParameters: { 500 . 0 . 1 }.
@@ -80,11 +93,11 @@ RFunctionTest >> testLinearRegression [
 	|    x y expr lm |
 	x := RIntVector new addAll: { 1 . 2 . 3 }; yourself.
 	y := RIntVector new addAll: { 4 . 5 . 6 }; yourself.
-	expr := (RFunction functionName: '~' parameters: { x . y }) getLangageExpression.
+	x defineAsVarNamed: #x.
+	y defineAsVarNamed: #y.
+	expr := (RFunction functionName: 'as.formula' parameters: { 'x~y' }) eval. "Because x~y seems not to be a formula..."
 	lm := RFunction eval: 'lm' withParameters: { expr }.
-	self assert: (lm isKindOf: RIntVector ).
-	self assert: lm length equals: 10.
-	self assert: lm asOrderedCollection equals: (1 to: 10 ) asOrderedCollection.
+	self assert: (lm isKindOf: RList ).
 	
 	
 	

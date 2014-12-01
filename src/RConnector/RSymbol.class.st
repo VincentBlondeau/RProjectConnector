@@ -5,6 +5,11 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
+RSymbol class >> newFromSymbol: aSymbol [
+	^ (self Rf_install: aSymbol)
+]
+
+{ #category : #'as yet unclassified' }
 RSymbol class >> primNew: size type: type [
  	Error signal: 'Cant be allocated !'
 ]

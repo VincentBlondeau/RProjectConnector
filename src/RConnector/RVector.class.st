@@ -47,6 +47,11 @@ RVector class >> createNewObjectFrom: aRObject [
 	^ instance
 ]
 
+{ #category : #'trait - function finding' }
+RVector class >> findFun: aStringOfFunctionName [
+	^ self prim_findFun: (self Rf_install: aStringOfFunctionName) option: self R_GlobalEnv
+]
+
 { #category : #'instance creation' }
 RVector class >> new [
 	"If the array is not initialized at size 1 first. Then some synchronization problems with the external array can appears..."
@@ -98,6 +103,12 @@ RVector >> asRObject [
 	^ self
 ]
 
+{ #category : #'as yet unclassified' }
+RVector >> defineAsVarNamed: aRName [
+	self assert: (aRName isKindOf: Symbol). "Should be removed if the type is checked in the primitive"
+   self defineAsVarNamed: aRName inEnv: self class R_GlobalEnv
+]
+
 { #category : #accessing }
 RVector >> firstPointer [
 	^ self shouldNotImplement  
@@ -143,6 +154,13 @@ RVector >> prim_at: index [
         nbCall: #(SEXP VECTOR_ELT(self, int index))
 
 
+]
+
+{ #category : #'trait - private primitives' }
+RVector >> prim_defineAsVarNamed: name inEnv: anEnvironment [ 
+    <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
+    ^ self
+        nbCall: #(void Rf_defineVar(SEXP name, self, SEXP anEnvironment))
 ]
 
 { #category : #'private - notused' }

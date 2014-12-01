@@ -20,9 +20,8 @@ RList class >> type [
 ]
 
 { #category : #'as yet unclassified' }
-RList >> attribute [
-	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
-	^ self nbCall: #(RObject ATTRIB (self))
+RList >> attributes [
+	^ self prim_attributes asRObject 
 ]
 
 { #category : #'as yet unclassified' }
@@ -77,6 +76,18 @@ SEXP SETCADDR(SEXP x, SEXP y);
 SEXP SETCADDDR(SEXP x, SEXP y);
 SEXP SETCAD4R(SEXP e, SEXP y);
 "
+]
+
+{ #category : #'as yet unclassified' }
+RList >> prim_attributes [
+	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
+	^ self nbCall: #(SEXP ATTRIB(self))
+]
+
+{ #category : #'as yet unclassified' }
+RList >> prim_getAttribute: attributeName [
+	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
+	^ self nbCall: #(SEXP Rf_getAttrib(self, SEXP attributeName))
 ]
 
 { #category : #'as yet unclassified' }

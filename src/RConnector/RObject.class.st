@@ -1,8 +1,8 @@
 Class {
 	#name : #RObject,
 	#superclass : #NBExternalObject,
-	#traits : 'TRHelpers + TRGlobals',
-	#classTraits : 'TRGlobals classTrait + TRHelpers classTrait',
+	#traits : 'TRHelpers',
+	#classTraits : 'TRHelpers classTrait - {#createNewObjectFrom:withClass:}',
 	#pools : [
 		'RLibTypes'
 	],
@@ -10,23 +10,36 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-RObject class >> createNewObjectFrom: aRObject [
-	| instance |
-	instance := self new: aRObject length.
-	instance handle: aRObject handle.
-	^ instance
+RObject class >> creationType [
+	^ self = RObject ifTrue: [ NILSXP ] ifFalse: [ self type ]
+]
+
+{ #category : #'trait - function finding' }
+RObject class >> findClassOf: aRObject [
+	"to implement in an other way..."
+	| type classes |
+	self flag: #toreimplement.
+	type := aRObject prim_typeOf.
+	classes := (RObject allSubclasses union: RVector allSubclasses)
+		select: [ :c | [ c type = type ] on: ShouldNotImplement do: [ false ] ].
+	classes size = 1
+		ifFalse: [ Error signal ].	"detect should be used"
+	^ classes first
+]
+
+{ #category : #'trait - function finding' }
+RObject class >> findFun: aStringOfFunctionName [
+	^ self prim_findFun: (self Rf_install: aStringOfFunctionName) option: self R_GlobalEnv
+]
+
+{ #category : #'trait - function finding' }
+RObject class >> findVar: aStringOfVarName [
+	^ self prim_findVar: (self Rf_install: aStringOfVarName) option: self R_GlobalEnv
 ]
 
 { #category : #'as yet unclassified' }
 RObject class >> new: size [
-	^ self primNew: size type: self type
-]
-
-{ #category : #'as yet unclassified' }
-RObject class >> newFromRObject: aRObject [
-	| class |
-	class := self findClassOf: aRObject.
-	^ class createNewObjectFrom: aRObject
+	^ self primNew: size type: self creationType
 ]
 
 { #category : #'as yet unclassified' }
@@ -37,7 +50,7 @@ RObject class >> primNew: size type: type [
 
 { #category : #'as yet unclassified' }
 RObject class >> type [
-	^ NILSXP
+	^ self shouldNotImplement 
 ]
 
 { #category : #'as yet unclassified' }

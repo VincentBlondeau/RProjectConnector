@@ -12,10 +12,14 @@ RConnectorTest >> testIfSessionIsValid [
 
 { #category : #'as yet unclassified' }
 RConnectorTest >> testInstallPackageShouldWork [
-	| evn |
-	self fail. "The following elements crash the image"
-	evn := RSession Rf_install: 'forecast'.
-	RObject findFun: 'forecast'.
+"	arg = list(""tseries"",repos=""http://cran.rstudio.com/"")
+	do.call(install.packages,arg)"
+	|  res |
+	self fail.
+	RFunction eval: 'install.packages' withParameters: { RList "repo=http://cran.rstudio.com/'" }.
+	res := RFunction eval: 'library' withParameters: {'forecast'}.
+	self assert: res value equals: 'forecast'
+	
 	
 	
 	
