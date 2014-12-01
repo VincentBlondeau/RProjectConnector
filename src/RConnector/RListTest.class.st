@@ -22,7 +22,10 @@ RListTest >> testAccessAllAttributesOfAList [
 	self assert: (arima isObject).
 	attribs := arima attributes.
 	self assert: (attribs isKindOf: RRealList).
+	self assert: attribs first name equals: 'names'.
+	self assert: attribs second name equals: 'class'.
 	self halt.
+	self fail.
 	
 ]
 

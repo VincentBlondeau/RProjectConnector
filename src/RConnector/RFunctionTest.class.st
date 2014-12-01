@@ -40,8 +40,8 @@ RFunctionTest >> testADefinedVariableShouldBeAbleToBeGet [
 					2.
 					3};
 		yourself.
-	var defineAsVarNamed: #toto.
-	self assert: (RObject findVar: 'toto') asRObject equals: var
+	var defineAsVarNamed: #var.
+	self assert: (RObject findVar: 'var') asRObject equals: var
 ]
 
 { #category : #'as yet unclassified' }
