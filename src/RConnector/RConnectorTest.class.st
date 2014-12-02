@@ -16,11 +16,16 @@ RConnectorTest >> testInstallPackageShouldWork [
 	do.call(install.packages,arg)"
 	|  res |
 	self fail.
-	RFunction eval: 'install.packages' withParameters: { RList "repo=http://cran.rstudio.com/'" }.
+	RFunction eval: 'install.packages' withParameters: { (RList new: 2) first: 'tseries'; second: 'repo=http://cran.rstudio.com/'; yourself }.
 	res := RFunction eval: 'library' withParameters: {'forecast'}.
 	self assert: res value equals: 'forecast'
 	
 	
 	
 	
+]
+
+{ #category : #'as yet unclassified' }
+RConnectorTest >> testLoadLibraryShouldNotWorkIfThePackageIsNotInstalled [
+	self should: [ RFunction eval: 'library' withParameters: {'forecast'} ] raise: REvaluationError
 ]

@@ -55,7 +55,7 @@ RCollectionTest >> testIntVectorAddFirst [
 	vector addFirst: 12.
 	self assert: (vector at: 1) equals: 12.
 	self assert: (vector at: 2) equals: 22.
-	self assert: vector length equals: 2."the true length for R"
+	self assert: vector prim_length equals: 2."the true length for R"
 	
 ]
 
@@ -75,7 +75,7 @@ RCollectionTest >> testIntVectorSetOverFlowCapacity [
 	vector add: 22.
 	self assert: (vector at: 1) equals: 12.
 	self assert: (vector at: 2) equals: 22.
-	self assert: vector length equals: 2."the true length for R"
+	self assert: vector prim_length equals: 2."the true length for R"
 	
 ]
 
@@ -90,7 +90,7 @@ RCollectionTest >> testIntVectorSetWithAddAll [
 			0.
 			51.
 			-42}.
-	self assert: data length equals: 5.
+	self assert: data prim_length equals: 5.
 	self assert: data size equals: 5
 ]
 
@@ -102,7 +102,7 @@ RCollectionTest >> testLangageListAddThreeElements [
 	langageList add: 2.
 	langageList add: (RObject findFun:'~').
 	langageList add: 3.
-	self assert: langageList length equals: 1.
+	self assert: langageList size equals: 1.
 	self assert: langageList first asRObject asOrderedCollection equals: #(3) asOrderedCollection
 ]
 
@@ -111,6 +111,15 @@ RCollectionTest >> testLangageListCreationFromNil [
 	| langageList |
 	langageList := RLangageExpression newEmptyChainedList.
 	langageList add: 2.
-	self assert: langageList length equals: 1.
+	self assert: langageList size equals: 1.
 	self assert: langageList first asRObject asOrderedCollection equals: #(2) asOrderedCollection
+]
+
+{ #category : #'as yet unclassified' }
+RCollectionTest >> testStringAccess [
+	| string |
+	string := 'string' asRObject.
+	self assert: (string isKindOf: RStringVector).
+	self assert: string first value equals: 'string'.
+	self should: [ string second ] raise: SubscriptOutOfBounds
 ]

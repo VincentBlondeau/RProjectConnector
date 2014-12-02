@@ -1,3 +1,8 @@
+"
+A RBoolVector is a RVector representing booleans
+
+
+"
 Class {
 	#name : #RBoolVector,
 	#superclass : #RVector,

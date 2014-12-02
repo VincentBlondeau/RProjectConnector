@@ -13,8 +13,8 @@ handle
 Class {
 	#name : #RVector,
 	#superclass : #OrderedCollection,
-	#traits : 'TRHelpers',
-	#classTraits : 'TRHelpers classTrait - {#createNewObjectFrom:withClass:}',
+	#traits : 'TRHelpers + TRClassExtension',
+	#classTraits : 'TRHelpers classTrait + TRClassExtension classTrait',
 	#instVars : [
 		'handle'
 	],
@@ -24,32 +24,15 @@ Class {
 	#category : #'RConnector-Core'
 }
 
-{ #category : #converting }
-RVector class >> asNBExternalType: gen [
-	^ NBExternalObjectType objectClass: self
-]
-
-{ #category : #'instance creation' }
-RVector class >> basicNew [
-	^ super basicNew
-		initializeHandle;
-		yourself
-]
-
 { #category : #'instance creation' }
 RVector class >> createNewObjectFrom: aRObject [
 	| instance |
 	instance := self basicNew handle: aRObject handle.
 	instance
 		setCollection:
-			(self arrayType onAddress: (NBExternalAddress value: (aRObject perform: self firstPointer)) size: aRObject length).
+			(self arrayType onAddress: (NBExternalAddress value: (aRObject perform: self firstPointer)) size: aRObject prim_length).
 	instance resetSize.
 	^ instance
-]
-
-{ #category : #'trait - function finding' }
-RVector class >> findFun: aStringOfFunctionName [
-	^ self prim_findFun: (self Rf_install: aStringOfFunctionName) option: self R_GlobalEnv
 ]
 
 { #category : #'instance creation' }
@@ -64,6 +47,7 @@ RVector class >> new: size [
 	instance := self primNew: size.
 	instance setCollection: (self arrayType onAddress: (NBExternalAddress value: instance firstPointer) size: size).
 	^ instance
+
 ]
 
 { #category : #'private - instance creation' }
@@ -104,6 +88,13 @@ RVector >> asRObject [
 ]
 
 { #category : #'as yet unclassified' }
+RVector >> char [
+	self isString ifFalse: [ CannotBeConvertedToType signal ].
+ ^ (self prim_string_elm: 0) prim_char 
+
+]
+
+{ #category : #'as yet unclassified' }
 RVector >> defineAsVarNamed: aRName [
 	self assert: (aRName isKindOf: Symbol). "Should be removed if the type is checked in the primitive"
    self defineAsVarNamed: aRName inEnv: self class R_GlobalEnv
@@ -135,16 +126,23 @@ RVector >> growAtLast [
 { #category : #accessing }
 RVector >> handle [
 	^ handle value
+
+
 ]
 
 { #category : #accessing }
 RVector >> handle: aUint [
 	handle value: aUint
+
+
+
 ]
 
 { #category : #initialization }
 RVector >> initializeHandle [
 	handle := NBExternalHandle new
+
+	
 ]
 
 { #category : #'private - notused' }

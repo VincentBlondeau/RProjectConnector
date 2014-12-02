@@ -14,6 +14,12 @@ TRGlobals classSide >> R_BaseEnv [
 ]
 
 { #category : #'trait - global variables' }
+TRGlobals classSide >> R_ClassSymbol [
+	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
+	^ self getRObjectFromGlobalVariable: #R_ClassSymbol
+]
+
+{ #category : #'trait - global variables' }
 TRGlobals classSide >> R_EmptyEnv [
 	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
 	^ self getRObjectFromGlobalVariable: #R_EmptyEnv
@@ -23,6 +29,12 @@ TRGlobals classSide >> R_EmptyEnv [
 TRGlobals classSide >> R_GlobalEnv [
 	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
 	^ self getRObjectFromGlobalVariable: #R_GlobalEnv
+]
+
+{ #category : #'trait - global variables' }
+TRGlobals classSide >> R_NamesSymbol [
+	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
+	^ self getRObjectFromGlobalVariable: #R_NamesSymbol
 ]
 
 { #category : #'trait - global variables' }

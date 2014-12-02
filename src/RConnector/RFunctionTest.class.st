@@ -27,7 +27,7 @@ RFunctionTest >> test2Div1Equals2 [
 			{2.
 			1}.
 	self assert: (res isKindOf: RDoubleVector).
-	self assert: res length equals: 1.
+	self assert: res size equals: 1.
 	self assert: res first equals: 2.
 ]
 
@@ -51,7 +51,7 @@ RFunctionTest >> testCorrelationXXShouldGiveOne [
 	abs := RFunction eval: 'abs' withParameters: { rnorm }.
 	res := RFunction eval: 'cor' withParameters: { abs . abs }.
 	self assert: (res isKindOf: RDoubleVector ).
-	self assert: res length equals: 1.
+	self assert: res prim_length equals: 1.
 	self assert: res size equals: 1.
 	self assert: res first equals: 1
 	
@@ -67,7 +67,7 @@ RFunctionTest >> testFunctionAbsFromSmalltalkCollectionShouldGiveAnAbsoluteArray
 	abs := RFunction functionName: 'abs' parameters: {data}.
 	res := abs eval.
 	self assert: (res isKindOf: RIntVector).
-	self assert: res length equals: 5.
+	self assert: res prim_length equals: 5.
 	self assert: res size equals: 5.
 	self assert: res asOrderedCollection equals: {-1. 1. 0. 51.-42} abs asOrderedCollection.
 ]
@@ -81,7 +81,7 @@ RFunctionTest >> testFunctionCombinaisonAbsRnormShouldGiveAnArrayOfFloats [
 	abs := RFunction functionName: 'abs' parameters: { res }.
 	res2 := abs eval.
 	self assert: (res2 isKindOf: RDoubleVector ).
-	self assert: res2 length equals: 500.
+	self assert: res2 size equals: 500.
 	self deny: (res2 first = 0)	
 	
 	
@@ -109,7 +109,7 @@ RFunctionTest >> testRnormShouldGiveAnArrayOfFloats [
 	function := RFunction functionName: 'rnorm' parameters: { 10 }.
 	res := function eval.
 	self assert: (res isKindOf: RDoubleVector ).
-	self assert: res length equals: 10.
+	self assert: res prim_length equals: 10.
 	self assert: res size equals: 10.
 	
 	
@@ -122,7 +122,7 @@ RFunctionTest >> testSeqShouldGiveAnArrayOfInt [
 	function := RFunction functionName: 'seq' parameters: { 1 . 10 }.
 	res := function eval.
 	self assert: (res isKindOf: RIntVector ).
-	self assert: res length equals: 10.
+	self assert: res size equals: 10.
 	self assert: res asOrderedCollection equals: (1 to: 10 ) asOrderedCollection.
 	
 	

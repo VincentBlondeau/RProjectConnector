@@ -1,13 +1,21 @@
 Class {
 	#name : #RObject,
 	#superclass : #NBExternalObject,
-	#traits : 'TRHelpers',
-	#classTraits : 'TRHelpers classTrait - {#createNewObjectFrom:withClass:}',
+	#traits : 'TRHelpers - {#SYMVALUE}',
+	#classTraits : 'TRHelpers classTrait',
 	#pools : [
 		'RLibTypes'
 	],
 	#category : #'RConnector-Core'
 }
+
+{ #category : #'trait - instance creation' }
+RObject class >> createNewObjectFrom: aRObject [ 
+	| instance  |
+	instance := self new: aRObject prim_length.
+	instance handle: aRObject handle.
+	^ instance
+]
 
 { #category : #'as yet unclassified' }
 RObject class >> creationType [
@@ -17,24 +25,25 @@ RObject class >> creationType [
 { #category : #'trait - function finding' }
 RObject class >> findClassOf: aRObject [
 	"to implement in an other way..."
-	| type classes |
-	self flag: #toreimplement.
+
+	| type |
 	type := aRObject prim_typeOf.
-	classes := (RObject allSubclasses union: RVector allSubclasses)
-		select: [ :c | [ c type = type ] on: ShouldNotImplement do: [ false ] ].
-	classes size = 1
-		ifFalse: [ Error signal ].	"detect should be used"
-	^ classes first
+	^ RLibTypes implementationClassRelatedTo: type
 ]
 
 { #category : #'trait - function finding' }
 RObject class >> findFun: aStringOfFunctionName [
-	^ self prim_findFun: (self Rf_install: aStringOfFunctionName) option: self R_GlobalEnv
+	^ self prim_findFun: (self prim_install: aStringOfFunctionName) option: self R_GlobalEnv
 ]
 
 { #category : #'trait - function finding' }
 RObject class >> findVar: aStringOfVarName [
-	^ self prim_findVar: (self Rf_install: aStringOfVarName) option: self R_GlobalEnv
+	^ self prim_findVar: (self prim_install: aStringOfVarName) option: self R_GlobalEnv
+]
+
+{ #category : #'as yet unclassified' }
+RObject class >> new [
+	^ self new: 1
 ]
 
 { #category : #'as yet unclassified' }
@@ -51,10 +60,4 @@ RObject class >> primNew: size type: type [
 { #category : #'as yet unclassified' }
 RObject class >> type [
 	^ self shouldNotImplement 
-]
-
-{ #category : #'as yet unclassified' }
-RObject >> char [
-	self isString ifFalse: [ CannotBeConvertedToType signal ].
-	^ (self prim_string_elm: 0) prim_char
 ]
