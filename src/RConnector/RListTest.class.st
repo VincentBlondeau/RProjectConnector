@@ -128,6 +128,41 @@ RListTest >> testAccessTheClassNameOfAList [
 ]
 
 { #category : #'as yet unclassified' }
+RListTest >> testCreateListWithOneElement [
+	| list |
+	list := (RList new: 1)
+		first: 'tseries';
+		yourself.
+	self assert: (list first isKindOf: RStringVector).
+	self assert: list first first equals: 'tseries'
+]
+
+{ #category : #'as yet unclassified' }
+RListTest >> testCreateListWithOneNamedElement [
+	| list |
+	list := (RList new: 1)
+		at: 'repo' put: 'http://cran.rstudio.com/';
+		yourself.
+	self assert: (list first isKindOf: RStringVector).
+	self assert: list first first equals: 'http://cran.rstudio.com/'.
+	self assert: (list at: 'repo') first equals: 'http://cran.rstudio.com/'
+]
+
+{ #category : #'as yet unclassified' }
+RListTest >> testCreateListWithTwoElementsOneNamedOneNot [
+	| list |
+	list := (RList new: 2)
+		first: 'tseries';
+		at: 'repo' put: 'http://cran.rstudio.com/';
+		yourself.
+	self assert: (list first isKindOf: RStringVector).
+	self assert: list first first equals: 'tseries'.
+	self assert: (list second isKindOf: RStringVector).
+	self assert: list second first equals: 'http://cran.rstudio.com/'.
+	self assert: (list at: 'repo') first equals: 'http://cran.rstudio.com/'.
+]
+
+{ #category : #'as yet unclassified' }
 RListTest >> testEmptyListShouldBeEmpty [
 	| list |
 	list := RList new: 0.

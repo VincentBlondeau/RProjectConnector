@@ -64,7 +64,7 @@ RList >> at: key ifAbsent: aBlock [
 			ifNotNil: [:assoc | assoc]) value.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 RList >> at: index put: anElement [
 	self ensureBoundsFrom: index to: index.
 	self prim_setVectorElement: anElement asPureRObject at: index - 1
@@ -102,13 +102,13 @@ RList >> findIndexOfKey: anObject [
 
 { #category : #accessing }
 RList >> first [
-	^ self atIndex: 1
+	^ self at: 1
 ]
 
 { #category : #accessing }
 RList >> first: anElement [
 	
-	^ self prim_setVectorElement: anElement at: 0
+	^ self at: 1 put: anElement
 
 ]
 
@@ -145,12 +145,12 @@ RList >> rClass [
 	^ (self prim_getAttribute: self class R_ClassSymbol) asRObject
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 RList >> second [
 	^ self at: 2
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 RList >> second: anElement [
     ^ self at: 2 put: anElement
 
