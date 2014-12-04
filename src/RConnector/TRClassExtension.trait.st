@@ -15,6 +15,11 @@ TRClassExtension classSide >> basicNew [
 		yourself
 ]
 
+{ #category : #'private - instance creation' }
+TRClassExtension classSide >> primNew: size [
+	^ self primNew: size type: self type
+]
+
 { #category : #accessing }
 TRClassExtension >> handle [
 	"Code to compile : ^ handle value"

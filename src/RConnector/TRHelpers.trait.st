@@ -15,25 +15,26 @@ Trait {
 { #category : #'trait - instance creation' }
 TRHelpers classSide >> createNewObjectFrom: aRObject [ 
 	| instance  |
-	instance := self new: aRObject length.
+	instance := self new: aRObject prim_length.
 	instance handle: aRObject handle.
 	^ instance
 ]
 
 { #category : #'trait - function finding' }
 TRHelpers classSide >> findClassOf: aRObject [
-	| type classes |
+	| type  |
 	type := aRObject prim_typeOf.
-	classes := (RObject allSubclasses union: RVector allSubclasses)
-		select: [ :c | [ c type = type ] onDNU: #type do: [ false ] ].
-	classes size = 1
-		ifFalse: [ Error signal ].	"detect should be used"
-	^ classes first
+	^ RLibTypes implementationClassRelatedTo: type
 ]
 
 { #category : #'trait - function finding' }
 TRHelpers classSide >> findFun: aStringOfFunctionName [
 	^ self prim_findFun: (self prim_install: aStringOfFunctionName) option: self R_GlobalEnv
+]
+
+{ #category : #'trait - function finding' }
+TRHelpers classSide >> findVar: aStringOfFunctionName [
+	^ self prim_findVar: (self prim_install: aStringOfFunctionName) option: self R_GlobalEnv
 ]
 
 { #category : #'trait - function finding' }
@@ -100,8 +101,9 @@ TRHelpers >> asRObject [
 
 { #category : #'as yet unclassified' }
 TRHelpers >> char [
-	self isString ifFalse: [ CannotBeConvertedToType signal ].
-	^ (self prim_string_elm: 0) prim_char
+	self isChar
+		ifFalse: [ CannotBeConvertedToType signal ].
+	^ self prim_char
 ]
 
 { #category : #'as yet unclassified' }
@@ -125,6 +127,12 @@ TRHelpers >> defineAsVarNamed: aRName inEnv: anEnvironment [
 TRHelpers >> int [
 	self isInteger ifFalse: [ CannotBeConvertedToType signal ].
 	^ self prim_int
+]
+
+{ #category : #'trait - testing' }
+TRHelpers >> isChar [
+	^ self typeOf = #CHARSXP
+  
 ]
 
 { #category : #'trait - testing' }
@@ -414,6 +422,13 @@ TRHelpers >> raw [
 TRHelpers >> real [
 	self isReal ifFalse: [ CannotBeConvertedToType signal ].
 	^ self prim_real
+]
+
+{ #category : #'as yet unclassified' }
+TRHelpers >> string [
+	"self isString
+		ifFalse: [ CannotBeConvertedToType signal ].
+	^ self prim_string_ptr"
 ]
 
 { #category : #'trait - accessing' }

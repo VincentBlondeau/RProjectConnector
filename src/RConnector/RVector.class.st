@@ -31,7 +31,7 @@ RVector class >> createNewObjectFrom: aRObject [
 	instance
 		setCollection:
 			(self arrayType onAddress: (NBExternalAddress value: (aRObject perform: self firstPointer)) size: aRObject prim_length).
-	instance resetSize.
+	instance initialize.
 	^ instance
 ]
 
@@ -51,18 +51,13 @@ RVector class >> new: size [
 ]
 
 { #category : #'private - instance creation' }
-RVector class >> primNew: size [
-	^ self primNew: size type: self type
-]
-
-{ #category : #'private - instance creation' }
 RVector class >> primNew: size type: type [
 	^ self shouldNotImplement 
 ]
 
 { #category : #accessing }
 RVector class >> type [
-	^self shouldNotImplement 
+	^ self subclassResponsibility
 ]
 
 { #category : #adding }
@@ -102,7 +97,7 @@ RVector >> defineAsVarNamed: aRName [
 
 { #category : #accessing }
 RVector >> firstPointer [
-	^ self shouldNotImplement  
+	^ self subclassResponsibility
 ]
 
 { #category : #private }
@@ -138,20 +133,17 @@ RVector >> handle: aUint [
 
 ]
 
+{ #category : #private }
+RVector >> initialize [
+	firstIndex := 1.
+	lastIndex := (self capacity)
+]
+
 { #category : #initialization }
 RVector >> initializeHandle [
 	handle := NBExternalHandle new
 
 	
-]
-
-{ #category : #'private - notused' }
-RVector >> prim_at: index [
-    <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
-    ^ self
-        nbCall: #(SEXP VECTOR_ELT(self, int index))
-
-
 ]
 
 { #category : #'trait - private primitives' }
@@ -161,19 +153,9 @@ RVector >> prim_defineAsVarNamed: name inEnv: anEnvironment [
         nbCall: #(void Rf_defineVar(SEXP name, self, SEXP anEnvironment))
 ]
 
-{ #category : #'private - notused' }
-RVector >> prim_sat: index [
-    <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
-    ^ self
-        nbCall: #(SEXP STRING_ELT(self, int index))
-
-
-]
-
-{ #category : #private }
-RVector >> resetSize [
-	firstIndex := 1.
-	lastIndex := (self capacity)
+{ #category : #accessing }
+RVector >> printOn: a [
+	a <<'toto'
 ]
 
 { #category : #private }
@@ -181,6 +163,11 @@ RVector >> setLength: length [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
         nbCall: #(void SETLENGTH(self, int length))
+]
+
+{ #category : #accessing }
+RVector >> size [
+	^ super size
 ]
 
 { #category : #'private - notused' }

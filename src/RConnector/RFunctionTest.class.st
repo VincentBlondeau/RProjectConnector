@@ -60,6 +60,17 @@ RFunctionTest >> testCorrelationXXShouldGiveOne [
 ]
 
 { #category : #'as yet unclassified' }
+RFunctionTest >> testExecuteFunctionInAShorterWayShouldWork [
+	| res |
+	res := (#arima
+		asRFunctionWith:
+			{({1.
+			2.
+			3} asRIntVector)}) eval.
+	self assert: (res isKindOf: RList)
+]
+
+{ #category : #'as yet unclassified' }
 RFunctionTest >> testFunctionAbsFromSmalltalkCollectionShouldGiveAnAbsoluteArrayOfFloats [
 	| res abs data |
 	data := RIntVector new.

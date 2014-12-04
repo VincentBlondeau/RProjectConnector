@@ -1,6 +1,7 @@
 Class {
 	#name : #RRealList,
 	#superclass : #RList,
+	#type : #variable,
 	#category : #'RConnector-Core'
 }
 

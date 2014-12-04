@@ -10,30 +10,18 @@ Class {
 
 { #category : #'as yet unclassified' }
 RStringVector class >> arrayType [
-	^ NBExternalArray ofType: 'char *'
+	^ RStringArray 
 ]
 
 { #category : #'as yet unclassified' }
 RStringVector class >> firstPointer [
-	^ #handle "#char"
-]
-
-{ #category : #'as yet unclassified' }
-RStringVector class >> primNew: aString [
-	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
-	^ self nbCall: #(RStringVector Rf_mkString(String aString))
+	^ #string "#char"
 ]
 
 { #category : #'as yet unclassified' }
 RStringVector class >> primNew: size type: type [
 	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
 	^ self nbCall: #(RStringVector Rf_allocVector (int type, int size))
-]
-
-{ #category : #'as yet unclassified' }
-RStringVector class >> primNewold: aString [
-	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
-	^ self nbCall: #(RStringVector Rf_mkString(String aString))
 ]
 
 { #category : #'as yet unclassified' }
@@ -48,6 +36,16 @@ RStringVector >> at: index [
 	^ (self prim_string_elm: index - 1) prim_char
 ]
 
+{ #category : #evaluating }
+RStringVector >> do: aBlock [ 
+	| index |
+	index := firstIndex.
+	[index <= lastIndex]
+		whileTrue: 
+			[aBlock value: (self at: index).
+			index := index + 1]
+]
+
 { #category : #accessing }
 RStringVector >> first [ 
 	^ self at: 1
@@ -55,8 +53,7 @@ RStringVector >> first [
 
 { #category : #private }
 RStringVector >> firstPointer [
-self halt.
-	^ (self prim_string_elm: 0) handle
+	^ self string
 ]
 
 { #category : #accessing }
@@ -66,7 +63,8 @@ RStringVector >> second [
 
 { #category : #accessing }
 RStringVector >> size [
-	^ self prim_length
+^super size" 
+	^ self prim_length"
 ]
 
 { #category : #evaluating }

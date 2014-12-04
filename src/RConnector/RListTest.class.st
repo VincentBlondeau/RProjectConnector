@@ -49,6 +49,28 @@ RListTest >> testAccessAllElementsOfAList [
 ]
 
 { #category : #'as yet unclassified' }
+RListTest >> testAccessAnExistingKeyOfAList [
+	"
+	x = c(1,  2,  3 )
+	arima(x)$coef"
+
+	| arima |
+	arima := RFunction
+		eval: 'arima'
+		withParameters:
+			{(RIntVector new
+				addAll:
+						{1.
+							2.
+							3};
+				yourself)}.
+	self assert: (arima isKindOf: RList).
+	self assert: arima isObject.
+	self assert: ((arima at: 'coef') isKindOf: RDoubleVector).
+	self assert: ((arima at: 'coef') first closeTo: 2.0)
+]
+
+{ #category : #'as yet unclassified' }
 RListTest >> testAccessFirstOfAList [
 	"
 	x = c(1,  2,  3 )
@@ -74,7 +96,7 @@ RListTest >> testAccessFirstOfAList [
 RListTest >> testAccessItemFromEmptyListShouldNotBeAllowed [
 	| list |
 	list := RList new: 0.
-	self should: [ list at: 1 ] raise: SubscriptOutOfBounds
+	self should: [ list at: 1 ] raise: Error
 ]
 
 { #category : #'as yet unclassified' }

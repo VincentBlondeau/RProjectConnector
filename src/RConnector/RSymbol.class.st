@@ -9,7 +9,7 @@ Class {
 	#category : #'RConnector-Core'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance creation' }
 RSymbol class >> newFromSymbol: aSymbol [
 	^ (self prim_install: aSymbol)
 ]

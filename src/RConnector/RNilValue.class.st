@@ -38,12 +38,12 @@ RNilValue class >> type [
 	^ NILSXP
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #converting }
 RNilValue >> asRObject [
  	^ self
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #evaluating }
 RNilValue >> value [
  	^ self class R_NilValue
 ]

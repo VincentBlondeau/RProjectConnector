@@ -47,7 +47,7 @@ RLibTypes class >> dictionaryOfImplementationClass [
 	LANGSXP -> RLangageExpression."language objects"
 	SPECIALSXP -> RObject."special functions"
 	BUILTINSXP -> RObject."builtin functions"
-	CHARSXP -> RStringVector."to confirm""internal character strings"
+	CHARSXP -> RChar."to confirm""internal character strings"
 	LGLSXP -> RBoolVector."logical vectors"
 	INTSXP -> RIntVector."integer vectors"
 	REALSXP -> RDoubleVector."numeric vectors"

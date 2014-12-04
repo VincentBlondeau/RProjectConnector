@@ -77,7 +77,7 @@ RSession class >> invalidateOldHandles [
 
 { #category : #testing }
 RSession class >> isExistsRf_initEmbeddedR [
-	^ (self nbGetSymbolAddress: 'Rf_initEmbeddedR' module: #R) isNotNil
+	^ [(self nbGetSymbolAddress: 'Rf_initEmbeddedR' module: #R) isNotNil] on: PrimitiveFailed do: [  self error: 'Please check that you use the right libraries!' ]
 ]
 
 { #category : #'private - primitives' }
@@ -103,10 +103,10 @@ RSession class >> prim_install: aLibName [
 
 { #category : #'system startup' }
 RSession class >> startUp [
-	self checkLibs.
+	[ self checkLibs.
 	self checkSession.
 	self checkWorking.
-	self invalidateOldHandles.
+	self invalidateOldHandles. ] on: Error do: [ :e | self error: 'The R session is not well initialized at startUp...' ]
 ]
 
 { #category : #'stats functions' }
