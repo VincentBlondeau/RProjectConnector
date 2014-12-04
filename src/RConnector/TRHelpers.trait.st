@@ -373,7 +373,7 @@ TRHelpers >> prim_string_elm: index [
 TRHelpers >> prim_string_ptr [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
-        nbCall: #(SEXP * STRING_PTR(self))
+        nbCall: #(ulong STRING_PTR(self))
 ]
 
 { #category : #'as yet unclassified' }

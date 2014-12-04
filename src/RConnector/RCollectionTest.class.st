@@ -119,6 +119,6 @@ RCollectionTest >> testLangageListCreationFromNil [
 RCollectionTest >> testStringAccess [
 	| string |
 	string := 'string' asRObject.
-	self assert: (string isKindOf: RChar).
+	self assert: (string isKindOf: RStringVector).
 	self assert: string value equals: 'string'.
 ]

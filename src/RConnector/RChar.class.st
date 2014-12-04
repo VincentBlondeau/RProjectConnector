@@ -5,11 +5,6 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-RChar class >> asNBExternalType: gen [
-	^ NBExternalString asNBExternalType: gen
-]
-
-{ #category : #'as yet unclassified' }
 RChar class >> createNewObjectFrom: aRObject [ 
 	| instance  |
 	instance := self new: aRObject char.
@@ -20,7 +15,7 @@ RChar class >> createNewObjectFrom: aRObject [
 { #category : #'as yet unclassified' }
 RChar class >> primNew: aString [
 	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
-	^ self nbCall: #(RChar Rf_mkString(String aString))
+	^ self nbCall: #(RChar Rf_mkChar(String aString))
 ]
 
 { #category : #'as yet unclassified' }
@@ -31,14 +26,6 @@ RChar class >> primNew: size type: type [
 { #category : #'as yet unclassified' }
 RChar class >> type [
 	^ CHARSXP
-]
-
-{ #category : #'as yet unclassified' }
-RChar >> isChar [
-self toto.
-	^ super isChar
-
-
 ]
 
 { #category : #'as yet unclassified' }

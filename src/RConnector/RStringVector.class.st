@@ -25,6 +25,12 @@ RStringVector class >> primNew: size type: type [
 ]
 
 { #category : #'as yet unclassified' }
+RStringVector class >> primNewFromString: aString [ 
+	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
+	^ self nbCall: #(RStringVector Rf_mkString(String aString))
+]
+
+{ #category : #'as yet unclassified' }
 RStringVector class >> type [
 	^ STRSXP
 ]

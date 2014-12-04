@@ -34,10 +34,3 @@ RObject class >> primNew: size type: type [
 RObject class >> type [
 	^ self shouldNotImplement 
 ]
-
-{ #category : #'as yet unclassified' }
-RObject >> prim_string_ptr [
-    <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
-    ^ self
-        nbCall: #(ulong STRING_PTR(self))
-]
