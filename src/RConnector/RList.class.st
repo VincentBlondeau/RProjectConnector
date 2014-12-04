@@ -51,8 +51,7 @@ RList class >> type [
 
 { #category : #accessing }
 RList >> at: index [
-	self ensureBoundsFrom: index to: index.
-	^ (self prim_vectorElementAt: index - 1) asRObject
+	^ index indexKeyToRList: self
 ]
 
 { #category : #'as yet unclassified' }
@@ -80,8 +79,7 @@ RList >> at: index putValue: anElement [
 
 { #category : #accessing }
 RList >> atIndex: index [
-	(index between: 0 and: self size)
-		ifFalse: [ ^ self errorSubscriptBounds: index ].
+	self ensureBoundsFrom: index to: index.
 	^ (self prim_vectorElementAt: index - 1) asRObject
 ]
 

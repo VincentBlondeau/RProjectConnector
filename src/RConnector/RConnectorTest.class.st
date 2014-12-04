@@ -27,5 +27,5 @@ RConnectorTest >> testInstallPackageShouldWork [
 
 { #category : #'as yet unclassified' }
 RConnectorTest >> testLoadLibraryShouldNotWorkIfThePackageIsNotInstalled [
-	self should: [ RFunction eval: 'library' withParameters: {'forecast'} ] raise: REvaluationError  whoseDescriptionIncludes:  'toto'   description: 'Be sure that the evaluation error is because ...'
+	self should: [ RFunction eval: 'library' withParameters: {'MARSS'} ] raise: REvaluationError  whoseDescriptionIncludes:  'MARSS'  description: 'Be sure that the evaluation error is because of the package and not something else'
 ]

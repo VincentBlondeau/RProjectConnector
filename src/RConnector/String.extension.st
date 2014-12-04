@@ -9,3 +9,8 @@ String >> asRFunctionWith: aCollection [
 String >> asRObject [
 	^ RStringVector primNewFromString: self
 ]
+
+{ #category : #'*RConnector' }
+String >> indexKeyToRList: aRList [
+	^ aRList atKey: self 
+]
