@@ -153,21 +153,11 @@ RVector >> prim_defineAsVarNamed: name inEnv: anEnvironment [
         nbCall: #(void Rf_defineVar(SEXP name, self, SEXP anEnvironment))
 ]
 
-{ #category : #accessing }
-RVector >> printOn: a [
-	a <<'toto'
-]
-
 { #category : #private }
 RVector >> setLength: length [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
         nbCall: #(void SETLENGTH(self, int length))
-]
-
-{ #category : #accessing }
-RVector >> size [
-	^ super size
 ]
 
 { #category : #'private - notused' }

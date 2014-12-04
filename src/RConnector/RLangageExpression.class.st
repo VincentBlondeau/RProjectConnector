@@ -90,7 +90,7 @@ RLangageExpression >> fourth [
 RLangageExpression >> fourth: anElement [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
-        nbCall: #(SEXP SETCADDDR(self, SEXP element))
+        nbCall: #(SEXP SETCADDDR(self, SEXP anElement))
 
 ]
 

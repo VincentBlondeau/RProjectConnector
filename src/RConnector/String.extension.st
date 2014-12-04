@@ -7,5 +7,5 @@ String >> asRFunctionWith: aCollection [
 
 { #category : #'*RConnector' }
 String >> asRObject [
-	^ RStringVector primNew: self
+	^ RChar primNew: self
 ]

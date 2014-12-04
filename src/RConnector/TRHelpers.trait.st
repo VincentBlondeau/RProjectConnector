@@ -426,9 +426,9 @@ TRHelpers >> real [
 
 { #category : #'as yet unclassified' }
 TRHelpers >> string [
-	"self isString
+	self isString
 		ifFalse: [ CannotBeConvertedToType signal ].
-	^ self prim_string_ptr"
+	^ self prim_string_ptr
 ]
 
 { #category : #'trait - accessing' }

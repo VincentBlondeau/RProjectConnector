@@ -63,8 +63,7 @@ RStringVector >> second [
 
 { #category : #accessing }
 RStringVector >> size [
-^super size" 
-	^ self prim_length"
+	^ self prim_length
 ]
 
 { #category : #evaluating }
