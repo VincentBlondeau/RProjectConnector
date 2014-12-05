@@ -82,6 +82,12 @@ TRHelpers classSide >> prim_isBasicClass: aString [
         nbCall: #(int Rf_isBasicClass(String aString))
 ]
 
+{ #category : #'trait - global variables' }
+TRHelpers classSide >> rClassSymbol [
+	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
+	^ self getRObjectFromGlobalVariable: #R_ClassSymbol
+]
+
 { #category : #'trait - converting' }
 TRHelpers >> asPureRObject [
 	^ RObject createNewObjectFrom: self 

@@ -60,12 +60,6 @@ RVector class >> new: size [
 
 ]
 
-{ #category : #'trait - global variables' }
-RVector class >> nilValue [
-	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
-	^ self getRObjectFromGlobalVariable: #rNilValue
-]
-
 { #category : #'private - instance creation' }
 RVector class >> primNew: size type: type [
 	^ self shouldNotImplement 

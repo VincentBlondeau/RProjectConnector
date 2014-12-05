@@ -10,7 +10,7 @@ Trait {
 { #category : #'trait - global variables' }
 TRGlobals classSide >> rBaseEnv [
 	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
-	^ self getRObjectFromGlobalVariable: #rBaseEnv
+	^ self getRObjectFromGlobalVariable: #R_BaseEnv
 ]
 
 { #category : #'trait - global variables' }
@@ -22,23 +22,23 @@ TRGlobals classSide >> rClassSymbol [
 { #category : #'trait - global variables' }
 TRGlobals classSide >> rEmptyEnv [
 	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
-	^ self getRObjectFromGlobalVariable: #rEmptyEnv
+	^ self getRObjectFromGlobalVariable: #R_EmptyEnv
 ]
 
 { #category : #'trait - global variables' }
 TRGlobals classSide >> rGlobalEnv [
 	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
-	^ self getRObjectFromGlobalVariable: #rGlobalEnv
+	^ self getRObjectFromGlobalVariable: #R_GlobalEnv
 ]
 
 { #category : #'trait - global variables' }
 TRGlobals classSide >> rNamesSymbol [
 	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
-	^ self getRObjectFromGlobalVariable: #rNamesSymbol
+	^ self getRObjectFromGlobalVariable: #R_NamesSymbol
 ]
 
 { #category : #'trait - global variables' }
 TRGlobals classSide >> rNilValue [
 	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
-	^ self getRObjectFromGlobalVariable: #rNilValue
+	^ self getRObjectFromGlobalVariable: #R_NilValue
 ]

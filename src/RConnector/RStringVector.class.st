@@ -57,11 +57,6 @@ RStringVector >> firstPointer [
 	^ self string
 ]
 
-{ #category : #accessing }
-RStringVector >> size [
-	^ self prim_length
-]
-
 { #category : #evaluating }
 RStringVector >> value [
 	^ (self prim_stringElementAt: 0) prim_char
