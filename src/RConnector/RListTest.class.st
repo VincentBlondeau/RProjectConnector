@@ -1,6 +1,10 @@
+"
+A RListTest is a test of the RList.
+
+"
 Class {
 	#name : #RListTest,
-	#superclass : #RAbstractTest,
+	#superclass : #RCollectionTest,
 	#category : #'RConnector-Tests'
 }
 

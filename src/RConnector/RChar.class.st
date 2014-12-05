@@ -8,7 +8,7 @@ Class {
 	#category : #'RConnector-Core'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'trait - instance creation' }
 RChar class >> createNewObjectFrom: aRObject [ 
 	| instance  |
 	instance := self new: aRObject char.
@@ -16,18 +16,18 @@ RChar class >> createNewObjectFrom: aRObject [
 	^ instance
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'trait - private - instance creation' }
 RChar class >> primNew: aString [
 	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
 	^ self nbCall: #(RChar Rf_mkChar(String aString))
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'private - instance creation' }
 RChar class >> primNew: size type: type [
 	^ self primNew: size
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 RChar class >> type [
 	^ CHARSXP
 ]

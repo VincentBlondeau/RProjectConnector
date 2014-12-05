@@ -14,12 +14,12 @@ RSymbol class >> newFromSymbol: aSymbol [
 	^ (self prim_install: aSymbol)
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'private - instance creation' }
 RSymbol class >> primNew: size type: type [
  	Error signal: 'Cant be allocated !'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 RSymbol class >> type [
 	^ SYMSXP
 ]

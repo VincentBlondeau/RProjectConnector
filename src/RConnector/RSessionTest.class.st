@@ -1,17 +1,20 @@
+"
+A RConnectorTest contains the tests for the statup and the installation of libs
+"
 Class {
-	#name : #RConnectorTest,
+	#name : #RSessionTest,
 	#superclass : #RAbstractTest,
 	#category : #'RConnector-Tests'
 }
 
 { #category : #'as yet unclassified' }
-RConnectorTest >> testIfSessionIsValid [
+RSessionTest >> testIfSessionIsValid [
 	"If this test is not working, it means that the RConnector can be used because the session is not initialized"
 	RSession checkWorking.
 ]
 
 { #category : #'as yet unclassified' }
-RConnectorTest >> testInstallPackageShouldWork [
+RSessionTest >> testInstallPackageShouldWork [
 "	arg = list(""tseries"",repos=""http://cran.rstudio.com/"")
 	do.call(install.packages,arg)"
 	|  res |
@@ -26,6 +29,6 @@ RConnectorTest >> testInstallPackageShouldWork [
 ]
 
 { #category : #'as yet unclassified' }
-RConnectorTest >> testLoadLibraryShouldNotWorkIfThePackageIsNotInstalled [
+RSessionTest >> testLoadLibraryShouldNotWorkIfThePackageIsNotInstalled [
 	self should: [ RFunction eval: 'library' withParameters: {'MARSS'} ] raise: REvaluationError  whoseDescriptionIncludes:  'MARSS'  description: 'Be sure that the evaluation error is because of the package and not something else'
 ]

@@ -11,29 +11,29 @@ Class {
 	#category : #'RConnector-Core'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'trait - instance creation' }
 RNilValue class >> createNewObjectFrom: aRObject [
 	^ instance
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'class initialization' }
 RNilValue class >> initialize [
 	instance := super new.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance creation' }
 RNilValue class >> new [
 	self shouldNotImplement 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance creation' }
 RNilValue class >> new: aLength [
 	"For upper compatibility"
 
 	^ instance
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 RNilValue class >> type [
 	^ NILSXP
 ]
