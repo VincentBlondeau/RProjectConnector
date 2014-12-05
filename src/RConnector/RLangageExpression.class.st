@@ -3,6 +3,12 @@ A RLangageExpression is a language based list.  It is like a linked chain and th
 His type is LANGSXP under R.
 A RLangageExpression as almost the same behaviour than a chained list under smallatalk.
 
+You should use add* if you want to add sucessives elements to the list.
+If you use first:, second: ,... the list is also created but with possible missing items.
+
+You should not create a langagelist too long else you cannot access the elements (I don't implement the sequencial accessors).
+
+
 Maybe it should extend the LinkedList class but it seems complicated to represents the cells of the list.
 
 
@@ -39,7 +45,7 @@ RLangageExpression >> add: anElement [
 	^ self addLast: anElement 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #private }
 RLangageExpression >> add: anElement direction: aBlock [
 	"Mean to factorize code of the add function"
 	size = 0
@@ -55,12 +61,12 @@ RLangageExpression >> addAll: aCollection [
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #adding }
 RLangageExpression >> addFirst: anElement [
 	^ self add: anElement direction: [ :elem | self prim_addFirst: elem ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #adding }
 RLangageExpression >> addLast: anElement [
 	^ self add: anElement direction: [ :elem | self prim_addLast: (self prim_firstAdd: elem) ]
 ]
@@ -85,7 +91,7 @@ RLangageExpression >> first [
 	^ self nbCall: #(SEXP CAR (self))
 ]
 
-{ #category : #accessing }
+{ #category : #adding }
 RLangageExpression >> first: element [
 	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
@@ -101,7 +107,7 @@ RLangageExpression >> fourth [
 
 ]
 
-{ #category : #accessing }
+{ #category : #adding }
 RLangageExpression >> fourth: anElement [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
@@ -117,7 +123,7 @@ RLangageExpression >> prim_addFirst: anElement [
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'private - primitive' }
 RLangageExpression >> prim_addLast: anElement [
 	"The element to append should be a list else the chained list is not null terminated and some problems can happens..."
 
@@ -125,7 +131,7 @@ RLangageExpression >> prim_addLast: anElement [
 	^ self nbCall: #(SEXP Rf_listAppend(self, SEXP anElement))
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'private - primitive' }
 RLangageExpression >> prim_firstAdd: anElement [
 	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
 	^ self nbCall: #(SEXP Rf_lang1(SEXP anElement))
@@ -151,7 +157,7 @@ RLangageExpression >> second [
 	^ self nbCall: #(SEXP CADR (self))
 ]
 
-{ #category : #accessing }
+{ #category : #adding }
 RLangageExpression >> second: element [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
@@ -178,7 +184,7 @@ RLangageExpression >> third [
 	^ self nbCall: #(SEXP CADDR (self))
 ]
 
-{ #category : #accessing }
+{ #category : #adding }
 RLangageExpression >> third: element [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self

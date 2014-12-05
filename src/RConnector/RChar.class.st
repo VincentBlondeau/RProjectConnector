@@ -32,7 +32,7 @@ RChar class >> type [
 	^ CHARSXP
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #printing }
 RChar >> printOn: aStream [
 	super printOn: aStream.
 	aStream << $'.
@@ -40,7 +40,7 @@ RChar >> printOn: aStream [
 	aStream << $'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #evaluating }
 RChar >> value [
 	^ self char
 ]
