@@ -82,12 +82,6 @@ RVector >> asRObject [
 	^ self
 ]
 
-{ #category : #'as yet unclassified' }
-RVector >> defineAsVarNamed: aRName [
-	self assert: (aRName isKindOf: Symbol). "Should be removed if the type is checked in the primitive"
-   self defineAsVarNamed: aRName inEnv: self class R_GlobalEnv
-]
-
 { #category : #accessing }
 RVector >> firstPointer [
 	^ self subclassResponsibility
@@ -137,13 +131,6 @@ RVector >> initializeHandle [
 	handle := NBExternalHandle new
 
 	
-]
-
-{ #category : #'trait - private primitives' }
-RVector >> prim_defineAsVarNamed: name inEnv: anEnvironment [ 
-    <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
-    ^ self
-        nbCall: #(void Rf_defineVar(SEXP name, self, SEXP anEnvironment))
 ]
 
 { #category : #private }

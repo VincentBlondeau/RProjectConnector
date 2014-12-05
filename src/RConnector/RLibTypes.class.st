@@ -1,6 +1,10 @@
 "
 A RLibTypes class is contains the principal variables to manage R objects.
+The equivalence between the number of the type given by prim_typeOf and the related symbol is stored in initializeObjectTypes.
 
+If you want to implement a not-aleready implemented class in RConnector, you should modify dictionaryOfImplementationClass to have the automatic object transformation when the asRObject is called.
+
+RObject is the default type.
 "
 Class {
 	#name : #RLibTypes,
@@ -35,12 +39,12 @@ Class {
 	#category : #'RConnector-Core'
 }
 
-{ #category : #initialization }
+{ #category : #accesing }
 RLibTypes class >> dictionaryOfImplementationClass [
 	^ { 
 	NILSXP -> RNilValue.	"NULL"
 	SYMSXP -> RSymbol.	"symbols"
-	LISTSXP -> RRealList."pairlists"
+	LISTSXP -> RObject."pairlists"
 	CLOSXP -> RObject.	"closures"
 	ENVSXP -> RObject.	"environments"
 	PROMSXP -> RObject."promises"
@@ -65,7 +69,7 @@ RLibTypes class >> dictionaryOfImplementationClass [
 	} asDictionary
 ]
 
-{ #category : #initialization }
+{ #category : #'retrieving symbols' }
 RLibTypes class >> implementationClassRelatedTo: index [
 	^ self dictionaryOfImplementationClass at: index ifAbsent: [ self error: 'All the types are already referenced !' ]
 ]
@@ -104,7 +108,7 @@ RLibTypes class >> initializeObjectTypes [
 	S4SXP := 25"S4 classes not of simple type"
 ]
 
-{ #category : #initialization }
+{ #category : #'retrieving symbols' }
 RLibTypes class >> typeRelatedToNumber: index [
 	^ self classVarNames detect: [ :classvarname | (self classVarNamed: classvarname) = index ]
 

@@ -101,7 +101,8 @@ TRHelpers >> char [
 
 { #category : #'trait - variable definition' }
 TRHelpers >> defineAsVarNamed: aRName [
-   ^ self defineAsVarNamed: aRName inEnv: self class R_GlobalEnv
+	self assert: (aRName isKindOf: Symbol).	"Should be removed if the type is checked in the primitive"
+	^ self defineAsVarNamed: aRName inEnv: self class R_GlobalEnv
 ]
 
 { #category : #'trait - variable definition' }
@@ -272,7 +273,7 @@ TRHelpers >> prim_curErrorBuf [
 TRHelpers >> prim_defineAsVarNamed: name inEnv: anEnvironment [ 
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
-        nbCall: #(void Rf_defineVar(RSymbol name, self, SEXP anEnvironment))
+        nbCall: #(void Rf_defineVar(SEXP name, self, SEXP anEnvironment))
 ]
 
 { #category : #'trait - private primitives' }
