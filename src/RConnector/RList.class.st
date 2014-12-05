@@ -25,11 +25,6 @@ RList class >> createNewObjectFrom: aRObject [
 ]
 
 { #category : #'instance creation' }
-RList class >> new [
-	^ self new: 1
-]
-
-{ #category : #'instance creation' }
 RList class >> new: size [
 	| instance |
 	instance := self primNew: size.
@@ -54,7 +49,7 @@ RList >> at: index [
 	^ index indexKeyToRList: self
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 RList >> at: key ifAbsent: aBlock [ 
 	"Answer the value associated with the key or, if key isn't found,
 	answer the result of evaluating aBlock."
@@ -70,7 +65,7 @@ RList >> at: index put: anElement [
 	self prim_setVectorElement: anElement asPureRObject at: index - 1
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #adding }
 RList >> at: index putValue: anElement [
 	(index between: 0 and: self size)
 		ifFalse: [ ^ self errorSubscriptBounds: index ].
@@ -90,19 +85,14 @@ RList >> atKey: aKey [
 	^ self at: index
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 RList >> attributes [
-	^ (self prim_getAttribute: self class R_NamesSymbol) asRObject ifNil: [ RStringVector new ]"self prim_attributes asRObject "
+	^ (self prim_getAttribute: self class rNamesSymbol) asRObject ifNil: [ RStringVector new ]"self prim_attributes asRObject "
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #private }
 RList >> findIndexOfKey: anObject [
 	^ array indexOf: anObject.
-]
-
-{ #category : #accessing }
-RList >> first [
-	^ self at: 1
 ]
 
 { #category : #accessing }
@@ -117,37 +107,32 @@ RList >> firstPointer [
 	^ self attributes.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #private }
 RList >> initialize [
 	array := self attributes.
 	super initialize.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 RList >> keys [
 	^ self attributes
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'private - primitive' }
 RList >> prim_attributes [
 	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
 	^ self nbCall: #(SEXP ATTRIB(self))
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'private - primitive' }
 RList >> prim_getAttribute: attributeName [
 	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
 	^ self nbCall: #(SEXP Rf_getAttrib(self, SEXP attributeName))
 ]
 
-{ #category : #'as yet unclassified' }
-RList >> rClass [
-	^ (self prim_getAttribute: self class R_ClassSymbol) asRObject
-]
-
 { #category : #accessing }
-RList >> second [
-	^ self at: 2
+RList >> rClass [
+	^ (self prim_getAttribute: self class rClassSymbol) asRObject
 ]
 
 { #category : #accessing }
@@ -156,7 +141,7 @@ RList >> second: anElement [
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 RList >> size [
 	handle isNull ifTrue: [ ^ 0 ].
 	^ array size.

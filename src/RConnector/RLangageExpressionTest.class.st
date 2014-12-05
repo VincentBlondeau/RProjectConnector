@@ -4,7 +4,7 @@ Class {
 	#category : #'RConnector-Tests'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 RLangageExpressionTest >> testLangageListAddThreeElements [
 	| langageList |
 	"List = Last In First Out"
@@ -16,7 +16,7 @@ RLangageExpressionTest >> testLangageListAddThreeElements [
 	self assert: langageList third asRObject asOrderedCollection equals: #(3) asOrderedCollection
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 RLangageExpressionTest >> testLangageListCreationFromNil [
 	| langageList |
 	langageList := RLangageExpression newEmptyChainedList.
@@ -26,7 +26,7 @@ RLangageExpressionTest >> testLangageListCreationFromNil [
 	self assert: langageList typeOf equals: #LANGSXP
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 RLangageExpressionTest >> testLangageListEvaluationShouldSubstractInTheGoodOrder [
 	| langageList |
 	"2-3"
@@ -39,7 +39,7 @@ RLangageExpressionTest >> testLangageListEvaluationShouldSubstractInTheGoodOrder
 	self assert: langageList eval first equals: -1.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 RLangageExpressionTest >> testLangageListWithOneElementShouldEvaluate [
 	| langageList |
 	langageList := RLangageExpression newEmptyChainedList.

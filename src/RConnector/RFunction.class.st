@@ -26,7 +26,7 @@ Class {
 	#category : #'RConnector-Core'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #evaluating }
 RFunction class >> eval: aString [
 	^ self new
 		functionName: aString;

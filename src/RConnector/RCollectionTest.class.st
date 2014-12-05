@@ -4,7 +4,7 @@ Class {
 	#category : #'RConnector-Tests'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 RCollectionTest >> testConversionRObjectToSubTypeOfRObject [
 	| data  dataExternalArrayHandle rObject newData |
 	data := RIntVector new.
@@ -25,7 +25,7 @@ RCollectionTest >> testConversionRObjectToSubTypeOfRObject [
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 RCollectionTest >> testConversionRObjectToSubTypeOfRObject2 [
 	| data  dataExternalArrayHandle rObject newData |
 	data := RIntVector new.
@@ -39,7 +39,7 @@ RCollectionTest >> testConversionRObjectToSubTypeOfRObject2 [
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 RCollectionTest >> testDoubleVectorSet [
 	| vector |
 	vector := RDoubleVector new: 1.
@@ -47,7 +47,7 @@ RCollectionTest >> testDoubleVectorSet [
 	self assert: (vector at: 1) equals: 1.2
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 RCollectionTest >> testIntVectorAddFirst [
 	| vector |
 	vector := RIntVector new: 1.
@@ -59,7 +59,7 @@ RCollectionTest >> testIntVectorAddFirst [
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 RCollectionTest >> testIntVectorSet [
 	| vector |
 	vector := RIntVector new: 1.
@@ -67,7 +67,7 @@ RCollectionTest >> testIntVectorSet [
 	self assert: (vector at: 1) equals: 12
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 RCollectionTest >> testIntVectorSetOverFlowCapacity [
 	| vector |
 	vector := RIntVector new: 1.
@@ -79,7 +79,7 @@ RCollectionTest >> testIntVectorSetOverFlowCapacity [
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 RCollectionTest >> testIntVectorSetWithAddAll [
 	| data |
 	data := RIntVector new.
@@ -94,7 +94,7 @@ RCollectionTest >> testIntVectorSetWithAddAll [
 	self assert: data size equals: 5
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 RCollectionTest >> testStringAccess [
 	| string |
 	string := 'string' asRObject.

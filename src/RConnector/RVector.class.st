@@ -35,6 +35,16 @@ RVector class >> createNewObjectFrom: aRObject [
 	^ instance
 ]
 
+{ #category : #'trait - function finding' }
+RVector class >> findFun: aStringOfFunctionName [
+	^ self prim_findFun: (self prim_install: aStringOfFunctionName) option: self rGlobalEnv
+]
+
+{ #category : #'trait - function finding' }
+RVector class >> findVar: aStringOfFunctionName [
+	^ self prim_findVar: (self prim_install: aStringOfFunctionName) option: self rGlobalEnv
+]
+
 { #category : #'instance creation' }
 RVector class >> new [
 	"If the array is not initialized at size 1 first. Then some synchronization problems with the external array can appears..."
@@ -48,6 +58,12 @@ RVector class >> new: size [
 	instance setCollection: (self arrayType onAddress: (NBExternalAddress value: instance firstPointer) size: size).
 	^ instance
 
+]
+
+{ #category : #'trait - global variables' }
+RVector class >> nilValue [
+	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
+	^ self getRObjectFromGlobalVariable: #rNilValue
 ]
 
 { #category : #'private - instance creation' }
@@ -73,18 +89,19 @@ RVector >> addLast: anElement [
 ]
 
 { #category : #converting }
-RVector >> asPureRObject [
-	^ RObject createNewObjectFrom: self 
-]
-
-{ #category : #converting }
 RVector >> asRObject [
 	^ self
 ]
 
+{ #category : #'trait - variable definition' }
+RVector >> defineAsVarNamed: aRName [
+	self assert: (aRName isKindOf: Symbol).	"Should be removed if the type is checked in the primitive"
+	^ self defineAsVarNamed: aRName inEnv: self class rGlobalEnv
+]
+
 { #category : #accessing }
 RVector >> firstPointer [
-	^ self subclassResponsibility
+	^ self subclassResponsibility 
 ]
 
 { #category : #private }
@@ -120,7 +137,7 @@ RVector >> handle: aUint [
 
 ]
 
-{ #category : #private }
+{ #category : #initialization }
 RVector >> initialize [
 	firstIndex := 1.
 	lastIndex := (self capacity)

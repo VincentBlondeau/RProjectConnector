@@ -77,7 +77,7 @@ RLangageExpression >> eval [
 	error := NBExternalHandle new.
 	self prim_length < 1
 		ifTrue: [ CannotExecuteRemoteCall signal ].
-	res := self prim_tryEval: self class R_GlobalEnv error: error.
+	res := self prim_tryEval: self class rGlobalEnv error: error.
 	res ifNil: [ REvaluationError signal: self prim_curErrorBuf ].
 		res protect.
 	^ res asRObject

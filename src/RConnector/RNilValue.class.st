@@ -6,19 +6,19 @@ Class {
 	#name : #RNilValue,
 	#superclass : #RObject,
 	#classVars : [
-		'instance'
+		'Instance'
 	],
 	#category : #'RConnector-Core'
 }
 
 { #category : #'trait - instance creation' }
 RNilValue class >> createNewObjectFrom: aRObject [
-	^ instance
+	^ Instance
 ]
 
 { #category : #'class initialization' }
 RNilValue class >> initialize [
-	instance := super new.
+	Instance := super new.
 ]
 
 { #category : #'instance creation' }
@@ -30,7 +30,7 @@ RNilValue class >> new [
 RNilValue class >> new: aLength [
 	"For upper compatibility"
 
-	^ instance
+	^ Instance
 ]
 
 { #category : #accessing }
@@ -45,5 +45,5 @@ RNilValue >> asRObject [
 
 { #category : #evaluating }
 RNilValue >> value [
- 	^ self class R_NilValue
+ 	^ self class rNilValue
 ]

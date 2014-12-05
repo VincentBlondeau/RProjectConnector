@@ -42,7 +42,7 @@ RStringVector >> at: index [
 	^ (self prim_stringElementAt: index - 1) prim_char
 ]
 
-{ #category : #evaluating }
+{ #category : #enumerating }
 RStringVector >> do: aBlock [ 
 	| index |
 	index := firstIndex.
@@ -53,24 +53,13 @@ RStringVector >> do: aBlock [
 ]
 
 { #category : #accessing }
-RStringVector >> first [ 
-	^ self at: 1
-]
-
-{ #category : #private }
 RStringVector >> firstPointer [
 	^ self string
 ]
 
 { #category : #accessing }
-RStringVector >> second [
-	^ self at: 2
-]
-
-{ #category : #accessing }
 RStringVector >> size [
-	^ super size
-	"^ self prim_length"
+	^ self prim_length
 ]
 
 { #category : #evaluating }

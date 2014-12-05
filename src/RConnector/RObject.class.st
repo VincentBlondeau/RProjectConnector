@@ -58,6 +58,16 @@ RObject class >> creationType [
 	^ self = RObject ifTrue: [ NILSXP ] ifFalse: [ self type ]
 ]
 
+{ #category : #'trait - function finding' }
+RObject class >> findFun: aStringOfFunctionName [
+	^ self prim_findFun: (self prim_install: aStringOfFunctionName) option: self rGlobalEnv
+]
+
+{ #category : #'trait - function finding' }
+RObject class >> findVar: aStringOfFunctionName [
+	^ self prim_findVar: (self prim_install: aStringOfFunctionName) option: self rGlobalEnv
+]
+
 { #category : #'instance creation' }
 RObject class >> new [
 	^ self new: 1
@@ -82,6 +92,6 @@ RObject class >> type [
 { #category : #'trait - variable definition' }
 RObject >> defineAsVarNamed: aRName [
 	self assert: (aRName isKindOf: Symbol).	"Should be removed if the type is checked in the primitive"
-	self defineAsVarNamed: aRName inEnv: self class R_GlobalEnv.
+	self defineAsVarNamed: aRName inEnv: self class rGlobalEnv.
 	
 ]

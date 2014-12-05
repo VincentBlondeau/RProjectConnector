@@ -8,7 +8,7 @@ Class {
 	#category : #'RConnector-Tests'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 RFunctionTest >> test1Plus1Equals2 [
 	| res |
 	res := RFunction
@@ -20,7 +20,7 @@ RFunctionTest >> test1Plus1Equals2 [
 	self assert: res first equals: 2
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 RFunctionTest >> test2Div1Equals2 [
 	"lm(x ~ y)"
 
@@ -35,7 +35,7 @@ RFunctionTest >> test2Div1Equals2 [
 	self assert: res first equals: 2.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 RFunctionTest >> testADefinedVariableShouldBeAbleToBeGet [
 	| var |
 	var := RIntVector new
@@ -48,7 +48,7 @@ RFunctionTest >> testADefinedVariableShouldBeAbleToBeGet [
 	self assert: (RObject findVar: 'var') asRObject equals: var
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 RFunctionTest >> testCorrelationXXShouldGiveOne [
 	| rnorm  abs  res  |
 	rnorm := RFunction eval:  'rnorm' withParameters: { 500 . 0 . 1 }.
@@ -63,7 +63,7 @@ RFunctionTest >> testCorrelationXXShouldGiveOne [
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 RFunctionTest >> testExecuteFunctionInAShorterWayShouldWork [
 	| res |
 	res := (#arima
@@ -74,7 +74,7 @@ RFunctionTest >> testExecuteFunctionInAShorterWayShouldWork [
 	self assert: (res isKindOf: RList)
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 RFunctionTest >> testFunctionAbsFromSmalltalkCollectionShouldGiveAnAbsoluteArrayOfFloats [
 	| res abs data |
 	data := RIntVector new.
@@ -87,7 +87,7 @@ RFunctionTest >> testFunctionAbsFromSmalltalkCollectionShouldGiveAnAbsoluteArray
 	self assert: res asOrderedCollection equals: {-1. 1. 0. 51.-42} abs asOrderedCollection.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 RFunctionTest >> testFunctionCombinaisonAbsRnormShouldGiveAnArrayOfFloats [
 "What we want in R: x <- abs(rnorm(500, 50, 30))"
 	|  res res2 rnorm abs |
@@ -102,7 +102,7 @@ RFunctionTest >> testFunctionCombinaisonAbsRnormShouldGiveAnArrayOfFloats [
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 RFunctionTest >> testLinearRegression [
 	"lm(x ~ y)"
 	|    x y expr lm |
@@ -118,7 +118,7 @@ RFunctionTest >> testLinearRegression [
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 RFunctionTest >> testRnormShouldGiveAnArrayOfFloats [
 	| function res  |
 	function := RFunction functionName: 'rnorm' parameters: { 10 }.
@@ -131,7 +131,7 @@ RFunctionTest >> testRnormShouldGiveAnArrayOfFloats [
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 RFunctionTest >> testSeqShouldGiveAnArrayOfInt [
 	| function res  |
 	function := RFunction functionName: 'seq' parameters: { 1 . 10 }.

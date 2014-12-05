@@ -29,12 +29,12 @@ TRHelpers classSide >> findClassOf: aRObject [
 
 { #category : #'trait - function finding' }
 TRHelpers classSide >> findFun: aStringOfFunctionName [
-	^ self prim_findFun: (self prim_install: aStringOfFunctionName) option: self R_GlobalEnv
+	^ self prim_findFun: (self prim_install: aStringOfFunctionName) option: self rGlobalEnv
 ]
 
 { #category : #'trait - function finding' }
 TRHelpers classSide >> findVar: aStringOfFunctionName [
-	^ self prim_findVar: (self prim_install: aStringOfFunctionName) option: self R_GlobalEnv
+	^ self prim_findVar: (self prim_install: aStringOfFunctionName) option: self rGlobalEnv
 ]
 
 { #category : #'trait - function finding' }
@@ -102,7 +102,7 @@ TRHelpers >> char [
 { #category : #'trait - variable definition' }
 TRHelpers >> defineAsVarNamed: aRName [
 	self assert: (aRName isKindOf: Symbol).	"Should be removed if the type is checked in the primitive"
-	^ self defineAsVarNamed: aRName inEnv: self class R_GlobalEnv
+	^ self defineAsVarNamed: aRName inEnv: self class rGlobalEnv 
 ]
 
 { #category : #'trait - variable definition' }

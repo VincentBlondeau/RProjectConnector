@@ -16,9 +16,31 @@ Class {
 	#category : #'RConnector-Core'
 }
 
+{ #category : #'trait - function finding' }
+RStringArray class >> findFun: aStringOfFunctionName [
+	^ self prim_findFun: (self prim_install: aStringOfFunctionName) option: self rGlobalEnv
+]
+
+{ #category : #'trait - function finding' }
+RStringArray class >> findVar: aStringOfFunctionName [
+	^ self prim_findVar: (self prim_install: aStringOfFunctionName) option: self rGlobalEnv
+]
+
 { #category : #'class initialization' }
 RStringArray class >> initialize [
 	self initElementType: 'RChar *'
+]
+
+{ #category : #'trait - global variables' }
+RStringArray class >> nilValue [
+	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
+	^ self getRObjectFromGlobalVariable: #rNilValue
+]
+
+{ #category : #'trait - variable definition' }
+RStringArray >> defineAsVarNamed: aRName [
+	self assert: (aRName isKindOf: Symbol).	"Should be removed if the type is checked in the primitive"
+	^ self defineAsVarNamed: aRName inEnv: self class rGlobalEnv
 ]
 
 { #category : #accessing }
@@ -34,8 +56,7 @@ RStringArray >> handle: aUint [
 
 { #category : #initialization }
 RStringArray >> initializeHandle [
-	| handle |
-	handle := NBExternalHandle new
+	handle := NBExternalHandle new 
 
 
 	

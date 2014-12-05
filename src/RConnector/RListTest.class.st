@@ -8,7 +8,7 @@ Class {
 	#category : #'RConnector-Tests'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 RListTest >> testAccessAllAttributesOfAList [
 	"
 	x = c(1,  2,  3 )
@@ -43,7 +43,7 @@ RListTest >> testAccessAllAttributesOfAList [
 	self assert: (attribs at: 8) equals: 'residuals'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 RListTest >> testAccessAllElementsOfAList [
 	| list |
 	list := RList new: 0.
@@ -52,7 +52,7 @@ RListTest >> testAccessAllElementsOfAList [
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 RListTest >> testAccessAnExistingKeyOfAList [
 	"
 	x = c(1,  2,  3 )
@@ -74,7 +74,7 @@ RListTest >> testAccessAnExistingKeyOfAList [
 	self assert: ((arima at: 'coef') first closeTo: 2.0)
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 RListTest >> testAccessFirstOfAList [
 	"
 	x = c(1,  2,  3 )
@@ -96,14 +96,14 @@ RListTest >> testAccessFirstOfAList [
 	self assert: (arima first first closeTo: 2.0)
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 RListTest >> testAccessItemFromEmptyListShouldNotBeAllowed [
 	| list |
 	list := RList new: 0.
 	self should: [ list at: 1 ] raise: Error
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 RListTest >> testAccessTheClassNameOfAList [
 	"
 	x = c(1,  2,  3 )
@@ -131,7 +131,7 @@ RListTest >> testAccessTheClassNameOfAList [
 	self assert: attribs first equals: 'Arima'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 RListTest >> testCreateListWithOneElement [
 	| list |
 	list := (RList new: 1)
@@ -141,7 +141,7 @@ RListTest >> testCreateListWithOneElement [
 	self assert: list first first equals: 'tseries'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 RListTest >> testCreateListWithOneNamedElement [
 	| list |
 	list := (RList new: 1)
@@ -152,7 +152,7 @@ RListTest >> testCreateListWithOneNamedElement [
 	self assert: (list at: 'repo') first equals: 'http://cran.rstudio.com/'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 RListTest >> testCreateListWithTwoElementsOneNamedOneNot [
 	| list |
 	list := (RList new: 2)
@@ -166,7 +166,7 @@ RListTest >> testCreateListWithTwoElementsOneNamedOneNot [
 	self assert: (list at: 'repo') first equals: 'http://cran.rstudio.com/'.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 RListTest >> testEmptyListShouldBeEmpty [
 	| list |
 	list := RList new: 0.
