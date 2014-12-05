@@ -8,29 +8,29 @@ Class {
 	#category : #'RConnector-Core'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #private }
 RStringVector class >> arrayType [
 	^ RStringArray 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 RStringVector class >> firstPointer [
-	^ #string "#char"
+	^ #string
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'private - instance creation' }
 RStringVector class >> primNew: size type: type [
 	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
 	^ self nbCall: #(RStringVector Rf_allocVector (int type, int size))
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'private - instance creation' }
 RStringVector class >> primNewFromString: aString [ 
 	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
 	^ self nbCall: #(RStringVector Rf_mkString(String aString))
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 RStringVector class >> type [
 	^ STRSXP
 ]
@@ -39,7 +39,7 @@ RStringVector class >> type [
 RStringVector >> at: index [
 	(index between: 0 and: self size)
 		ifFalse: [ ^ self errorSubscriptBounds: index ].
-	^ (self prim_string_elm: index - 1) prim_char
+	^ (self prim_stringElementAt: index - 1) prim_char
 ]
 
 { #category : #evaluating }
@@ -75,5 +75,5 @@ RStringVector >> size [
 
 { #category : #evaluating }
 RStringVector >> value [
-	^ (self prim_string_elm: 0) prim_char
+	^ (self prim_stringElementAt: 0) prim_char
 ]

@@ -99,12 +99,12 @@ TRHelpers >> char [
 	^ self prim_char
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'trait - variable definition' }
 TRHelpers >> defineAsVarNamed: aRName [
    ^ self defineAsVarNamed: aRName inEnv: self class R_GlobalEnv
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'trait - variable definition' }
 TRHelpers >> defineAsVarNamed: aRName inEnv: anEnvironment [
 	^ self prim_defineAsVarNamed: aRName asRObject inEnv: anEnvironment
 ]
@@ -254,13 +254,6 @@ TRHelpers >> logical [
 	^ self prim_logical
 ]
 
-{ #category : #'as yet unclassified' }
-TRHelpers >> prim_GetArrayDimnames [
-    <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
-    ^ self
-        nbCall: #(SEXP Rf_GetArrayDimnames(self))
-]
-
 { #category : #'trait - private primitives' }
 TRHelpers >> prim_char [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
@@ -268,7 +261,7 @@ TRHelpers >> prim_char [
         nbCall: #(String R_CHAR(self))
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'trait - private primitives' }
 TRHelpers >> prim_curErrorBuf [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
@@ -282,18 +275,25 @@ TRHelpers >> prim_defineAsVarNamed: name inEnv: anEnvironment [
         nbCall: #(void Rf_defineVar(RSymbol name, self, SEXP anEnvironment))
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'trait - private primitives' }
 TRHelpers >> prim_dimgets: val [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
         nbCall: #(SEXP Rf_dimgets(self, SEXP val))
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'trait - private primitives' }
 TRHelpers >> prim_dimnamesgets: val [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
         nbCall: #(SEXP Rf_dimnamesgets(self, SEXP val))
+]
+
+{ #category : #'trait - private primitives' }
+TRHelpers >> prim_getArrayDimnames [
+    <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
+    ^ self
+        nbCall: #(SEXP Rf_GetArrayDimnames(self))
 ]
 
 { #category : #'trait - private primitives' }
@@ -325,7 +325,7 @@ TRHelpers >> prim_named [
         nbCall: #(bool NAMED(self))
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'trait - private primitives' }
 TRHelpers >> prim_ncols [
 	"No type testing ...Should only use on the right type (Matrix)"
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
@@ -333,7 +333,7 @@ TRHelpers >> prim_ncols [
         nbCall: #(int Rf_ncols(self))
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'trait - private primitives' }
 TRHelpers >> prim_nrows [
 "No type testing ...Should only use on the right type (Matrix)"
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
@@ -348,28 +348,28 @@ TRHelpers >> prim_real [
         nbCall: #(ulong REAL(self))
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'trait - private primitives' }
 TRHelpers >> prim_setVectorElement: element at: index [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
         nbCall: #(SEXP SET_VECTOR_ELT(self, int index, SEXP element))
 ]
 
-{ #category : #'as yet unclassified' }
-TRHelpers >> prim_string_elm: index [
+{ #category : #'trait - private primitives' }
+TRHelpers >> prim_stringElementAt: index [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
         nbCall: #(SEXP STRING_ELT(self, int index))
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'trait - private primitives' }
 TRHelpers >> prim_string_ptr [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
         nbCall: #(ulong STRING_PTR(self))
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'trait - private primitives' }
 TRHelpers >> prim_symbolValue [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
@@ -383,7 +383,7 @@ TRHelpers >> prim_typeOf [
         nbCall: #(int TYPEOF(self))
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'trait - private primitives' }
 TRHelpers >> prim_vectorElementAt: index [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
@@ -424,7 +424,7 @@ TRHelpers >> real [
 	^ self prim_real
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'trait - converting' }
 TRHelpers >> string [
 	self isString
 		ifFalse: [ CannotBeConvertedToType signal ].

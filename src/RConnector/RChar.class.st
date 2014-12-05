@@ -1,3 +1,7 @@
+"
+A RChar is the representation of a non mutable string in R. And yes that is a string and not a character...: http://www1.cuni.cz/~obo/r_surprises.html
+
+"
 Class {
 	#name : #RChar,
 	#superclass : #RObject,

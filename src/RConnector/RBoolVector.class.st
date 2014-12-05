@@ -9,7 +9,7 @@ Class {
 	#category : #'RConnector-Core'
 }
 
-{ #category : #private }
+{ #category : #accessing }
 RBoolVector class >> arrayType [
 	^ NBExternalArray ofType: 'bool'
 ]

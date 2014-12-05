@@ -1,21 +1,25 @@
+"
+A TRClassExtension is containing the methods needed to be implemented on a class not depending of a NBExternalObject that should represent a external object. Don't forget to implement the three methods on instance size and add a new instance named handle (if not existing)
+
+"
 Trait {
 	#name : #TRClassExtension,
 	#category : #'RConnector-Core'
 }
 
-{ #category : #converting }
+{ #category : #'trait - converting' }
 TRClassExtension classSide >> asNBExternalType: gen [
 	^ NBExternalObjectType objectClass: self
 ]
 
-{ #category : #'private - instance creation' }
+{ #category : #'trait - private - instance creation' }
 TRClassExtension classSide >> basicNew [
 	^ super basicNew
 		initializeHandle;
 		yourself
 ]
 
-{ #category : #'private - instance creation' }
+{ #category : #'trait - private - instance creation' }
 TRClassExtension classSide >> primNew: size [
 	^ self primNew: size type: self type
 ]

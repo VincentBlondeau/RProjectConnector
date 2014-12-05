@@ -8,7 +8,7 @@ Class {
 	#category : #'RConnector-Core'
 }
 
-{ #category : #private }
+{ #category : #accessing }
 RDoubleVector class >> arrayType [
 	^ NBExternalArray ofType: 'double'
 ]

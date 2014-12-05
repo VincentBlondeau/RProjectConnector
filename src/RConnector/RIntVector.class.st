@@ -9,7 +9,7 @@ Class {
 	#category : #'RConnector-Core'
 }
 
-{ #category : #private }
+{ #category : #accessing }
 RIntVector class >> arrayType [
 	^ NBExternalArray ofType: 'int'
 ]

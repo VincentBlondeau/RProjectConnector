@@ -11,12 +11,12 @@ Class {
 	#category : #'RConnector-Core'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #private }
 RList class >> arrayType [
 	^ RStringVector
 ]
 
-{ #category : #'trait - instance creation' }
+{ #category : #'instance creation' }
 RList class >> createNewObjectFrom: aRObject [
 	| instance |
 	instance := self basicNew handle: aRObject handle.
@@ -24,12 +24,12 @@ RList class >> createNewObjectFrom: aRObject [
 	^ instance
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance creation' }
 RList class >> new [
 	^ self new: 1
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance creation' }
 RList class >> new: size [
 	| instance |
 	instance := self primNew: size.
@@ -38,13 +38,13 @@ RList class >> new: size [
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'private - instance creation' }
 RList class >> primNew: size type: type [
 	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
 	^ self nbCall: #(RList Rf_allocVector (int type, int size))
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 RList class >> type [
 	^ VECSXP
 ]

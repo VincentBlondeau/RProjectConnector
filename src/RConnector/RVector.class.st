@@ -83,13 +83,6 @@ RVector >> asRObject [
 ]
 
 { #category : #'as yet unclassified' }
-RVector >> char [
-	self isString ifFalse: [ CannotBeConvertedToType signal ].
- ^ (self prim_string_elm: 0) prim_char 
-
-]
-
-{ #category : #'as yet unclassified' }
 RVector >> defineAsVarNamed: aRName [
 	self assert: (aRName isKindOf: Symbol). "Should be removed if the type is checked in the primitive"
    self defineAsVarNamed: aRName inEnv: self class R_GlobalEnv

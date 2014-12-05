@@ -167,6 +167,7 @@ RLangageExpression >> size [
 
 { #category : #accessing }
 RLangageExpression >> tag [
+	"tag is the name representing the element in a list"
 	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
 	^ self nbCall: #(SEXP TAG (self))
 ]
