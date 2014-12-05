@@ -69,11 +69,6 @@ RFunction >> functionName: aString [
 	functionName := aString
 ]
 
-{ #category : #initialize }
-RFunction >> functionName: aString parameters: aCollection [ 
-	self shouldBeImplemented.
-]
-
 { #category : #'as yet unclassified' }
 RFunction >> getLangageExpression [
 	self checkParameters.

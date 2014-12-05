@@ -82,13 +82,6 @@ TRHelpers classSide >> prim_isBasicClass: aString [
         nbCall: #(int Rf_isBasicClass(String aString))
 ]
 
-{ #category : #'as yet unclassified' }
-TRHelpers >> SYMVALUE [
-    <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
-    ^ self
-        nbCall: #(SEXP SYMVALUE(self))
-]
-
 { #category : #'trait - converting' }
 TRHelpers >> asPureRObject [
 	^ RObject createNewObjectFrom: self 
@@ -99,18 +92,11 @@ TRHelpers >> asRObject [
 	^ self class newFromRObject: self 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'trait - converting' }
 TRHelpers >> char [
 	self isChar
 		ifFalse: [ CannotBeConvertedToType signal ].
 	^ self prim_char
-]
-
-{ #category : #'as yet unclassified' }
-TRHelpers >> curErrorBuf [
-    <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
-    ^ self
-        nbCall: #(String R_curErrorBuf())
 ]
 
 { #category : #'as yet unclassified' }
@@ -282,6 +268,13 @@ TRHelpers >> prim_char [
         nbCall: #(String R_CHAR(self))
 ]
 
+{ #category : #'as yet unclassified' }
+TRHelpers >> prim_curErrorBuf [
+    <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
+    ^ self
+        nbCall: #(String R_curErrorBuf())
+]
+
 { #category : #'trait - private primitives' }
 TRHelpers >> prim_defineAsVarNamed: name inEnv: anEnvironment [ 
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
@@ -310,7 +303,7 @@ TRHelpers >> prim_int [
         nbCall: #(ulong INTEGER(self))) 
 ]
 
-{ #category : #'trait - accessing' }
+{ #category : #'trait - private primitives' }
 TRHelpers >> prim_length [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
@@ -398,6 +391,13 @@ TRHelpers >> prim_vectorElementAt: index [
 ]
 
 { #category : #'trait - not used' }
+TRHelpers >> prim_xlength [
+    <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
+    ^ self
+        nbCall: #(int Rf_xlength(self))
+]
+
+{ #category : #'trait - not used' }
 TRHelpers >> print [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
@@ -440,11 +440,4 @@ TRHelpers >> typeOf [
 { #category : #'trait - accessing' }
 TRHelpers >> types [
 	^ RObject selectors select: [ :s | ((s beginsWith: #is) and: [ self perform: s ] )] 
-]
-
-{ #category : #'trait - accessing' }
-TRHelpers >> xlength [
-    <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
-    ^ self
-        nbCall: #(int Rf_xlength(self))
 ]
