@@ -198,6 +198,83 @@ ConfigurationOfRProjectConnector >> project [
 		project ]
 ]
 
+{ #category : #catalog }
+ConfigurationOfRProjectConnector >> smalltalkHubDescription [
+ ^'RProjectConnector is a library providing a binding between Pharo and R <http://www.r-project.org>, a statistical environment.This binding is done through NativeBoost primitive calls. 
+
+Installation
+================
+
+In order to get it work, you should get the R libs. 
+
+Under ubuntu
+------------------------
+It is better to have a 32 bits version of Ubuntu to get the libraries. I tried under a 64 bits versions and I not succeded to do it work.
+To get them:
+
+    dpkg --add-architecture i386
+    apt-get update
+    apt-get install r-base-core:i386
+
+And copy the librairies ("libR.so") in the Pharo vm folder.
+
+Under Windows 7
+------------------------------
+You should install R in 32bits (<http://cran.r-project.org/bin/windows/base/>) and copy the files grid.dll, R.dll, Rblas.dll, Rgraphapp.dll, Riconv.dll, Rlapack.dll and Rzlib.dll from R-3.1.1\bin\i386 to the pharo vm folder.
+
+
+Under MacOs
+-----------------------------
+Not tried
+
+Once you have your libraries, you can launch a Pharo image with the RProjectConnector installed:
+
+    Gofer it 
+        smalltalkhubUser: ''VincentBlondeau'' project: ''RProjectConnector'';
+        configuration;
+        loadStable
+
+If you forgot to install the libraries or if they are not well installed, you should received a error startup but you are still able to launch your image.
+
+Features and examples
+=================
+If you want to execute a R function, you should (for now) know what is the name of the function and the parameters that it takes.
+
+For example, if you want to evaluate the method ''acf'' (Autocorrelation function) on a sample of data, you can do:
+
+     data := (1 to: 1000) collect: #yourself.
+     res := (#acf asRFunctionWith: {data asRVector}) eval
+
+You should get a representation of a list under R (a RList) and you can interract with it by accessing the items either by index or by key (the list are sort of dictionnary-arrays):
+
+     res at: ''coef''
+     res at: 1
+
+
+Moreover, you have the visualisation of the acf opened in a other window.
+
+Like that, you can evaluate any method with ordered parameters.
+
+To do
+==========
+- Add the error handling on function accessing:<https://stat.ethz.ch/pipermail/r-devel/2007-July/046261.html>
+- Add the named function arguments (see failling tests: RListTest>>testCreateListWithOneElement, testCreateListWithOneNamedElement, testCreateListWithTwoElementsOneNamedOneNot and testInstallPackageShouldWork for the integration.
+- Add missing types: matrix, data frames,...
+- Plot importer
+- Add invalidation of old handles at startup
+
+Links
+===============
+- Some documentation on external R library on: <http://www.math.ncu.edu.tw/~chenwc/R_note/reference/package/R-exts.pdf> (p64)
+- The RSources <http://cran.r-project.org/sources.html>. The header C file R-3.1.1\src\include\Rinternals.h shows all the functions that can be called through the primitives. For information, the compilation variable "USE_RINTERNALS" is not defined in the compiled libraries.
+- Documentation on R environments: <http://adv-r.had.co.nz/Environments.html>
+- Example in C: <https://gist.github.com/Sharpie/323498>
+- The equivalent in Java but using the RServer: <http://www.rforge.net/Rserve/>
+
+	"Returns an array of symbols"
+	^ #(R NativeBoost Statistics Binding Connector) '
+]
+
 { #category : #'symbolic versions' }
 ConfigurationOfRProjectConnector >> stable: spec [
 	<symbolicVersion: #'stable'>
@@ -215,6 +292,6 @@ ConfigurationOfRProjectConnector >> version10: spec [
 		spec description: 'version 1.0'.
 		spec author: 'VincentBLondeau'.
 		spec timestamp: '12/5/2014 15:38'.
-		spec package: 'RConnector' with: 'RConnector-VincentBLondeau.40'. ].
+		spec package: 'RConnector' with: 'RConnector-VincentBLondeau.41'. ].
 
 ]
