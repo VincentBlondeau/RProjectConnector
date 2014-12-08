@@ -78,7 +78,7 @@ RVector >> addFirst: anElement [
 
 { #category : #adding }
 RVector >> addLast: anElement [
-	super addLast: anElement.
+	[super addLast: anElement] on: NBFFICalloutError do: [ self error: 'Maybe you should check the value of ''anElement'''].
 	self setLength: self size."((self size) min: self capacity)"
 ]
 

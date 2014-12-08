@@ -68,9 +68,9 @@ RFunctionTest >> testExecuteFunctionInAShorterWayShouldWork [
 	| res |
 	res := (#arima
 		asRFunctionWith:
-			{({1.
+			{{1.
 			2.
-			3} asRIntVector)}) eval.
+			3}}) eval.
 	self assert: (res isKindOf: RList)
 ]
 
@@ -105,17 +105,26 @@ RFunctionTest >> testFunctionCombinaisonAbsRnormShouldGiveAnArrayOfFloats [
 { #category : #tests }
 RFunctionTest >> testLinearRegression [
 	"lm(x ~ y)"
-	|    x y expr lm |
-	x := RIntVector new addAll: { 1 . 2 . 3 }; yourself.
-	y := RIntVector new addAll: { 4 . 5 . 6 }; yourself.
+
+	| x y expr lm |
+	x := RIntVector new
+		addAll:
+				{1.
+					2.
+					3};
+		yourself.
+	y := RIntVector new
+		addAll:
+				{4.
+					5.
+					6};
+		yourself.
 	x defineAsVarNamed: #x.
 	y defineAsVarNamed: #y.
-	expr := (RFunction functionName: 'as.formula' parameters: { 'x~y' }) eval. "Because x~y seems not to be a formula..."
-	lm := RFunction eval: 'lm' withParameters: { expr }.
-	self assert: (lm isKindOf: RList ).
-	
-	
-	
+	expr := (RFunction functionName: 'as.formula' parameters: {'x~y'}) eval.	"Because x~y seems not to be a formula..."
+	lm := RFunction eval: 'lm' withParameters: {expr}.
+	self assert: (lm isKindOf: RList).
+	self assert: ((lm at: 'coefficients') isKindOf: RVector)
 ]
 
 { #category : #tests }
