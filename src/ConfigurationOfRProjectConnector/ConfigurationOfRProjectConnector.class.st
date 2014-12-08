@@ -292,6 +292,6 @@ ConfigurationOfRProjectConnector >> version10: spec [
 		spec description: 'version 1.0'.
 		spec author: 'VincentBLondeau'.
 		spec timestamp: '12/5/2014 15:38'.
-		spec package: 'RConnector' with: 'RConnector-VincentBLondeau.41'. ].
+		spec package: 'RConnector' with: 'RConnector-VincentBLondeau.42'. ].
 
 ]
