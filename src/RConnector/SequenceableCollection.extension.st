@@ -2,6 +2,9 @@ Extension { #name : #SequenceableCollection }
 
 { #category : #'*RConnector' }
 SequenceableCollection >> asRObject [
-	self first isInteger ifTrue: [ ^ RIntVector newFrom: self  ].
-	self first isFloat ifTrue: [ ^ RDoubleVector newFrom: self ].
+	(self anySatisfy: #isFloat)
+		ifTrue: [ ^ RDoubleVector newFrom: self ].
+	(self anySatisfy: #isInteger)
+		ifTrue: [ ^ RIntVector newFrom: self ].
+	^ CannotBeConvertedToType signal
 ]
