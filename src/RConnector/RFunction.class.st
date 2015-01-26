@@ -62,14 +62,9 @@ RFunction >> checkParameters [
 RFunction >> createLangageExpression [
 	| expression |
 	expression := RLangageExpression new: self argsSize.
-	expression first: self functionName.	"Hack because we cannot access a list by the item number"
-	self parameters size >= 1
-		ifTrue: [ expression second: self parameters first asPureRObject ].
-	self parameters size >= 2
-		ifTrue: [ expression third: self parameters second asPureRObject ].
-	self parameters size >= 3
-		ifTrue: [ expression fourth: self parameters third asPureRObject ].
-	^ expression 
+	expression add: self functionName.	"Hack because we cannot access a list by the item number"
+	1 to: self parameters size do: [ :index | expression add: (self parameters at: index) asPureRObject ].
+	^ expression
 ]
 
 { #category : #evaluating }

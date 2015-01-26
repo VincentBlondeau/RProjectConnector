@@ -62,7 +62,7 @@ RVector class >> new: size [
 
 { #category : #'private - instance creation' }
 RVector class >> primNew: size type: type [
-	^ self shouldNotImplement 
+	^ self subclassResponsibility  
 ]
 
 { #category : #accessing }

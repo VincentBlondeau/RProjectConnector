@@ -32,7 +32,7 @@ RLangageExpression class >> newEmptyChainedList [
 { #category : #'private - instance creation' }
 RLangageExpression class >> primNew: size type: type [
 	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
-	^ self nbCall: #(RLangageExpression Rf_allocVector (int type, int size))
+	^ self nbCall: #(#RLangageExpression #Rf_allocVector #(#int #type #, #int #size))
 ]
 
 { #category : #accessing }
@@ -48,6 +48,7 @@ RLangageExpression >> add: anElement [
 { #category : #private }
 RLangageExpression >> add: anElement direction: aBlock [
 	"Mean to factorize code of the add function"
+	size ifNil: [ size := 0 ] "lazy initializing but should not be coded like that..".
 	size = 0
 		ifTrue: [ self transfertHandleFrom: (self prim_firstAdd: anElement asPureRObject) ]
 		ifFalse: [ self transfertHandleFrom: (aBlock value: anElement asPureRObject) ].
@@ -113,6 +114,12 @@ RLangageExpression >> fourth: anElement [
     ^ self
         nbCall: #(SEXP SETCADDDR(self, SEXP anElement))
 
+]
+
+{ #category : #private }
+RLangageExpression >> initialize [
+	super initialize.
+	size := 0.
 ]
 
 { #category : #'private - primitive' }
