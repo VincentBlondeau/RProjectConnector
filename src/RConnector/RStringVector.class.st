@@ -58,6 +58,27 @@ RStringVector >> firstPointer [
 ]
 
 { #category : #evaluating }
+RStringVector >> growAtLast [
+	"overridden to create external objects"
+
+	"We should recreate a new instance because there is no reallocation in the RAPI. So we swap the handles"
+
+	"Protect and unprotect methods should be added too"
+
+	| newArray size |
+	size := array size * 2 max: 1.	"newInstance := self class primNew: size.
+	self handle: newInstance handle."
+	newArray := self class arrayType new: size.
+	newArray
+		replaceFrom: firstIndex
+		to: lastIndex
+		with: array
+		startingAt: firstIndex.
+		self halt.
+	array := newArray
+]
+
+{ #category : #evaluating }
 RStringVector >> value [
 	^ (self prim_stringElementAt: 0) prim_char
 ]

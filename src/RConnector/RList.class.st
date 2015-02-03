@@ -61,8 +61,24 @@ RList >> at: key ifAbsent: aBlock [
 
 { #category : #accessing }
 RList >> at: index put: anElement [
-	self ensureBoundsFrom: index to: index.
-	self prim_setVectorElement: anElement asPureRObject at: index - 1
+	| tmpIndex pos |
+	tmpIndex := index.
+	index isString
+		ifTrue: [ 
+			tmpIndex := self findIndexOfKey: index.
+			tmpIndex isZero
+				ifTrue: [ 
+					pos := self findIndexOfKey: nil.
+					pos isZero
+						ifTrue: [ SubscriptOutOfBounds signal ].
+					self halt.
+					(self prim_attributeAt: self class rNamesSymbol)asRObject
+					 prim_attributeAt: pos asRObject put: index asPureRObject.
+					array := self attributes.
+					self prim_setVectorElement: anElement asPureRObject at: pos - 1.
+					^ anElement ] ].
+	self ensureBoundsFrom: tmpIndex to: tmpIndex.
+	self prim_setVectorElement: anElement asPureRObject at: tmpIndex - 1
 ]
 
 { #category : #adding }
@@ -82,12 +98,17 @@ RList >> atIndex: index [
 RList >> atKey: aKey [
 	| index |
 	index := self findIndexOfKey: aKey.
+	index isZero
+		ifTrue: [ NotFound signalFor: aKey ].
 	^ self at: index
 ]
 
 { #category : #accessing }
 RList >> attributes [
-	^ (self prim_getAttribute: self class rNamesSymbol) asRObject ifNil: [ RStringVector new ]"self prim_attributes asRObject "
+	^ (self prim_attributeAt: self class rNamesSymbol) asRObject ifNil: [ 
+		self initializeAttributeField.
+		
+		]	"self prim_attributes asRObject "
 ]
 
 { #category : #private }
@@ -114,8 +135,30 @@ RList >> initialize [
 ]
 
 { #category : #accessing }
+RList >> initializeAttributeField [
+	| length |
+	length := self prim_length.
+	^ length isZero
+		ifTrue: [ {} ]
+		ifFalse: [ (self prim_attributeAt: self class rNamesSymbol put: (RStringVector new: length) asPureRObject) asRObject ]
+]
+
+{ #category : #accessing }
 RList >> keys [
 	^ self attributes
+]
+
+{ #category : #'private - primitive' }
+RList >> prim_attributeAt: attributeName [
+	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
+	^ self nbCall: #(SEXP Rf_getAttrib(self, SEXP attributeName))
+]
+
+{ #category : #'private - primitive' }
+RList >> prim_attributeAt: attributeName put: attributeValue [
+	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
+
+	^ self nbCall: #(SEXP Rf_setAttrib(self, SEXP attributeName, SEXP attributeValue))
 ]
 
 { #category : #'private - primitive' }
@@ -130,9 +173,16 @@ RList >> prim_getAttribute: attributeName [
 	^ self nbCall: #(SEXP Rf_getAttrib(self, SEXP attributeName))
 ]
 
+{ #category : #'private - primitive' }
+RList >> prim_installlAttributeAt: attributeName put: attributeValue [
+	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
+
+	^ self nbCall: #(SEXP Rf_installAttrib(self, SEXP attributeName, SEXP attributeValue))
+]
+
 { #category : #accessing }
 RList >> rClass [
-	^ (self prim_getAttribute: self class rClassSymbol) asRObject
+	^ (self prim_attributeAt: self class rClassSymbol) asRObject
 ]
 
 { #category : #accessing }

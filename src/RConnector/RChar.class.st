@@ -32,6 +32,11 @@ RChar class >> type [
 	^ CHARSXP
 ]
 
+{ #category : #evaluating }
+RChar >> asRChar [
+	^ self
+]
+
 { #category : #printing }
 RChar >> printOn: aStream [
 	super printOn: aStream.
