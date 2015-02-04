@@ -46,21 +46,6 @@ RFunction class >> eval: aString withParameters: aCollection [
 ]
 
 { #category : #initialize }
-RFunction class >> examplePlot [
-	'plot'
-		asRListEval:
-			{(0 to: 50).
-			(50 to: 100).
-			('type' -> 'l').
-			('col' -> 'grey80').
-			('xaxt' -> 'n').
-			('lwd' -> '2').
-			('xlab' -> '').
-			('ylab' -> 'Temperature°C').
-			('main' -> 'fig.5 - Trend component')}
-]
-
-{ #category : #initialize }
 RFunction class >> functionName: aString parameterList: aCollection [
 	^ self new
 		functionName: aString;

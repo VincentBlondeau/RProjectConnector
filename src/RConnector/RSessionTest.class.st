@@ -19,6 +19,7 @@ RSessionTest >> testInstallPackageShouldWork [
 		do.call(install.packages,arg)"
 
 	| res |
+	self fail.
 	RFunction
 		eval: 'install.packages'
 		withListParameter:
@@ -31,4 +32,12 @@ RSessionTest >> testInstallPackageShouldWork [
 { #category : #tests }
 RSessionTest >> testLoadLibraryShouldNotWorkIfThePackageIsNotInstalled [
 	self should: [ RFunction eval: 'library' withParameters: {'MARSS'} ] raise: REvaluationError  whoseDescriptionIncludes:  'MARSS'  description: 'Be sure that the evaluation error is because of the package and not something else'
+]
+
+{ #category : #tests }
+RSessionTest >> testProxySetting [
+	| proxy |
+	proxy := 'proxy:3128'.
+	self assert: ('Sys.setenv' asREval: {('http_proxy' -> proxy)}) first equals: true.
+	self assert: ('Sys.getenv' asREval: {'http_proxy'}) first value equals: proxy
 ]

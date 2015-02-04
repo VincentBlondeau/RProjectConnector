@@ -6,6 +6,12 @@ String >> asRChar [
 ]
 
 { #category : #'*RConnector' }
+String >> asREval: aCollection [
+	"Can be used to eval anything"
+	^ self asRListEval: aCollection
+]
+
+{ #category : #'*RConnector' }
 String >> asRFunctionEval: aCollection [
 	^ RFunction eval: self asString withParameters: aCollection
 ]
