@@ -21,8 +21,23 @@ Class {
 	#pools : [
 		'RLibTypes'
 	],
-	#category : #'RConnector-Core'
+	#classInstVars : [
+		'arrayType'
+	],
+	#category : #'Zinc-HTTP-Logging'
 }
+
+{ #category : #'trait - function finding' }
+RVector class >> arrayType [
+	"This value has to be cached or be a real subclass for performances issues."
+
+	^ arrayType ifNil: [ arrayType := NBExternalArray ofType: self arrayTypePrimitiveType ]
+]
+
+{ #category : #'trait - function finding' }
+RVector class >> arrayTypePrimitiveType [
+	^ self subclassResponsibility
+]
 
 { #category : #'instance creation' }
 RVector class >> createNewObjectFrom: aRObject [
@@ -33,16 +48,6 @@ RVector class >> createNewObjectFrom: aRObject [
 			(self arrayType onAddress: (NBExternalAddress value: (aRObject perform: self firstPointer)) size: aRObject prim_length).
 	instance initialize.
 	^ instance
-]
-
-{ #category : #'trait - function finding' }
-RVector class >> findFun: aStringOfFunctionName [
-	^ self prim_findFun: (self prim_install: aStringOfFunctionName) option: self rGlobalEnv
-]
-
-{ #category : #'trait - function finding' }
-RVector class >> findVar: aStringOfFunctionName [
-	^ self prim_findVar: (self prim_install: aStringOfFunctionName) option: self rGlobalEnv
 ]
 
 { #category : #'instance creation' }
@@ -56,8 +61,8 @@ RVector class >> new: size [
 	| instance |
 	instance := self primNew: size.
 	instance setCollection: (self arrayType onAddress: (NBExternalAddress value: instance firstPointer) size: size).
+	instance resetToExternalCollection.
 	^ instance
-
 ]
 
 { #category : #'private - instance creation' }
@@ -72,14 +77,15 @@ RVector class >> type [
 
 { #category : #adding }
 RVector >> addFirst: anElement [
-	super addFirst: anElement.
-	self setLength: self size
+	self shouldNotImplement
 ]
 
 { #category : #adding }
 RVector >> addLast: anElement [
-	[super addLast: anElement] on: NBFFICalloutError do: [ self error: 'Maybe you should check the value of ''anElement'''].
-	self setLength: self size."((self size) min: self capacity)"
+	[ super addLast: anElement ]
+		on: NBFFICalloutError
+		do: [ self error: 'Maybe you should check the value of ''anElement''' ].
+	self setLength: self size	"((self size) min: self capacity)"
 ]
 
 { #category : #converting }
@@ -101,14 +107,17 @@ RVector >> firstPointer [
 { #category : #private }
 RVector >> growAtLast [
 	"overridden to create external objects"
+
 	"We should recreate a new instance because there is no reallocation in the RAPI. So we swap the handles"
+
 	"Protect and unprotect methods should be added too"
+
 	| newArray newInstance size |
-	size := (array size * 2 max: 1).
+	size := array size * 2 max: 1.
 	newInstance := self class primNew: size.
 	self handle: newInstance handle.
-	newArray := (self class arrayType onAddress: (NBExternalAddress value: newInstance firstPointer) size: size).
-	newArray 
+	newArray := self class arrayType onAddress: (NBExternalAddress value: newInstance firstPointer) size: size.
+	newArray
 		replaceFrom: firstIndex
 		to: lastIndex
 		with: array
@@ -142,6 +151,11 @@ RVector >> initializeHandle [
 	handle := NBExternalHandle new
 
 	
+]
+
+{ #category : #private }
+RVector >> resetToExternalCollection [
+	lastIndex := self prim_length
 ]
 
 { #category : #private }

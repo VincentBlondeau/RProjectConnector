@@ -4,5 +4,5 @@ Class {
 	#pools : [
 		'RLibTypes'
 	],
-	#category : #'RConnector-Tests'
+	#category : #'Zinc-HTTP-Support'
 }

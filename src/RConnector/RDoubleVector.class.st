@@ -1,16 +1,17 @@
 "
 A RDoubleVector is a RVector representing doubles (not floats).
 
+The array Type must be cached or a realsubclass for performance issues (Thx JB)
 "
 Class {
 	#name : #RDoubleVector,
 	#superclass : #RVector,
-	#category : #'RConnector-Core'
+	#category : #'Zinc-HTTP-Logging'
 }
 
-{ #category : #private }
-RDoubleVector class >> arrayType [
-	^ NBExternalArray ofType: 'double'
+{ #category : #'trait - function finding' }
+RDoubleVector class >> arrayTypePrimitiveType [
+	^ 'double'
 ]
 
 { #category : #accessing }

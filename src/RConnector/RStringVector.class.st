@@ -5,17 +5,27 @@ A RStringVector  is a RVector representing strings.
 Class {
 	#name : #RStringVector,
 	#superclass : #RVector,
-	#category : #'RConnector-Core'
+	#category : #'Zinc-HTTP-Logging'
 }
 
 { #category : #private }
 RStringVector class >> arrayType [
+
 	^ RStringArray 
 ]
 
 { #category : #accessing }
 RStringVector class >> firstPointer [
 	^ #string
+]
+
+{ #category : #'private - instance creation' }
+RStringVector class >> newFromString: aString [
+	| instance |
+	instance := self primNewFromString: aString.
+	instance setCollection: (self arrayType onAddress: (NBExternalAddress value: instance firstPointer) size: 1).
+	instance resetToExternalCollection.
+	^ instance
 ]
 
 { #category : #'private - instance creation' }
@@ -35,11 +45,17 @@ RStringVector class >> type [
 	^ STRSXP
 ]
 
+{ #category : #adding }
+RStringVector >> addLast: anElement [
+	super addLast: anElement asRChar.
+	^ anElement
+]
+
 { #category : #accessing }
 RStringVector >> at: index [
 	(index between: 0 and: self size)
 		ifFalse: [ ^ self errorSubscriptBounds: index ].
-	^ (self prim_stringElementAt: index - 1) prim_char
+	^ (array at: index) value
 ]
 
 { #category : #enumerating }
@@ -55,27 +71,6 @@ RStringVector >> do: aBlock [
 { #category : #accessing }
 RStringVector >> firstPointer [
 	^ self string
-]
-
-{ #category : #evaluating }
-RStringVector >> growAtLast [
-	"overridden to create external objects"
-
-	"We should recreate a new instance because there is no reallocation in the RAPI. So we swap the handles"
-
-	"Protect and unprotect methods should be added too"
-
-	| newArray size |
-	size := array size * 2 max: 1.	"newInstance := self class primNew: size.
-	self handle: newInstance handle."
-	newArray := self class arrayType new: size.
-	newArray
-		replaceFrom: firstIndex
-		to: lastIndex
-		with: array
-		startingAt: firstIndex.
-		self halt.
-	array := newArray
 ]
 
 { #category : #evaluating }

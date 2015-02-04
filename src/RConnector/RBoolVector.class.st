@@ -1,17 +1,17 @@
 "
 A RBoolVector is a RVector representing booleans
 
-
+The array Type must be cached or a realsubclass for performance issues (Thx JB)
 "
 Class {
 	#name : #RBoolVector,
 	#superclass : #RVector,
-	#category : #'RConnector-Core'
+	#category : #'Zinc-HTTP-Logging'
 }
 
-{ #category : #private }
-RBoolVector class >> arrayType [
-	^ NBExternalArray ofType: 'bool'
+{ #category : #'trait - function finding' }
+RBoolVector class >> arrayTypePrimitiveType [
+	^ 'bool'
 ]
 
 { #category : #accessing }

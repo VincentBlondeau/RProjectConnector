@@ -15,7 +15,7 @@ Class {
 	#pools : [
 		'RLibTypes'
 	],
-	#category : #'RConnector-Core'
+	#category : #'Zinc-HTTP-Logging'
 }
 
 { #category : #private }

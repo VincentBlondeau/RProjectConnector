@@ -8,7 +8,7 @@ Class {
 	#classVars : [
 		'Instance'
 	],
-	#category : #'RConnector-Core'
+	#category : #'Zinc-HTTP-Logging'
 }
 
 { #category : #'trait - instance creation' }

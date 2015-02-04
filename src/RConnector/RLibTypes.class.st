@@ -36,7 +36,7 @@ Class {
 		'VECSXP',
 		'WEAKREFSXP'
 	],
-	#category : #'RConnector-Core'
+	#category : #'Zinc-HTTP-Logging'
 }
 
 { #category : #accesing }

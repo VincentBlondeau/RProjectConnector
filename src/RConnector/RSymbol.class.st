@@ -6,7 +6,7 @@ For now is just a stub to create and recognize that is it a symbol.
 Class {
 	#name : #RSymbol,
 	#superclass : #RObject,
-	#category : #'RConnector-Core'
+	#category : #'Zinc-HTTP-Logging'
 }
 
 { #category : #'instance creation' }

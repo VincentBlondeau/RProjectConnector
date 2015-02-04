@@ -4,7 +4,7 @@ A TRClassExtension is containing the methods needed to be implemented on a class
 "
 Trait {
 	#name : #TRClassExtension,
-	#category : #'RConnector-Core'
+	#category : #'Zinc-HTTP-Logging'
 }
 
 { #category : #'trait - converting' }

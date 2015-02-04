@@ -5,5 +5,5 @@ A CannotExecuteRemoteCall is thrown when the parameters of the functions are not
 Class {
 	#name : #CannotExecuteRemoteCall,
 	#superclass : #Exception,
-	#category : #'RConnector-Exception'
+	#category : #'Zinc-HTTP-Streaming'
 }

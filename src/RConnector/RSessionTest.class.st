@@ -4,7 +4,7 @@ A RConnectorTest contains the tests for the statup and the installation of libs
 Class {
 	#name : #RSessionTest,
 	#superclass : #RAbstractTest,
-	#category : #'RConnector-Tests'
+	#category : #'Zinc-HTTP-Support'
 }
 
 { #category : #tests }
@@ -19,7 +19,7 @@ RSessionTest >> testInstallPackageShouldWork [
 	do.call(install.packages,arg)"
 	|  res |
 	self fail.
-	RFunction eval: 'install.packages' withParameters: { (RList new: 2) first: 'tseries'; second: 'repo=http://cran.rstudio.com/'; yourself }.
+	RFunction eval: 'install.packages' withParameters: { (Temp2 new: 2) first: 'tseries'; second: 'repo=http://cran.rstudio.com/'; yourself }.
 	res := RFunction eval: 'library' withParameters: {'forecast'}.
 	self assert: res value equals: 'forecast'
 	

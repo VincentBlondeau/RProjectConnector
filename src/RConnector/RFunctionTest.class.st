@@ -5,7 +5,7 @@ A RFunctionTest is a test of some basic R functions.
 Class {
 	#name : #RFunctionTest,
 	#superclass : #RAbstractTest,
-	#category : #'RConnector-Tests'
+	#category : #'Zinc-HTTP-Support'
 }
 
 { #category : #tests }

@@ -1,17 +1,17 @@
 "
 A RIntVector is a RVector representing integers.
 .
-
+The array Type must be cached or a realsubclass for performance issues (Thx JB)
 "
 Class {
 	#name : #RIntVector,
 	#superclass : #RVector,
-	#category : #'RConnector-Core'
+	#category : #'Zinc-HTTP-Logging'
 }
 
-{ #category : #private }
-RIntVector class >> arrayType [
-	^ NBExternalArray ofType: 'int'
+{ #category : #'trait - function finding' }
+RIntVector class >> arrayTypePrimitiveType [
+	^ 'int'
 ]
 
 { #category : #accessing }

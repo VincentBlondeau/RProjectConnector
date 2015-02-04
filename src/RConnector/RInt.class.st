@@ -5,7 +5,7 @@ A RInt class is the representation of a scalar int under R. This type is automat
 Class {
 	#name : #RInt,
 	#superclass : #RObject,
-	#category : #'RConnector-Core'
+	#category : #'Zinc-HTTP-Logging'
 }
 
 { #category : #'instance creation' }

@@ -9,7 +9,7 @@ Trait {
 	#name : #TRHelpers,
 	#traits : 'TRLibrary + TRGlobals',
 	#classTraits : 'TRLibrary classTrait + TRGlobals classTrait',
-	#category : #'RConnector-Core'
+	#category : #'Zinc-HTTP-Logging'
 }
 
 { #category : #'trait - instance creation' }
@@ -269,6 +269,13 @@ TRHelpers >> prim_char [
 ]
 
 { #category : #'trait - private primitives' }
+TRHelpers >> prim_copyVectorFrom: anOldString [
+    <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
+    ^ self
+        nbCall: #(void Rf_copyVector(SEXP self, SEXP anOldString))
+]
+
+{ #category : #'trait - private primitives' }
 TRHelpers >> prim_curErrorBuf [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
@@ -315,6 +322,13 @@ TRHelpers >> prim_length [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
         nbCall: #(int Rf_length(self))
+]
+
+{ #category : #'trait - private primitives' }
+TRHelpers >> prim_list_ptr [
+    <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
+    ^ self
+        nbCall: #(ulong LIST_POINTER(self))
 ]
 
 { #category : #'trait - private primitives' }
@@ -397,6 +411,14 @@ TRHelpers >> prim_vectorElementAt: index [
         nbCall: #(SEXP VECTOR_ELT(self, int index))
 ]
 
+{ #category : #'trait - private primitives' }
+TRHelpers >> prim_vector_ptr [
+    <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
+	self error: 'Must not be used !'.
+    ^ self
+        nbCall: #(ulong VECTOR_PTR(self))
+]
+
 { #category : #'trait - not used' }
 TRHelpers >> prim_xlength [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
@@ -447,4 +469,12 @@ TRHelpers >> typeOf [
 { #category : #'trait - accessing' }
 TRHelpers >> types [
 	^ RObject selectors select: [ :s | ((s beginsWith: #is) and: [ self perform: s ] )] 
+]
+
+{ #category : #'trait - converting' }
+TRHelpers >> vector [
+	"A vector_ptr function exists but doesn't work on vectors..... So we use the string one."
+	self isVector
+		ifFalse: [ CannotBeConvertedToType signal ].
+	^ self prim_string_ptr
 ]

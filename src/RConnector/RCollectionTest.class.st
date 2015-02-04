@@ -1,7 +1,7 @@
 Class {
 	#name : #RCollectionTest,
 	#superclass : #RAbstractTest,
-	#category : #'RConnector-Tests'
+	#category : #'Zinc-HTTP-Support'
 }
 
 { #category : #tests }
@@ -100,4 +100,27 @@ RCollectionTest >> testStringAccess [
 	string := 'string' asRObject.
 	self assert: (string isKindOf: RStringVector).
 	self assert: string value equals: 'string'.
+]
+
+{ #category : #tests }
+RCollectionTest >> testStringVectorAddChar [
+	"A char under R is an equivalent of a smalltalk string"
+	| vector |
+	vector := RStringVector new.
+	vector add: '1.2'.
+	self assert: (vector at: 1) equals: '1.2'
+]
+
+{ #category : #tests }
+RCollectionTest >> testStringVectorAddSeveralChars [
+	"A char under R is an equivalent of a smalltalk string"
+	| vector |
+	vector := RStringVector new.
+	vector add: '1.2'.
+	vector add: '12'.
+	vector add: 'A String'.
+	self assert: (vector at: 1) equals: '1.2'.
+	self assert: (vector at: 2) equals: '12'.
+	self assert: (vector at: 3) equals: 'A String'.
+
 ]

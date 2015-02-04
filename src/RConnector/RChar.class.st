@@ -5,7 +5,7 @@ A RChar is the representation of a non mutable string in R. And yes that is a st
 Class {
 	#name : #RChar,
 	#superclass : #RObject,
-	#category : #'RConnector-Core'
+	#category : #'Zinc-HTTP-Logging'
 }
 
 { #category : #'trait - instance creation' }

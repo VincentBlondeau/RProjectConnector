@@ -13,7 +13,7 @@ Under linux, it should work fine if  you have a x32bits edition else good luck..
 "
 Trait {
 	#name : #TRLibrary,
-	#category : #'RConnector-Core'
+	#category : #'Zinc-HTTP-Logging'
 }
 
 { #category : #'trait - library path' }

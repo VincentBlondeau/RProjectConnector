@@ -19,7 +19,7 @@ Class {
 	#instVars : [
 		'size'
 	],
-	#category : #'RConnector-Core'
+	#category : #'Zinc-HTTP-Logging'
 }
 
 { #category : #'instance creation' }

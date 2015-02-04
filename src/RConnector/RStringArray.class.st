@@ -5,17 +5,20 @@ The TRHelper trait should not be used here because is just a transition type tha
 Class {
 	#name : #RStringArray,
 	#superclass : #NBExternalArray,
-	#traits : 'TRHelpers + TRClassExtension',
-	#classTraits : 'TRHelpers classTrait + TRClassExtension classTrait',
 	#pools : [
 		'RLibTypes'
 	],
-	#category : #'RConnector-Core'
+	#category : #'Zinc-HTTP-Logging'
 }
+
+{ #category : #'trait - instance creation' }
+RStringArray class >> asNBExternalType: gen [
+	^ NBExternalObjectType objectClass: self
+]
 
 { #category : #'class initialization' }
 RStringArray class >> initialize [
-	self initElementType: 'RChar *'
+	self initElementType: 'RChar'
 ]
 
 { #category : #'class initialization' }
@@ -23,27 +26,8 @@ RStringArray class >> type [
 	^ CHARSXP
 ]
 
-{ #category : #'trait - variable definition' }
-RStringArray >> defineAsVarNamed: aRName [
-	self assert: (aRName isKindOf: Symbol).	"Should be removed if the type is checked in the primitive"
-	^ self defineAsVarNamed: aRName inEnv: self class rGlobalEnv
-]
-
-{ #category : #accessing }
-RStringArray >> handle [
-	^ handle value
-]
-
-{ #category : #accessing }
-RStringArray >> handle: aUint [
-	handle value: aUint
-
-]
-
-{ #category : #initialization }
-RStringArray >> initializeHandle [
-	"handle := NBExternalHandle new "
-
-
-	
+{ #category : #'trait - copying' }
+RStringArray >> copyVectorFrom: anOldString [
+	anOldString  size  halt.
+    ^ self prim_copyVector: ''
 ]
