@@ -32,6 +32,11 @@ RChar class >> type [
 	^ CHARSXP
 ]
 
+{ #category : #comparing }
+RChar >> = anElement [
+	^ self value = anElement value
+]
+
 { #category : #evaluating }
 RChar >> asRChar [
 	^ self
@@ -39,10 +44,9 @@ RChar >> asRChar [
 
 { #category : #printing }
 RChar >> printOn: aStream [
-	super printOn: aStream.
-	aStream << $'.
+	aStream << ${.
 	aStream << self value.
-	aStream << $'
+	aStream << $}
 ]
 
 { #category : #evaluating }

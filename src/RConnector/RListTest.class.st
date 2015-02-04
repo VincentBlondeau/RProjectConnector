@@ -33,23 +33,21 @@ RListTest >> testAccessAllAttributesOfAList [
 	self assert: arima isObject.
 	attribs := arima attributes.
 	self assert: (attribs isKindOf: RStringVector).
-	self assert: attribs first equals: 'coef'.
-	self assert: attribs second equals: 'sigma2'.
-	self assert: (attribs at: 3) equals: 'var.coef'.
-	self assert: (attribs at: 4) equals: 'mask'.
-	self assert: (attribs at: 5) equals: 'loglik'.
-	self assert: (attribs at: 6) equals: 'aic'.
-	self assert: (attribs at: 7) equals: 'arma'.
-	self assert: (attribs at: 8) equals: 'residuals'
+	self assert: attribs first value equals: 'coef'.
+	self assert: attribs second value equals: 'sigma2'.
+	self assert: (attribs at: 3) value equals: 'var.coef'.
+	self assert: (attribs at: 4) value equals: 'mask'.
+	self assert: (attribs at: 5) value equals: 'loglik'.
+	self assert: (attribs at: 6) value equals: 'aic'.
+	self assert: (attribs at: 7) value equals: 'arma'.
+	self assert: (attribs at: 8) value equals: 'residuals'
 ]
 
 { #category : #tests }
 RListTest >> testAccessAllElementsOfAList [
 	| list |
-	list := RList new: 0.
-	self assert: list size equals:0
-	
-	
+	list := RList new: 1.
+	self assert: list size equals: 0
 ]
 
 { #category : #tests }
@@ -98,9 +96,7 @@ RListTest >> testAccessFirstOfAList [
 
 { #category : #tests }
 RListTest >> testAccessItemFromEmptyListShouldNotBeAllowed [
-	| list |
-	list := RList new: 0.
-	self should: [ list at: 1 ] raise: Error
+	self should: [ RList new: 0 ] raise: Error
 ]
 
 { #category : #tests }
@@ -128,49 +124,55 @@ RListTest >> testAccessTheClassNameOfAList [
 	self assert: arima isObject.
 	attribs := arima rClass.
 	self assert: (attribs isKindOf: RStringVector).
-	self assert: attribs first equals: 'Arima'
+	self assert: attribs first value equals: 'Arima'
 ]
 
 { #category : #tests }
 RListTest >> testCreateListWithOneElement [
 	| list |
 	list := (RList new: 1)
-		first: 'tseries';
+		add: 'tseries';
 		yourself.
 	self assert: (list first isKindOf: RStringVector).
-	self assert: list first first equals: 'tseries'
+	self assert: list first first value equals: 'tseries'
 ]
 
 { #category : #tests }
 RListTest >> testCreateListWithOneNamedElement [
 	| list |
 	list := (RList new: 1)
-		at: 'repo' put: 'http://cran.rstudio.com/';
+		addAt: 'repo' value: 'http://cran.rstudio.com/';
 		yourself.
 	self assert: (list first isKindOf: RStringVector).
-	self assert: list first first equals: 'http://cran.rstudio.com/'.
-	self assert: (list at: 'repo') first equals: 'http://cran.rstudio.com/'
+	self assert: list first first value equals: 'http://cran.rstudio.com/'.
+	self assert: (list at: 'repo') first value equals: 'http://cran.rstudio.com/'
+]
+
+{ #category : #tests }
+RListTest >> testCreateListWithOneNilNamedElement [
+	| list |
+	list := RList new.
+	list add: 'http://cran.rstudio.com/'.
+	self assert: (list first isKindOf: RStringVector).
+	self assert: list first first value equals: 'http://cran.rstudio.com/'.
+	self should: [ list at: nil ] raise: NotFound
 ]
 
 { #category : #tests }
 RListTest >> testCreateListWithTwoElementsOneNamedOneNot [
 	| list |
 	list := (RList new: 2)
-		first: 'tseries';
-		at: 'repo' put: 'http://cran.rstudio.com/';
+		add: 'tseries';
+		addAt: 'repo' value: 'http://cran.rstudio.com/';
 		yourself.
 	self assert: (list first isKindOf: RStringVector).
-	self assert: list first first equals: 'tseries'.
+	self assert: list first first value equals: 'tseries'.
 	self assert: (list second isKindOf: RStringVector).
-	self assert: list second first equals: 'http://cran.rstudio.com/'.
-	self assert: (list at: 'repo') first equals: 'http://cran.rstudio.com/'.
+	self assert: list second first value equals: 'http://cran.rstudio.com/'.
+	self assert: (list at: 'repo') first value equals: 'http://cran.rstudio.com/'
 ]
 
 { #category : #tests }
-RListTest >> testEmptyListShouldBeEmpty [
-	| list |
-	list := RList new: 0.
-	self assert: list size equals:0
-	
-	
+RListTest >> testEmptyListShouldAreForbidden [
+	self should: [ RList new: 0 ] raise: AssertionFailure description: 'The initial size should not be zero!'
 ]

@@ -48,18 +48,6 @@ RCollectionTest >> testDoubleVectorSet [
 ]
 
 { #category : #tests }
-RCollectionTest >> testIntVectorAddFirst [
-	| vector |
-	vector := RIntVector new: 1.
-	vector add: 22.
-	vector addFirst: 12.
-	self assert: (vector at: 1) equals: 12.
-	self assert: (vector at: 2) equals: 22.
-	self assert: vector prim_length equals: 2."the true length for R"
-	
-]
-
-{ #category : #tests }
 RCollectionTest >> testIntVectorSet [
 	| vector |
 	vector := RIntVector new: 1.
@@ -108,19 +96,19 @@ RCollectionTest >> testStringVectorAddChar [
 	| vector |
 	vector := RStringVector new.
 	vector add: '1.2'.
-	self assert: (vector at: 1) equals: '1.2'
+	self assert: (vector at: 1) value equals: '1.2'
 ]
 
 { #category : #tests }
 RCollectionTest >> testStringVectorAddSeveralChars [
 	"A char under R is an equivalent of a smalltalk string"
+
 	| vector |
 	vector := RStringVector new.
 	vector add: '1.2'.
 	vector add: '12'.
 	vector add: 'A String'.
-	self assert: (vector at: 1) equals: '1.2'.
-	self assert: (vector at: 2) equals: '12'.
-	self assert: (vector at: 3) equals: 'A String'.
-
+	self assert: (vector at: 1) value equals: '1.2'.
+	self assert: (vector at: 2) value equals: '12'.
+	self assert: (vector at: 3) value equals: 'A String'
 ]

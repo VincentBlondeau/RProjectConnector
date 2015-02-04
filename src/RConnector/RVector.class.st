@@ -52,6 +52,7 @@ RVector class >> createNewObjectFrom: aRObject [
 		setCollection:
 			(self arrayType onAddress: (NBExternalAddress value: (aRObject perform: self firstPointer)) size: aRObject prim_length).
 	instance initialize.
+	instance resetToExternalCollection.
 	^ instance
 ]
 
@@ -91,9 +92,9 @@ RVector class >> new [
 { #category : #'instance creation' }
 RVector class >> new: size [
 	| instance |
+	self assert: size > 0 description: 'The initial size should not be zero!'.
 	instance := self primNew: size.
 	instance setCollection: (self arrayType onAddress: (NBExternalAddress value: instance firstPointer) size: size).
-	instance resetToExternalCollection.
 	^ instance
 ]
 
@@ -630,6 +631,11 @@ RVector >> setLength: length [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
         nbCall: #(void SETLENGTH(self, int length))
+]
+
+{ #category : #private }
+RVector >> species [
+	^ OrderedCollection
 ]
 
 { #category : #'trait - converting' }

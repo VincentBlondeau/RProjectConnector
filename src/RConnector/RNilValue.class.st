@@ -18,12 +18,15 @@ RNilValue class >> createNewObjectFrom: aRObject [
 
 { #category : #'class initialization' }
 RNilValue class >> initialize [
-	Instance := super new.
+	Instance := self basicNew
+		initialize;
+		handle: self rNilValue handle;
+		yourself
 ]
 
 { #category : #'instance creation' }
 RNilValue class >> new [
-	self shouldNotImplement 
+	^ Instance 
 ]
 
 { #category : #'instance creation' }
@@ -41,6 +44,22 @@ RNilValue class >> type [
 { #category : #converting }
 RNilValue >> asRObject [
  	^ self
+]
+
+{ #category : #testing }
+RNilValue >> doesNotUnderstand: aMessage [
+self halt.
+	^ super doesNotUnderstand: aMessage
+]
+
+{ #category : #testing }
+RNilValue >> ifNil: aBlock [
+	^ aBlock value
+]
+
+{ #category : #testing }
+RNilValue >> ifNotNil: aBlock [
+	^ self
 ]
 
 { #category : #evaluating }

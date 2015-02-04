@@ -55,7 +55,7 @@ RStringVector >> addLast: anElement [
 RStringVector >> at: index [
 	(index between: 0 and: self size)
 		ifFalse: [ ^ self errorSubscriptBounds: index ].
-	^ (array at: index) value
+	^ array at: index
 ]
 
 { #category : #enumerating }
@@ -71,6 +71,13 @@ RStringVector >> do: aBlock [
 { #category : #accessing }
 RStringVector >> firstPointer [
 	^ self string
+]
+
+{ #category : #printing }
+RStringVector >> printOn: aStream [
+	aStream << '{'.
+	self do: [ :item | aStream << item asString ] separatedBy: [ aStream << '.' ].
+	aStream << '}'
 ]
 
 { #category : #evaluating }

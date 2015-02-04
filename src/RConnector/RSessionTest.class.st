@@ -15,17 +15,20 @@ RSessionTest >> testIfSessionIsValid [
 
 { #category : #tests }
 RSessionTest >> testInstallPackageShouldWork [
-"	arg = list(""tseries"",repos=""http://cran.rstudio.com/"")
-	do.call(install.packages,arg)"
-	|  res |
+	"	arg = list(tseries,repos=http://cran.rstudio.com/)
+		do.call(install.packages,arg)"
+
+	| res |
 	self fail.
-	RFunction eval: 'install.packages' withParameters: { (Temp2 new: 2) first: 'tseries'; second: 'repo=http://cran.rstudio.com/'; yourself }.
+	RFunction
+		eval: 'install.packages'
+		withParameters:
+			{(RList new
+				add: 'tseries';
+				addAt: 'repo' value: 'http://cran.rstudio.com/';
+				yourself)}.
 	res := RFunction eval: 'library' withParameters: {'forecast'}.
 	self assert: res value equals: 'forecast'
-	
-	
-	
-	
 ]
 
 { #category : #tests }
