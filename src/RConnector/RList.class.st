@@ -138,6 +138,14 @@ RList >> attributes [
 			(self prim_attributeAt: self class rNamesSymbol) asRObject ]
 ]
 
+{ #category : #evaluating }
+RList >> evalWithFunction: aString [
+	^ #'do.call'
+		asRFunctionEval:
+			{aString.
+			self} 
+]
+
 { #category : #private }
 RList >> findIndexOfKey: anObject [
 	<compilerOptions: #(- #optionInlineIfNil)>

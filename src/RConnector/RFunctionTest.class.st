@@ -152,3 +152,24 @@ RFunctionTest >> testSeqShouldGiveAnArrayOfInt [
 	
 	
 ]
+
+{ #category : #tests }
+RFunctionTest >> testTimeSerieCreationWithParameters [
+	| res |
+	res := RFunction
+		eval: 'ts'
+		withListParameter:
+			{('data'
+				->
+					{1.
+					2.
+					3.
+					1.
+					2.
+					3}).
+			('frequency' -> 3)}.
+	self assert: (res isKindOf: RDoubleVector).
+	self assert: res prim_length equals: 1.
+	self assert: res size equals: 1.
+	self assert: res first equals: 1
+]

@@ -19,14 +19,11 @@ RSessionTest >> testInstallPackageShouldWork [
 		do.call(install.packages,arg)"
 
 	| res |
-	self fail.
 	RFunction
 		eval: 'install.packages'
-		withParameters:
-			{(RList new
-				add: 'tseries';
-				addAt: 'repo' value: 'http://cran.rstudio.com/';
-				yourself)}.
+		withListParameter:
+			{'tseries'.
+			('repo' -> 'http://cran.rstudio.com/')}.
 	res := RFunction eval: 'library' withParameters: {'forecast'}.
 	self assert: res value equals: 'forecast'
 ]

@@ -21,6 +21,7 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'parameters',
+		'parameterList',
 		'functionName'
 	],
 	#category : #'RConnector-Core'
@@ -34,14 +35,45 @@ RFunction class >> eval: aString [
 		eval
 ]
 
-{ #category : #initialize }
+{ #category : #evaluating }
+RFunction class >> eval: aString withListParameter: anOrderedCollection [
+	^ (self functionName: aString parameterList: anOrderedCollection) eval
+]
+
+{ #category : #evaluating }
 RFunction class >> eval: aString withParameters: aCollection [
 	^ (self functionName: aString parameters: aCollection) eval
 ]
 
 { #category : #initialize }
+RFunction class >> examplePlot [
+	'plot'
+		asRListEval:
+			{(0 to: 50).
+			(50 to: 100).
+			('type' -> 'l').
+			('col' -> 'grey80').
+			('xaxt' -> 'n').
+			('lwd' -> '2').
+			('xlab' -> '').
+			('ylab' -> 'Temperature°C').
+			('main' -> 'fig.5 - Trend component')}
+]
+
+{ #category : #initialize }
+RFunction class >> functionName: aString parameterList: aCollection [
+	^ self new
+		functionName: aString;
+		parameterList: aCollection;
+		yourself
+]
+
+{ #category : #initialize }
 RFunction class >> functionName: aString parameters: aCollection [
-	^ self new functionName: aString; parameters: aCollection; yourself
+	^ self new
+		functionName: aString;
+		parameters: aCollection;
+		yourself
 ]
 
 { #category : #private }
@@ -51,11 +83,8 @@ RFunction >> argsSize [
 
 { #category : #private }
 RFunction >> checkParameters [
-	self functionName isNotNil
-		ifFalse: [ CannotExecuteRemoteCall signal ].
 	(self parameters isNotNil and: [ self parameters isNotEmpty ])
-		ifFalse: [ CannotExecuteRemoteCall signal ].
-	"a check that the arguments contains only RObject should be done"
+		ifFalse: [ CannotExecuteRemoteCall signal ]	"a check that the arguments contains only RObject should be done"
 ]
 
 { #category : #private }
@@ -67,10 +96,27 @@ RFunction >> createLangageExpression [
 	^ expression
 ]
 
+{ #category : #private }
+RFunction >> createList [
+	| list |
+	list := RList new: self parameterList size.
+	self parameterList
+		do: [ :item | 
+			item isVariableBinding
+				ifFalse: [ list add: item ]
+				ifTrue: [ list addAt: item key value: item value ] ].
+	^ list
+]
+
 { #category : #evaluating }
 RFunction >> eval [
-	^ self getLangageExpression eval
-
+	self functionName ifNil: [ CannotExecuteRemoteCall signal ].
+	self parameters
+		ifNotNil: [ 
+			self parameters ifEmpty: [ CannotExecuteRemoteCall signal ].
+			^ self createLangageExpression eval ].
+	self parameterList ifNotNil: [ ^ self createList evalWithFunction: functionName ].
+	CannotExecuteRemoteCall signal
 ]
 
 { #category : #accessing }
@@ -83,11 +129,14 @@ RFunction >> functionName: aString [
 	functionName := aString
 ]
 
-{ #category : #private }
-RFunction >> getLangageExpression [
-	self checkParameters.
-	^ self createLangageExpression
+{ #category : #accessing }
+RFunction >> parameterList [
+	^ parameterList
+]
 
+{ #category : #accessing }
+RFunction >> parameterList: anObject [
+	parameterList := anObject
 ]
 
 { #category : #accessing }

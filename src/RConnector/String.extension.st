@@ -6,8 +6,18 @@ String >> asRChar [
 ]
 
 { #category : #'*RConnector' }
+String >> asRFunctionEval: aCollection [
+	^ RFunction eval: self asString withParameters: aCollection
+]
+
+{ #category : #'*RConnector' }
 String >> asRFunctionWith: aCollection [ 
 	^ RFunction functionName: self asString parameters: aCollection.
+]
+
+{ #category : #'*RConnector' }
+String >> asRListEval: aKindOfList [
+	^ RFunction eval: self asString withListParameter: aKindOfList
 ]
 
 { #category : #'*RConnector' }
