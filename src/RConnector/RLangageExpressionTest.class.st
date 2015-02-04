@@ -1,7 +1,7 @@
 Class {
 	#name : #RLangageExpressionTest,
 	#superclass : #RCollectionTest,
-	#category : #'Zinc-HTTP-Support'
+	#category : #'RConnector-Tests'
 }
 
 { #category : #tests }

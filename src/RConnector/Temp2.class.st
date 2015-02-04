@@ -11,7 +11,7 @@ Class {
 	#instVars : [
 		'handle'
 	],
-	#category : #'Zinc-HTTP-Logging'
+	#category : #'RConnector-Core'
 }
 
 { #category : #'instance creation' }

@@ -4,7 +4,7 @@ I stores metadata on true and false positive critics. These meta data are used b
 Class {
 	#name : #ManifestRConnector,
 	#superclass : #Object,
-	#category : #'Zinc-HTTP-Exceptions'
+	#category : #'RConnector-Critics'
 }
 
 { #category : #'meta data' }

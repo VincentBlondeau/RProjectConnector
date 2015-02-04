@@ -4,7 +4,7 @@ A RConnectorTest contains the tests for the statup and the installation of libs
 Class {
 	#name : #RSessionTest,
 	#superclass : #RAbstractTest,
-	#category : #'Zinc-HTTP-Support'
+	#category : #'RConnector-Tests'
 }
 
 { #category : #tests }

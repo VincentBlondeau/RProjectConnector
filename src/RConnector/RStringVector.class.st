@@ -5,7 +5,7 @@ A RStringVector  is a RVector representing strings.
 Class {
 	#name : #RStringVector,
 	#superclass : #RVector,
-	#category : #'Zinc-HTTP-Logging'
+	#category : #'RConnector-Core'
 }
 
 { #category : #private }

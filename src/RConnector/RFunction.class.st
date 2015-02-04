@@ -23,7 +23,7 @@ Class {
 		'parameters',
 		'functionName'
 	],
-	#category : #'Zinc-HTTP-Logging'
+	#category : #'RConnector-Core'
 }
 
 { #category : #evaluating }

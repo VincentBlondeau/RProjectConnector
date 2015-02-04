@@ -6,5 +6,5 @@ A CannotBeConvertedToType is an exception thrown when a value can't be converted
 Class {
 	#name : #CannotBeConvertedToType,
 	#superclass : #Error,
-	#category : #'Zinc-HTTP-Streaming'
+	#category : #'RConnector-Exceptions'
 }

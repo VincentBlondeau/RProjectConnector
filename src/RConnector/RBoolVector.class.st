@@ -6,7 +6,7 @@ The array Type must be cached or a realsubclass for performance issues (Thx JB)
 Class {
 	#name : #RBoolVector,
 	#superclass : #RVector,
-	#category : #'Zinc-HTTP-Logging'
+	#category : #'RConnector-Core'
 }
 
 { #category : #'trait - function finding' }

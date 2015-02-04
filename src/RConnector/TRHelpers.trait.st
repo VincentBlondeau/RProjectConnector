@@ -9,7 +9,7 @@ Trait {
 	#name : #TRHelpers,
 	#traits : 'TRLibrary + TRGlobals',
 	#classTraits : 'TRLibrary classTrait + TRGlobals classTrait',
-	#category : #'Zinc-HTTP-Logging'
+	#category : #'RConnector-Core'
 }
 
 { #category : #'trait - instance creation' }
@@ -83,9 +83,39 @@ TRHelpers classSide >> prim_isBasicClass: aString [
 ]
 
 { #category : #'trait - global variables' }
+TRHelpers classSide >> rBaseEnv [
+	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
+	^ self getRObjectFromGlobalVariable: #R_BaseEnv
+]
+
+{ #category : #'trait - global variables' }
 TRHelpers classSide >> rClassSymbol [
 	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
 	^ self getRObjectFromGlobalVariable: #R_ClassSymbol
+]
+
+{ #category : #'trait - global variables' }
+TRHelpers classSide >> rEmptyEnv [
+	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
+	^ self getRObjectFromGlobalVariable: #R_EmptyEnv
+]
+
+{ #category : #'trait - global variables' }
+TRHelpers classSide >> rGlobalEnv [
+	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
+	^ self getRObjectFromGlobalVariable: #R_GlobalEnv
+]
+
+{ #category : #'trait - global variables' }
+TRHelpers classSide >> rNamesSymbol [
+	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
+	^ self getRObjectFromGlobalVariable: #R_NamesSymbol
+]
+
+{ #category : #'trait - global variables' }
+TRHelpers classSide >> rNilValue [
+	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
+	^ self getRObjectFromGlobalVariable: #R_NilValue
 ]
 
 { #category : #'trait - converting' }
@@ -259,6 +289,11 @@ TRHelpers >> isVectorList [
 TRHelpers >> logical [
 	self isLogical ifFalse: [ CannotBeConvertedToType signal ].
 	^ self prim_logical
+]
+
+{ #category : #'trait - library path' }
+TRHelpers >> nbLibraryNameOrHandle [
+ ^ self class nbLibraryNameOrHandle
 ]
 
 { #category : #'trait - private primitives' }

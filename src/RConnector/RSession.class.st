@@ -15,7 +15,7 @@ Class {
 	#pools : [
 		'RLibTypes'
 	],
-	#category : #'Zinc-HTTP-Logging'
+	#category : #'RConnector-Core'
 }
 
 { #category : #private }
@@ -80,6 +80,11 @@ RSession class >> isExistsRf_initEmbeddedR [
 	^ [(self nbGetSymbolAddress: 'Rf_initEmbeddedR' module: #R) isNotNil] on: PrimitiveFailed do: [  self error: 'Please check that you use the right libraries!' ]
 ]
 
+{ #category : #'trait - library path' }
+RSession class >> nbLibraryNameOrHandle [
+ ^ #R
+]
+
 { #category : #'private - primitives' }
 RSession class >> prim_endEmbeddedR: arg [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
@@ -115,4 +120,9 @@ RSession class >> unif_rand [
     ^ self
         nbCall: #( double unif_rand(void) )
         module: #R
+]
+
+{ #category : #'trait - library path' }
+RSession >> nbLibraryNameOrHandle [
+ ^ self class nbLibraryNameOrHandle
 ]

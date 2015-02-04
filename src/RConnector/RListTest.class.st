@@ -5,7 +5,7 @@ A RListTest is a test of the RList.
 Class {
 	#name : #RListTest,
 	#superclass : #RCollectionTest,
-	#category : #'Zinc-HTTP-Support'
+	#category : #'RConnector-Tests'
 }
 
 { #category : #tests }

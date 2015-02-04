@@ -1,7 +1,7 @@
 Class {
 	#name : #RCollectionTest,
 	#superclass : #RAbstractTest,
-	#category : #'Zinc-HTTP-Support'
+	#category : #'RConnector-Tests'
 }
 
 { #category : #tests }

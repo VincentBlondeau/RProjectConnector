@@ -4,7 +4,7 @@ Class {
 	#pools : [
 		'RLibTypes'
 	],
-	#category : #'Zinc-HTTP-Logging'
+	#category : #'RConnector-Core'
 }
 
 { #category : #'trait - private primitives' }

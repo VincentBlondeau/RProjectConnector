@@ -4,7 +4,7 @@ A TRGlobals is a trait that defines global variables available in R.
 "
 Trait {
 	#name : #TRGlobals,
-	#category : #'Zinc-HTTP-Logging'
+	#category : #'RConnector-Core'
 }
 
 { #category : #'trait - global variables' }
