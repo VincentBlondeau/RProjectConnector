@@ -216,7 +216,7 @@ RObject >> defineAsVarNamed: aRName inEnv: anEnvironment [
 
 { #category : #'trait - converting' }
 RObject >> int [
-	self isInteger ifFalse: [ CannotBeConvertedToType signal ].
+	self typeOf = #INTSXP ifFalse: [ CannotBeConvertedToType signal ].
 	^ self prim_int
 ]
 

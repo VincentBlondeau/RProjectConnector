@@ -42,6 +42,14 @@ RList class >> new: size [
 	^ instance
 ]
 
+{ #category : #creating }
+RList class >> newFromDictionary: aDictionary [
+	| list |
+	list := self new.
+	aDictionary associationsDo: [ :assoc | list addAssociation: assoc ].
+	^ list
+]
+
 { #category : #'private - instance creation' }
 RList class >> primNew: size type: type [
 	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
@@ -51,6 +59,13 @@ RList class >> primNew: size type: type [
 { #category : #accessing }
 RList class >> type [
 	^ VECSXP
+]
+
+{ #category : #adding }
+RList >> addAssociation: anAssociation [
+	self assert: anAssociation key isString description: 'The key must be a string to be valid'.
+	self addAt: anAssociation key value: anAssociation value.
+	^ anAssociation
 ]
 
 { #category : #adding }
@@ -173,6 +188,26 @@ RList >> firstKeyPointer [
 { #category : #private }
 RList >> firstPointer [
 	^ self vector
+]
+
+{ #category : #accessing }
+RList >> growAtLast [
+	"overridden to create external objects"
+	"We should recreate a new instance because there is no reallocation in the RAPI. So we swap the handles"
+	"Protect and unprotect methods should be added too"
+	"Overridded to support the extend of the key collection"
+	| size  newKeyArray |
+	super growAtLast.
+
+	size := array size.
+
+	newKeyArray := self class keyArrayType onAddress: (NBExternalAddress value: self firstKeyPointer) size: size.
+	newKeyArray
+		replaceFrom: firstIndex
+		to: lastIndex
+		with: keys
+		startingAt: firstIndex.
+	keys := newKeyArray
 ]
 
 { #category : #inspecting }

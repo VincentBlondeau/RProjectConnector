@@ -84,7 +84,9 @@ RFunction >> createLangageExpression [
 { #category : #private }
 RFunction >> createList [
 	| list |
+	self parameterList isDictionary ifTrue: [ ^ self parameterList asRObject ].
 	list := RList new: self parameterList size.
+
 	self parameterList
 		do: [ :item | 
 			item isVariableBinding
