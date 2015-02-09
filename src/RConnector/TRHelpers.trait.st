@@ -95,6 +95,12 @@ TRHelpers classSide >> rClassSymbol [
 ]
 
 { #category : #'trait - global variables' }
+TRHelpers classSide >> rDimSymbol [
+	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
+	^ self getRObjectFromGlobalVariable: #R_DimSymbol
+]
+
+{ #category : #'trait - global variables' }
 TRHelpers classSide >> rEmptyEnv [
 	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
 	^ self getRObjectFromGlobalVariable: #R_EmptyEnv
@@ -144,6 +150,11 @@ TRHelpers >> defineAsVarNamed: aRName [
 { #category : #'trait - variable definition' }
 TRHelpers >> defineAsVarNamed: aRName inEnv: anEnvironment [
 	^ self prim_defineAsVarNamed: aRName asRObject inEnv: anEnvironment
+]
+
+{ #category : #accessing }
+TRHelpers >> dim [
+	^ (self prim_attributeAt: self class rDimSymbol) asRObject
 ]
 
 { #category : #'trait - converting' }
@@ -198,6 +209,13 @@ TRHelpers >> isLogical [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
         nbCall: #(bool Rf_isLogical(self))
+]
+
+{ #category : #'trait - testing' }
+TRHelpers >> isMatrix [
+    <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
+    ^ self
+        nbCall: #(bool Rf_isMatrix(self))
 ]
 
 { #category : #'trait - testing' }
@@ -294,6 +312,12 @@ TRHelpers >> logical [
 { #category : #'trait - library path' }
 TRHelpers >> nbLibraryNameOrHandle [
  ^ self class nbLibraryNameOrHandle
+]
+
+{ #category : #'private - primitive' }
+TRHelpers >> prim_attributeAt: attributeName [
+	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
+	^ self nbCall: #(SEXP Rf_getAttrib(self, SEXP attributeName))
 ]
 
 { #category : #'trait - private primitives' }
@@ -473,6 +497,11 @@ TRHelpers >> protect [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
         nbCall: #(SEXP Rf_protect(self))
+]
+
+{ #category : #accessing }
+TRHelpers >> rClass [
+	^ (self prim_attributeAt: self class rClassSymbol) asRObject
 ]
 
 { #category : #'trait - not used' }
