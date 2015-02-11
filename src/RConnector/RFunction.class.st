@@ -82,6 +82,13 @@ RFunction >> createLangageExpression [
 ]
 
 { #category : #private }
+RFunction >> createLangageExpressionWithNoArgs [
+	^ (RLangageExpression new: 1)
+		add: self functionName;
+		yourself
+]
+
+{ #category : #private }
 RFunction >> createList [
 	| list |
 	self parameterList isDictionary ifTrue: [ ^ self parameterList asRObject ].
@@ -98,11 +105,11 @@ RFunction >> createList [
 { #category : #evaluating }
 RFunction >> eval [
 	self functionName ifNil: [ CannotExecuteRemoteCall signal ].
-	self parameters
+	self parameters ifNotNil: [ ^ self createLangageExpression eval ].
+	self parameterList
 		ifNotNil: [ 
-			self parameters ifEmpty: [ CannotExecuteRemoteCall signal ].
-			^ self createLangageExpression eval ].
-	self parameterList ifNotNil: [ ^ self createList evalWithFunction: functionName ].
+			self parameterList ifEmpty: [ ^ self createLangageExpressionWithNoArgs eval ].
+			^ self createList evalWithFunction: functionName ].
 	CannotExecuteRemoteCall signal
 ]
 
