@@ -263,6 +263,12 @@ RList >> keys [
 ]
 
 { #category : #'private - primitive' }
+RList >> prim_attributeAt: attributeName [
+	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
+	^ self nbCall: #(SEXP Rf_getAttrib(self, SEXP attributeName))
+]
+
+{ #category : #'private - primitive' }
 RList >> prim_attributeAt: attributeName put: attributeValue [
 	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
 
