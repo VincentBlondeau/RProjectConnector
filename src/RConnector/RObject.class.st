@@ -85,7 +85,10 @@ RObject class >> findVar: aStringOfFunctionName [
 
 { #category : #'trait - function finding' }
 RObject class >> getRObjectFromGlobalVariable: varName [
-	^ RObject new handle: (self nbGetGlobalVariable: varName)
+	| instance |
+	instance := RObject new.
+	instance handle: (instance nbGetGlobalVariable: varName).
+	^ instance
 ]
 
 { #category : #'trait - library path' }

@@ -17,7 +17,7 @@ RNilValue class >> createNewObjectFrom: aRObject [
 ]
 
 { #category : #'class initialization' }
-RNilValue class >> initialize [
+RNilValue class >> initializeInstance [
 	Instance := self basicNew
 		initialize;
 		handle: self rNilValue handle;
