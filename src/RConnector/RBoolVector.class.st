@@ -11,7 +11,7 @@ Class {
 
 { #category : #'trait - function finding' }
 RBoolVector class >> arrayTypePrimitiveType [
-	^ 'bool'
+	^ 'RLogical'
 ]
 
 { #category : #accessing }
@@ -28,6 +28,12 @@ RBoolVector class >> primNew: size type: type [
 { #category : #accessing }
 RBoolVector class >> type [
 	^ LGLSXP
+]
+
+{ #category : #accessing }
+RBoolVector >> addLast: anElement [
+	super addLast: anElement asRLogical.
+	^ anElement
 ]
 
 { #category : #accessing }

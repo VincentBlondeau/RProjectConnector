@@ -179,6 +179,16 @@ RVector class >> rNilValue [
 	^ self getRObjectFromGlobalVariable: #R_NilValue
 ]
 
+{ #category : #'trait - function finding' }
+RVector class >> reset [
+	self allSubclassesDo: [ :subclass | subclass resetArrayType ]
+]
+
+{ #category : #'trait - function finding' }
+RVector class >> resetArrayType [
+	arrayType := nil
+]
+
 { #category : #accessing }
 RVector class >> type [
 	^ self subclassResponsibility
