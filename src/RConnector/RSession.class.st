@@ -111,8 +111,7 @@ RSession class >> startUp [
 	[ self checkLibs.
 	self checkSession.
 	self checkWorking.
-	self invalidateOldHandles.
-	RNilValue initializeInstance ] on: Error do: [ :e | self error: 'The R session is not well initialized at startUp...' ]
+	self invalidateOldHandles. ] on: Error do: [ :e | self error: 'The R session is not well initialized at startUp...' ]
 ]
 
 { #category : #'stats functions' }
