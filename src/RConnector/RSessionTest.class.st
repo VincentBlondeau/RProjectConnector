@@ -15,9 +15,6 @@ RSessionTest >> testIfSessionIsValid [
 
 { #category : #tests }
 RSessionTest >> testInstallPackageShouldWork [
-	"	arg = list(tseries,repos=http://cran.rstudio.com/)
-		do.call(install.packages,arg)"
-
 	| res |
 	self fail.
 	RFunction
@@ -37,6 +34,7 @@ RSessionTest >> testLoadLibraryShouldNotWorkIfThePackageIsNotInstalled [
 { #category : #tests }
 RSessionTest >> testProxySetting [
 	| proxy |
+	self fail.
 	proxy := 'proxy:3128'.
 	self assert: ('Sys.setenv' asREval: {('http_proxy' -> proxy)}) first equals: true.
 	self assert: ('Sys.getenv' asREval: {'http_proxy'}) first value equals: proxy
