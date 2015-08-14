@@ -186,6 +186,21 @@ ConfigurationOfRProjectConnector >> catalogKeywords [
 ]
 
 { #category : #doits }
+ConfigurationOfRProjectConnector >> copyRLinuxLibs: rPath [
+	" Private - Copy detected R DLL's in rPath to VM directory "
+
+	| vmPath libRef |
+	
+	vmPath := Smalltalk vmDirectory asFileReference.
+	libRef := rPath asFileReference / 'libR.so'.
+	[ libRef copyTo: vmPath / (libRef basename) ]
+	on: FileExists
+	do: [ : ex |  ].
+	libRef exists 
+		ifTrue: [ Transcript show: 'Successfully copied R library to VM path'; cr ]
+]
+
+{ #category : #doits }
 ConfigurationOfRProjectConnector >> copyRWinLibs: rPath [
 	" Private - Copy detected R DLL's in rPath to VM directory "
 
@@ -221,7 +236,7 @@ ConfigurationOfRProjectConnector >> detectRWinInstallation [
 ConfigurationOfRProjectConnector >> development: spec [
 	<symbolicVersion: #'development'>
 
-	spec for: #'common' version: '0.1-baseline'.
+	spec for: #'common' version: '0.2-baseline'.
 
 ]
 
@@ -252,6 +267,7 @@ ConfigurationOfRProjectConnector >> getRUnixLibs [
 	'/usr/local/lib/R/lib/'
 	'/usr/lib64/R/lib/') 
 		detect: [ : path | (path asFileReference / 'libR.so') exists ]
+		ifFound: [ : pathName | self copyRLinuxLibs: pathName ]
 		ifNone: [ Transcript show: 'R was not detected in lib path, is R installed?' ]
 ]
 
@@ -391,6 +407,19 @@ ConfigurationOfRProjectConnector >> version10: spec [
 		spec description: 'version 1.0'.
 		spec author: 'VincentBLondeau'.
 		spec timestamp: '12/5/2014 15:38'.
+		spec package: 'RConnector' with: 'RConnector-VincentBLondeau.42'. ].
+
+]
+
+{ #category : #versions }
+ConfigurationOfRProjectConnector >> version11: spec [
+	<version: '1.1' imports: #('0.2-baseline' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'version 1.1'.
+		spec author: 'HernanMoralesDurand'.
+		spec timestamp: '14/8/2015 15:58'.
 		spec package: 'RConnector' with: 'RConnector-VincentBLondeau.42'. ].
 
 ]
