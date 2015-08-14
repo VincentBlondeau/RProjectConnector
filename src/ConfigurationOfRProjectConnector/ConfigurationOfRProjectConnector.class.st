@@ -169,6 +169,18 @@ ConfigurationOfRProjectConnector >> catalogKeywords [
 	^ #(R NativeBoost Statistics Binding Connector) 
 ]
 
+{ #category : #doits }
+ConfigurationOfRProjectConnector >> copyRWinLibs: rPath [
+	" Private - Copy detected R DLL's in rPath to VM directory "
+
+	| vmPath dlls |
+	vmPath := Smalltalk vmDirectory asFileReference.
+	dlls := (rPath asFileReference / 'bin' / 'i386') entries
+		select: [ : entry | entry  extension = 'dll' ]
+		thenDo: [ : dllEntry | dllEntry asFileReference copyTo: vmPath / dllEntry basename ].
+	dlls notEmpty ifTrue: [ Transcript show: 'Successfully copied R dll''s to VM path'; cr ]
+]
+
 { #category : #accessing }
 ConfigurationOfRProjectConnector >> customProjectAttributes [
 	 "Edit to return a collection of any custom attributes e.g. for conditional loading: Array with: #'Condition1' with: #'Condition2.
@@ -177,12 +189,68 @@ ConfigurationOfRProjectConnector >> customProjectAttributes [
 	^ #().
 ]
 
+{ #category : #doits }
+ConfigurationOfRProjectConnector >> detectRWinInstallation [
+
+	| rPath  winRegistry |
+	winRegistry := Smalltalk at: #WinRegistry.
+	(rPath := winRegistry
+	    queryValue: 'InstallPath'
+	    fromKey: (winRegistry localMachine queryOpenSubkey: 'Software\\R-core\\R')) notNil
+			ifTrue: [ self copyRWinLibs: rPath ]
+			ifFalse: [ Transcript show: 'R was not detected in Windows Registry, is R installed?' ]
+]
+
 { #category : #'symbolic versions' }
 ConfigurationOfRProjectConnector >> development: spec [
 	<symbolicVersion: #'development'>
 
 	spec for: #'common' version: '0.1-baseline'.
 
+]
+
+{ #category : #doits }
+ConfigurationOfRProjectConnector >> getRLibs [
+	" Private - Detect platform and get appropriate library files "
+
+	Smalltalk os isWin32 
+		ifTrue: [ self getRWinLibs ].
+	Smalltalk os isUnix
+		ifTrue: [ self getRUnixLibs ].
+	(Smalltalk os isMacOS or: [ Smalltalk os isMacOSX ])
+		ifTrue: [ self getRMacOSLibs ]
+]
+
+{ #category : #doits }
+ConfigurationOfRProjectConnector >> getRMacOSLibs [
+
+]
+
+{ #category : #doits }
+ConfigurationOfRProjectConnector >> getRUnixLibs [
+
+]
+
+{ #category : #doits }
+ConfigurationOfRProjectConnector >> getRWinLibs [
+	" Private - We need to query Windows Registry to find if R is installed, fetch the OSWindows package "
+	
+	self installOSWindow.
+	self detectRWinInstallation.
+
+	
+]
+
+{ #category : #doits }
+ConfigurationOfRProjectConnector >> installOSWindow [
+	" Private - Install support package "
+
+	Gofer it
+		smalltalkhubUser: 'Pharo' project: 'OSWindow';
+		configuration;
+		load.
+	#ConfigurationOfOSWindows asClass load.
+	
 ]
 
 { #category : #accessing }
