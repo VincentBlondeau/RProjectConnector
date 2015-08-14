@@ -133,6 +133,22 @@ ConfigurationOfRProjectConnector >> baseline01: spec [
 
 ]
 
+{ #category : #baselines }
+ConfigurationOfRProjectConnector >> baseline02: spec [
+	<version: '0.2-baseline'>
+
+	spec for: #'common' do: [
+		spec blessing: #'baseline'.
+		spec preLoadDoIt: #preLoad.		
+		spec description: 'First version of the RConnector, a binding to R from Pharo'.
+		spec author: 'VincentBLondeau'.
+		spec timestamp: '14/8/2015 15:58'.
+		spec repository: 'http://smalltalkhub.com/mc/VincentBlondeau/RProjectConnector/main/'.
+		spec package: 'RConnector'.
+		spec group: 'Core' with: #('RConnector' ). ].
+
+]
+
 { #category : #catalog }
 ConfigurationOfRProjectConnector >> catalogChangeLog [
 	"Returns a paragraph describing the most important changes in the configuration class."
@@ -198,7 +214,7 @@ ConfigurationOfRProjectConnector >> detectRWinInstallation [
 	    queryValue: 'InstallPath'
 	    fromKey: (winRegistry localMachine queryOpenSubkey: 'Software\\R-core\\R')) notNil
 			ifTrue: [ self copyRWinLibs: rPath ]
-			ifFalse: [ Transcript show: 'R was not detected in Windows Registry, is R installed?' ]
+			ifFalse: [ Transcript show: 'R (32-bit) was not detected in Windows Registry, is R installed?' ]
 ]
 
 { #category : #'symbolic versions' }
@@ -228,7 +244,15 @@ ConfigurationOfRProjectConnector >> getRMacOSLibs [
 
 { #category : #doits }
 ConfigurationOfRProjectConnector >> getRUnixLibs [
+	" Get R 32-bit for RH platforms : http://www.kodkast.com/linux-package-installation-steps?pkg=R.i386
+	"
 
+	#('/usr/lib/R/bin'
+	'/usr/local/lib/R/bin/'
+	'/usr/local/lib/R/lib/'
+	'/usr/lib64/R/lib/') 
+		detect: [ : path | (path asFileReference / 'libR.so') exists ]
+		ifNone: [ Transcript show: 'R was not detected in lib path, is R installed?' ]
 ]
 
 { #category : #doits }
@@ -251,6 +275,13 @@ ConfigurationOfRProjectConnector >> installOSWindow [
 		load.
 	#ConfigurationOfOSWindows asClass load.
 	
+]
+
+{ #category : #doits }
+ConfigurationOfRProjectConnector >> preLoad [
+
+	self getRLibs.
+
 ]
 
 { #category : #accessing }
