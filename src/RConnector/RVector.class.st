@@ -207,6 +207,15 @@ RVector >> addLast: anElement [
 	self setLength: self size	"((self size) min: self capacity)"
 ]
 
+{ #category : #converting }
+RVector >> asObject [
+	| obj |
+	obj := self as: OrderedCollection.
+	^ obj size = 1
+		ifTrue: [ obj first ]
+		ifFalse: [ obj ]
+]
+
 { #category : #'trait - converting' }
 RVector >> asPureRObject [
 	^ RObject createNewObjectFrom: self 
