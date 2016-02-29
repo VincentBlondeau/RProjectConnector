@@ -57,7 +57,7 @@ RFunctionTest >> testCorrelationXXShouldGiveOne [
 	self assert: (res isKindOf: RDoubleVector ).
 	self assert: res prim_length equals: 1.
 	self assert: res size equals: 1.
-	self assert: res first equals: 1
+	self assert: (res first closeTo: 1)
 	
 	
 	
