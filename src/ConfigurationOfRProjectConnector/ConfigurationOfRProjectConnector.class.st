@@ -394,7 +394,7 @@ Links
 ConfigurationOfRProjectConnector >> stable: spec [
 	<symbolicVersion: #'stable'>
 
-	spec for: #'common' version: '1.0'.
+	spec for: #'common' version: '1.2'.
 
 ]
 
@@ -421,5 +421,18 @@ ConfigurationOfRProjectConnector >> version11: spec [
 		spec author: 'HernanMoralesDurand'.
 		spec timestamp: '14/8/2015 15:58'.
 		spec package: 'RConnector' with: 'RConnector-VincentBLondeau.42'. ].
+
+]
+
+{ #category : #versions }
+ConfigurationOfRProjectConnector >> version12: spec [
+	<version: '1.2' imports: #('0.2-baseline' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'version 1.2'.
+		spec author: 'VincentBlondeau'.
+		spec timestamp: '3/9/2016 18:46'.
+		spec package: 'RConnector' with: 'RConnector-VincentBlondeau.62'. ].
 
 ]
