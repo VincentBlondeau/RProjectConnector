@@ -36,6 +36,9 @@ Class {
 		'VECSXP',
 		'WEAKREFSXP'
 	],
+	#classInstVars : [
+		'typeRelatedToNumberCache'
+	],
 	#category : #'RConnector-Core'
 }
 
@@ -74,10 +77,9 @@ RLibTypes class >> implementationClassRelatedTo: index [
 	^ self dictionaryOfImplementationClass at: index ifAbsent: [ self error: 'All the types are already referenced !' ]
 ]
 
-{ #category : #'class initialization' }
+{ #category : #'retrieving symbols' }
 RLibTypes class >> initialize [
-	SEXP := #RObject.
-	self initializeObjectTypes
+	typeRelatedToNumberCache := Dictionary new
 ]
 
 { #category : #initialization }
@@ -110,6 +112,7 @@ RLibTypes class >> initializeObjectTypes [
 
 { #category : #'retrieving symbols' }
 RLibTypes class >> typeRelatedToNumber: index [
-	^ self classVarNames detect: [ :classvarname | (self classVarNamed: classvarname) = index ]
-
+	^ typeRelatedToNumberCache 
+		at: index
+		ifAbsentPut: [ self classVarNames detect: [ :classvarname | (self classVarNamed: classvarname) = index ] ]
 ]
