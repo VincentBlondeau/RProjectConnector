@@ -15,7 +15,6 @@ RSessionTest >> testIfSessionIsValid [
 
 { #category : #tests }
 RSessionTest >> testInstallPackageShouldWork [
-	<expectedFailure>
 	| res |
 	self fail.
 	RFunction
@@ -23,7 +22,7 @@ RSessionTest >> testInstallPackageShouldWork [
 		withListParameter:
 			{'tseries'.
 			('repo' -> 'http://cran.rstudio.com/')}.
-	res := RFunction eval: 'library' withParameters: {'forecast'. }.
+	res := RFunction eval: 'library' withParameters: {'forecast'}.
 	self assert: res value equals: 'forecast'
 ]
 
@@ -34,10 +33,9 @@ RSessionTest >> testLoadLibraryShouldNotWorkIfThePackageIsNotInstalled [
 
 { #category : #tests }
 RSessionTest >> testProxySetting [
-	<expectedFailure>
 	| proxy |
 	self fail.
 	proxy := 'proxy:3128'.
 	self assert: ('Sys.setenv' asREval: {('http_proxy' -> proxy)}) first equals: true.
-	self assert: ('Sys.getenv' asREval: {'http_proxy'. }) first value equals: proxy
+	self assert: ('Sys.getenv' asREval: {'http_proxy'}) first value equals: proxy
 ]

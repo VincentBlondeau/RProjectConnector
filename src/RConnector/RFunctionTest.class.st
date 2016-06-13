@@ -57,7 +57,7 @@ RFunctionTest >> testCorrelationXXShouldGiveOne [
 	self assert: (res isKindOf: RDoubleVector ).
 	self assert: res prim_length equals: 1.
 	self assert: res size equals: 1.
-	self assert: (res first closeTo: 1)
+	self assert: res first equals: 1
 	
 	
 	
@@ -168,8 +168,8 @@ RFunctionTest >> testTimeSerieCreationWithParameters [
 					2.
 					3}).
 			('frequency' -> 3)}.
-	self assert: (res isKindOf: RVector).
-	self assert: res prim_length equals: 6.
-	self assert: res size equals: 6.
+	self assert: (res isKindOf: RDoubleVector).
+	self assert: res prim_length equals: 1.
+	self assert: res size equals: 1.
 	self assert: res first equals: 1
 ]
