@@ -207,9 +207,15 @@ ConfigurationOfRProjectConnector >> copyRWinLibs: rPath [
 	| vmPath dlls |
 	vmPath := Smalltalk vmDirectory asFileReference.
 	dlls := (rPath asFileReference / 'bin' / 'i386') entries
-		select: [ : entry | entry  extension = 'dll' ]
-		thenDo: [ : dllEntry | dllEntry asFileReference copyTo: vmPath / dllEntry basename ].
-	dlls notEmpty ifTrue: [ Transcript show: 'Successfully copied R dll''s to VM path'; cr ]
+		select: [ :entry | entry extension = 'dll' ]
+		thenDo: [ :dllEntry | 
+			[ dllEntry asFileReference copyTo: vmPath / dllEntry basename ]
+				on: FileExists
+				do: [  ] ].
+	dlls notEmpty
+		ifTrue: [ Transcript
+				show: 'Successfully copied R dll''s to VM path';
+				cr ]
 ]
 
 { #category : #accessing }
@@ -222,14 +228,12 @@ ConfigurationOfRProjectConnector >> customProjectAttributes [
 
 { #category : #doits }
 ConfigurationOfRProjectConnector >> detectRWinInstallation [
-
-	| rPath  winRegistry |
+	| rPath winRegistry winRegistryKey |
 	winRegistry := Smalltalk at: #WinRegistry.
-	(rPath := winRegistry
-	    queryValue: 'InstallPath'
-	    fromKey: (winRegistry localMachine queryOpenSubkey: 'Software\\R-core\\R')) notNil
-			ifTrue: [ self copyRWinLibs: rPath ]
-			ifFalse: [ Transcript show: 'R (32-bit) was not detected in Windows Registry, is R installed?' ]
+	winRegistryKey := Smalltalk at: #WinRegistryKey.
+	(rPath := winRegistry queryValue: 'InstallPath' fromKey: (winRegistryKey localMachine queryOpenSubkey: 'Software\\R-core\\R')) notNil
+		ifTrue: [ self copyRWinLibs: rPath allButLast  ]
+		ifFalse: [ Transcript show: 'R (32-bit) was not detected in Windows Registry, is R installed?' ]
 ]
 
 { #category : #'symbolic versions' }
@@ -286,8 +290,8 @@ ConfigurationOfRProjectConnector >> installOSWindow [
 	" Private - Install support package "
 
 	Gofer it
-		smalltalkhubUser: 'Pharo' project: 'OSWindow';
-		configuration;
+		smalltalkhubUser: 'OS' project: 'OS-Windows';
+		configurationOf: 'OSWindows';
 		load.
 	#ConfigurationOfOSWindows asClass load.
 	
