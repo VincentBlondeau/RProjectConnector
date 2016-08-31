@@ -20,6 +20,11 @@ TRHelpers classSide >> createNewObjectFrom: aRObject [
 	^ instance
 ]
 
+{ #category : #'trait - library path' }
+TRHelpers classSide >> ffiLibraryNameOrHandle [
+	^ #R
+]
+
 { #category : #'trait - function finding' }
 TRHelpers classSide >> findClassOf: aRObject [
 	| type  |
@@ -40,11 +45,6 @@ TRHelpers classSide >> findVar: aStringOfFunctionName [
 { #category : #'trait - function finding' }
 TRHelpers classSide >> getRObjectFromGlobalVariable: varName [
 	^ RObject new handle: (self nbGetGlobalVariable: varName)
-]
-
-{ #category : #'trait - library path' }
-TRHelpers classSide >> nbLibraryNameOrHandle [
-	^ #R
 ]
 
 { #category : #'trait - instance creation' }
@@ -125,6 +125,11 @@ TRHelpers >> defineAsVarNamed: aRName inEnv: anEnvironment [
 { #category : #accessing }
 TRHelpers >> dim [
 	^ (self prim_attributeAt: self class rDimSymbol) asRObject
+]
+
+{ #category : #'trait - library path' }
+TRHelpers >> ffiLibraryName [
+ ^ self class ffiLibraryNameOrHandle
 ]
 
 { #category : #'trait - converting' }

@@ -47,12 +47,6 @@ RNilValue >> asRObject [
 ]
 
 { #category : #testing }
-RNilValue >> doesNotUnderstand: aMessage [
-self halt.
-	^ super doesNotUnderstand: aMessage
-]
-
-{ #category : #testing }
 RNilValue >> ifNil: aBlock [
 	^ aBlock value
 ]

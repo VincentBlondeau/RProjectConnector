@@ -279,16 +279,8 @@ RList >> keys [
 ]
 
 { #category : #'private - primitive' }
-RList >> prim_attributeAt: attributeName [
-	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
-	^ self nbCall: #(SEXP Rf_getAttrib(self, SEXP attributeName))
-]
-
-{ #category : #'private - primitive' }
 RList >> prim_attributeAt: attributeName put: attributeValue [
-	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
-
-	^ self nbCall: #(SEXP Rf_setAttrib(self, SEXP attributeName, SEXP attributeValue))
+	^ self ffiCall: #(#SEXP #Rf_setAttrib #(#self #, #SEXP #attributeName #, #SEXP #attributeValue))
 ]
 
 { #category : #'private - primitive' }
@@ -318,11 +310,6 @@ RList >> printOn: aStream [
 			aStream << '->'.
 			aStream << value asRObject asString.
 			aStream << '.' ]
-]
-
-{ #category : #accessing }
-RList >> rClass [
-	^ (self prim_attributeAt: self class rClassSymbol) asRObject
 ]
 
 { #category : #accessing }

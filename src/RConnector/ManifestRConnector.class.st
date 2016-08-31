@@ -1,10 +1,10 @@
 "
-I stores metadata on true and false positive critics. These meta data are used by the SmalllintManifestChecker and the critics Browser
+I store metadata for this package. These meta data are used by other tools such as the SmalllintManifestChecker and the critics Browser
 "
 Class {
 	#name : #ManifestRConnector,
-	#superclass : #Object,
-	#category : #'RConnector-Critics'
+	#superclass : #PackageManifest,
+	#category : #RConnector
 }
 
 { #category : #'meta data' }
@@ -17,9 +17,9 @@ ManifestRConnector class >> rejectRules [
 ^ #()
 ]
 
-{ #category : #'meta data' }
+{ #category : #'code-critics' }
 ManifestRConnector class >> ruleClassNotReferencedRuleV1FalsePositive [
-^ #()
+	^ #(#(#(#RGClassDefinition #(#ManifestRConnector)) #'2016-08-31T14:36:03.227112+02:00') )
 ]
 
 { #category : #'meta data' }

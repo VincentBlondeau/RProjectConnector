@@ -47,6 +47,11 @@ RChar >> asRChar [
 	^ self
 ]
 
+{ #category : #comparing }
+RChar >> hash [
+	^ self value hash
+]
+
 { #category : #printing }
 RChar >> printOn: aStream [
 	aStream << ${.

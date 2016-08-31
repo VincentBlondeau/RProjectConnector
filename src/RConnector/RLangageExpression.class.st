@@ -58,8 +58,8 @@ RLangageExpression >> add: anElement direction: aBlock [
 
 { #category : #adding }
 RLangageExpression >> addAll: aCollection [
-	aCollection do: [ :item | self add: item asRObject ]
-
+	aCollection do: [ :item | self add: item asRObject ].
+	^ aCollection
 ]
 
 { #category : #adding }
@@ -86,15 +86,13 @@ RLangageExpression >> eval [
 
 { #category : #accessing }
 RLangageExpression >> first [
-	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
-	^ self nbCall: #(SEXP CAR (self))
+	^ self ffiCall: #(#SEXP #CAR #(#self))
 ]
 
 { #category : #adding }
 RLangageExpression >> first: element [
-	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
-        nbCall: #(SEXP SETCAR(self, SEXP element))
+        ffiCall: #(SEXP SETCAR(self, SEXP element))
 
 ]
 
@@ -131,24 +129,18 @@ RLangageExpression >> prim_addFirst: anElement [
 { #category : #'private - primitive' }
 RLangageExpression >> prim_addLast: anElement [
 	"The element to append should be a list else the chained list is not null terminated and some problems can happens..."
-
-	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
-	^ self nbCall: #(SEXP Rf_listAppend(self, SEXP anElement))
+ 
+	^ self ffiCall: #(SEXP Rf_listAppend (self, SEXP anElement))
 ]
 
 { #category : #'private - primitive' }
 RLangageExpression >> prim_firstAdd: anElement [
-	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
-	^ self nbCall: #(SEXP Rf_lang1(SEXP anElement))
-
-	
+	^ self ffiCall: #(#SEXP #Rf_lang1 #(#SEXP #anElement))
 ]
 
 { #category : #'private - primitive' }
 RLangageExpression >> prim_tryEval: env error: errorOccurred [
-    <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
-    ^ self
-        nbCall: #(SEXP R_tryEval(self,SEXP env, int * errorOccurred))
+	^ self ffiCall: #(#SEXP #R_tryEval #(#self #, #SEXP #env #, #int #* #errorOccurred))
 ]
 
 { #category : #private }
@@ -185,8 +177,7 @@ RLangageExpression >> tag [
 
 { #category : #accessing }
 RLangageExpression >> third [
-	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
-	^ self nbCall: #(SEXP CADDR (self))
+	^ self ffiCall: #(#SEXP #CADDR #(#self))
 ]
 
 { #category : #adding }

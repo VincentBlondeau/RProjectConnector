@@ -13,7 +13,7 @@ handle
 Class {
 	#name : #RVector,
 	#superclass : #OrderedCollection,
-	#traits : 'TRHelpers + TRClassExtension',
+	#traits : 'TRClassExtension + (TRHelpers - {#prim_attributeAt:})',
 	#classTraits : 'TRHelpers classTrait + TRClassExtension classTrait',
 	#instVars : [
 		'handle'
@@ -101,9 +101,7 @@ RVector >> addFirst: anElement [
 
 { #category : #adding }
 RVector >> addLast: anElement [
-	[ super addLast: anElement ]
-		on: NBFFICalloutError
-		do: [ self error: 'Maybe you should check the value of ''anElement''' ].
+	super addLast: anElement.
 	self setLength: self size	"((self size) min: self capacity)"
 ]
 
@@ -169,6 +167,12 @@ RVector >> initializeHandle [
 	handle := ExternalAddress new
 
 	
+]
+
+{ #category : #'private - primitive' }
+RVector >> prim_attributeAt: attributeName [
+	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
+	^ self nbCall: #(SEXP Rf_getAttrib(self, SEXP attributeName))
 ]
 
 { #category : #private }
