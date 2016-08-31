@@ -149,6 +149,21 @@ ConfigurationOfRProjectConnector >> baseline02: spec [
 
 ]
 
+{ #category : #baselines }
+ConfigurationOfRProjectConnector >> baseline03: spec [
+	<version: '0.3-baseline'>
+
+	spec for: #'common' do: [
+		spec blessing: #'baseline'.
+		spec repository: 'http://smalltalkhub.com/mc/VincentBlondeau/RProjectConnector/main/'.
+		spec 
+			package: #RConnector;
+			package: #'RConnector-Tests' with: [
+				spec requires: #(#RConnector ). ].
+		spec group: 'Core' with: #(#RConnector #'RConnector-Tests' ). ].
+
+]
+
 { #category : #catalog }
 ConfigurationOfRProjectConnector >> catalogChangeLog [
 	"Returns a paragraph describing the most important changes in the configuration class."
@@ -162,7 +177,7 @@ ConfigurationOfRProjectConnector >> catalogChangeLog [
 ]]]
 	- 2.0 - 31 aug 2016 - migration to UFFI
 [[[
-	ConfigurationOfRProjectConnector project version: ''2.0'' ) load					
+	ConfigurationOfRProjectConnector project version: ''2.1'' ) load					
 ]]]'
 ]
 
@@ -248,7 +263,7 @@ ConfigurationOfRProjectConnector >> detectRWinInstallation [
 ConfigurationOfRProjectConnector >> development: spec [
 	<symbolicVersion: #'development'>
 
-	spec for: #'common' version: '0.2-baseline'.
+	spec for: #'common' version: '0.3-baseline'.
 
 ]
 
@@ -404,10 +419,12 @@ Links
 
 { #category : #'symbolic versions' }
 ConfigurationOfRProjectConnector >> stable: spec [
-	<symbolicVersion: #stable>
-	spec
-		for: #common version: '2.0';
-		for: #'pharo4.x' version: '1.2'
+	<symbolicVersion: #'stable'>
+
+	spec for: #'common' version: '2.1'.
+
+	spec for: #'pharo4.x' version: '1.2'.
+
 ]
 
 { #category : #versions }
@@ -459,5 +476,20 @@ ConfigurationOfRProjectConnector >> version20: spec [
 		spec author: 'VincentBlondeau'.
 		spec timestamp: '8/31/2016 14:15'.
 		spec package: 'RConnector' with: 'RConnector-VincentBlondeau.66'. ].
+
+]
+
+{ #category : #versions }
+ConfigurationOfRProjectConnector >> version21: spec [
+	<version: '2.1' imports: #('0.3-baseline' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'version 2.1 - add tests in other package'.
+		spec author: 'VincentBlondeau'.
+		spec timestamp: '8/31/2016 14:39'.
+		spec 
+			package: #RConnector with: 'RConnector-VincentBlondeau.67';
+			package: #'RConnector-Tests' with: 'RConnector-Tests-VincentBlondeau.1'. ].
 
 ]
