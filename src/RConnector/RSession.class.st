@@ -47,7 +47,7 @@ RSession class >> checkWorking [
 { #category : #private }
 RSession class >> initEmbeddedR: parameters [
 	| externalArray |
-	externalArray := (FFIExternalArray externalNewType: 'void*' size: parameters size) autoRelease.
+	externalArray := (RArrayOfStrings externalNew: parameters size) autoRelease.
 	parameters withIndexDo: [ :string :index | externalArray at: index put: (ExternalAddress fromString: string) ].
 	self prim_initEmbeddedRargc: parameters size argv: externalArray
 ]
@@ -81,7 +81,7 @@ RSession class >> prim_endEmbeddedR: arg [
 RSession class >> prim_initEmbeddedRargc: argc argv: argv [
    
     ^ self
-        ffiCall: #(int Rf_initEmbeddedR(int argc, FFIExternalArrayOfStrings argv))
+        ffiCall: #(int Rf_initEmbeddedR(int argc, RArrayOfStrings argv))
 ]
 
 { #category : #'private - primitives' }
