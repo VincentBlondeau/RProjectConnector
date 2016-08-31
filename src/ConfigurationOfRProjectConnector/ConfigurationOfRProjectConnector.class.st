@@ -155,19 +155,27 @@ ConfigurationOfRProjectConnector >> catalogChangeLog [
 	^ '- 1.0 - 05 dec 2014 - first release: execution of simple functions and types
 [[[
 	ConfigurationOfRProjectConnector project version: ''1.0'' ) load					
+]]]
+	- 1.2 - 2015 - Improvement of some features
+[[[
+	ConfigurationOfRProjectConnector project version: ''1.2'' ) load					
+]]]
+	- 2.0 - 31 aug 2016 - migration to UFFI
+[[[
+	ConfigurationOfRProjectConnector project version: ''2.0'' ) load					
 ]]]'
 ]
 
 { #category : #catalog }
 ConfigurationOfRProjectConnector >> catalogContactInfo [
 	"Returns a paragraph describing contact information such as email, mailing lists and website."
-	^ 'RProjectConnector is the first R project connector for Pharo with NativeBoost. You can get in contact with our great RProjectConnector programmer at vincent.blondeau@polytech-lille.net'
+	^ 'RProjectConnector is the first R project connector for Pharo with UFFI. You can get in contact with our great RProjectConnector programmer at vincent.blondeau@polytech-lille.net'
 ]
 
 { #category : #catalog }
 ConfigurationOfRProjectConnector >> catalogDescription [
 	"Returns a paragraph describing the project"
-	^ 'RProjectConnector is the first R project connector for Pharo with NativeBoost. It is using the standard R libs to execute your functions and get the result under Pharo objects. You can even show the graphs that you have in R.'
+	^ 'RProjectConnector is the first R project connector for Pharo with UFFI. It is using the standard R libs to execute your functions and get the result under Pharo objects. You can even show the graphs that you have in R.'
 ]
 
 { #category : #catalog }
@@ -182,7 +190,7 @@ ConfigurationOfRProjectConnector >> catalogKeyClassesAndExample [
 { #category : #catalog }
 ConfigurationOfRProjectConnector >> catalogKeywords [
 	"Returns an array of symbols"
-	^ #(R NativeBoost Statistics Binding Connector) 
+	^ #(R NativeBoost UFFI Statistics Binding Connector) 
 ]
 
 { #category : #doits }
@@ -396,10 +404,10 @@ Links
 
 { #category : #'symbolic versions' }
 ConfigurationOfRProjectConnector >> stable: spec [
-	<symbolicVersion: #'stable'>
-
-	spec for: #'common' version: '1.2'.
-
+	<symbolicVersion: #stable>
+	spec
+		for: #common version: '2.0';
+		for: #'pharo4.x' version: '1.2'
 ]
 
 { #category : #versions }
@@ -438,5 +446,18 @@ ConfigurationOfRProjectConnector >> version12: spec [
 		spec author: 'VincentBlondeau'.
 		spec timestamp: '3/9/2016 18:46'.
 		spec package: 'RConnector' with: 'RConnector-VincentBlondeau.62'. ].
+
+]
+
+{ #category : #versions }
+ConfigurationOfRProjectConnector >> version20: spec [
+	<version: '2.0' imports: #('0.2-baseline' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'version 2.0'.
+		spec author: 'VincentBlondeau'.
+		spec timestamp: '8/31/2016 14:15'.
+		spec package: 'RConnector' with: 'RConnector-VincentBlondeau.66'. ].
 
 ]
