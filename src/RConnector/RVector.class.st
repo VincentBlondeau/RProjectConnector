@@ -109,11 +109,7 @@ RVector >> addLast: anElement [
 
 { #category : #converting }
 RVector >> asObject [
-	| obj |
-	obj := self as: OrderedCollection.
-	^ obj size = 1
-		ifTrue: [ obj first ]
-		ifFalse: [ obj ]
+	^ self collect: #value
 ]
 
 { #category : #converting }

@@ -93,6 +93,11 @@ RList >> addLast: anElement [
 ]
 
 { #category : #accessing }
+RList >> asObject [
+	^ (self associations collect: [ :assoc | assoc key asObject -> assoc value asObject ]) asDictionary
+]
+
+{ #category : #accessing }
 RList >> associations [
 	^ self withIndexCollect: [ :value :index | (keys at: index) -> (value asRObject) ]
 ]
