@@ -79,6 +79,8 @@ RLibTypes class >> implementationClassRelatedTo: index [
 
 { #category : #'retrieving symbols' }
 RLibTypes class >> initialize [
+	SEXP := #RObject.
+	self initializeObjectTypes.
 	typeRelatedToNumberCache := Dictionary new
 ]
 
