@@ -4,21 +4,16 @@ The TRHelper trait should not be used here because is just a transition type tha
 "
 Class {
 	#name : #RStringArray,
-	#superclass : #NBExternalArray,
+	#superclass : #FFIExternalArray,
 	#pools : [
 		'RLibTypes'
 	],
 	#category : #'RConnector-Core'
 }
 
-{ #category : #'trait - instance creation' }
-RStringArray class >> asNBExternalType: gen [
-	^ NBExternalObjectType objectClass: self
-]
-
-{ #category : #'class initialization' }
-RStringArray class >> initialize [
-	self initElementType: 'RChar'
+{ #category : #'as yet unclassified' }
+RStringArray class >> externalNew: size [ 
+	^ self externalNewType: RChar size: size
 ]
 
 { #category : #'class initialization' }
@@ -27,7 +22,16 @@ RStringArray class >> type [
 ]
 
 { #category : #'trait - copying' }
-RStringArray >> copyVectorFrom: anOldString [
-	anOldString  size  halt.
-    ^ self prim_copyVector: ''
+RStringArray >> at: index [
+	^ (RObject new handle: (super at: index)) asRObject
+]
+
+{ #category : #'trait - copying' }
+RStringArray >> at: index put: anObject [
+	| shouldBeAnExternalAddressOrNot externalAddress |
+	shouldBeAnExternalAddressOrNot := anObject getHandle.
+	externalAddress := shouldBeAnExternalAddressOrNot isExternalAddress
+		ifTrue: [ shouldBeAnExternalAddressOrNot ]
+		ifFalse: [ shouldBeAnExternalAddressOrNot getHandle ].
+	^ super at: index put: externalAddress
 ]

@@ -27,7 +27,6 @@ TRGlobals classSide >> rEmptyEnv [
 
 { #category : #'trait - global variables' }
 TRGlobals classSide >> rGlobalEnv [
-	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
 	^ self getRObjectFromGlobalVariable: #R_GlobalEnv
 ]
 

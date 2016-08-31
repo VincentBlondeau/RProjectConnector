@@ -24,13 +24,12 @@ Object >> dereferencePointer: aNbPointer [
 ]
 
 { #category : #'*RConnector' }
-Object >> nbGetGlobalVariable: variableName [
-	^ self nbGetGlobalVariable: variableName module: self nbLibraryNameOrHandle
+Object >> ffiGetGlobalVariable: variableName [
+	^ self ffiGetGlobalVariable: variableName module: self nbLibraryNameOrHandle
 ]
 
 { #category : #'*RConnector' }
-Object >> nbGetGlobalVariable: variableName module: aModule [
-	| pointerOfTheSymbol |
-	pointerOfTheSymbol := self nbGetSymbolAddress: variableName module: aModule.
-	^ self dereferencePointer: pointerOfTheSymbol
+Object >> ffiGetGlobalVariable: variableName module: aModule [
+	^ (ExternalAddress loadSymbol: variableName module: aModule)
+		unpackFromArity: 2
 ]

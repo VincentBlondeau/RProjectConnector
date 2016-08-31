@@ -189,13 +189,6 @@ TRHelpers >> isMatrix [
 ]
 
 { #category : #'trait - testing' }
-TRHelpers >> isNull [
-    <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
-    ^ self
-        nbCall: #(bool Rf_isNull(self))
-]
-
-{ #category : #'trait - testing' }
 TRHelpers >> isNumber [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
@@ -221,6 +214,13 @@ TRHelpers >> isPairList [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
         nbCall: #(bool Rf_isPairList(self))
+]
+
+{ #category : #'trait - testing' }
+TRHelpers >> isRNull [
+    <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
+    ^ self
+        nbCall: #(bool Rf_isNull(self))
 ]
 
 { #category : #'trait - testing' }
@@ -345,7 +345,7 @@ TRHelpers >> prim_int [
 TRHelpers >> prim_length [
     <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
     ^ self
-        nbCall: #(int Rf_length(self))
+        ffiCall: #(int Rf_length(self))
 ]
 
 { #category : #'trait - private primitives' }

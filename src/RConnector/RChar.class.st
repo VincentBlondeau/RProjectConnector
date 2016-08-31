@@ -37,12 +37,7 @@ RChar >> = anElement [
 	^ self value = anElement value
 ]
 
-{ #category : #converting }
-RChar >> asObject [
-	^ self value
-]
-
-{ #category : #converting }
+{ #category : #evaluating }
 RChar >> asRChar [
 	^ self
 ]

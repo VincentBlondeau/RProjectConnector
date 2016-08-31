@@ -14,6 +14,11 @@ Class {
 	#category : #'RConnector-Core'
 }
 
+{ #category : #accessing }
+RList class >> arrayContentType [
+	^ 'RObject'
+]
+
 { #category : #private }
 RList class >> arrayType [
 	^ RObjectArray 
@@ -38,7 +43,8 @@ RList class >> keyArrayType [
 RList class >> new: size [
 	| instance |
 	instance := super new: size.
-	instance setKeyArray: (self keyArrayType onAddress: (NBExternalAddress value: instance firstKeyPointer) size: size).
+	instance
+		setKeyArray: (self keyArrayType fromHandle: (ExternalAddress fromAddress: instance firstKeyPointer) type: self arrayContentType size: size).
 	^ instance
 ]
 
@@ -84,11 +90,6 @@ RList >> addAt: key value: value [
 RList >> addLast: anElement [
 	super addLast: anElement asPureRObject.
 	^ anElement
-]
-
-{ #category : #accessing }
-RList >> asObject [
-	^ (self associations collect: [ :assoc | assoc key asObject -> assoc value asObject ]) asDictionary
 ]
 
 { #category : #accessing }
@@ -187,7 +188,7 @@ RList >> first: anElement [
 
 { #category : #private }
 RList >> firstKeyPointer [
-	^ self attributes collector address value
+	^ self attributes collector getHandle asInteger
 ]
 
 { #category : #private }
@@ -198,15 +199,20 @@ RList >> firstPointer [
 { #category : #accessing }
 RList >> growAtLast [
 	"overridden to create external objects"
+
 	"We should recreate a new instance because there is no reallocation in the RAPI. So we swap the handles"
+
 	"Protect and unprotect methods should be added too"
+
 	"Overridded to support the extend of the key collection"
-	| size  newKeyArray |
+
+	| size newKeyArray |
 	super growAtLast.
-
 	size := array size.
-
-	newKeyArray := self class keyArrayType onAddress: (NBExternalAddress value: self firstKeyPointer) size: size.
+	newKeyArray := self class keyArrayType
+		fromHandle: (ExternalAddress fromAddress: self firstKeyPointer)
+		type: self class arrayContentType
+		size: size.
 	newKeyArray
 		replaceFrom: firstIndex
 		to: lastIndex

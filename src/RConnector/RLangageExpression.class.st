@@ -75,15 +75,13 @@ RLangageExpression >> addLast: anElement [
 { #category : #evaluating }
 RLangageExpression >> eval [
 	| res error |
-	error := NBExternalHandle new.
+	error := ExternalAddress gcallocate: ExternalAddress wordSize.
 	self prim_length < 1
 		ifTrue: [ CannotExecuteRemoteCall signal ].
 	res := self prim_tryEval: self class rGlobalEnv error: error.
-	res ifNil: [ REvaluationError signal: self prim_curErrorBuf ].
-		res protect.
+	res isNull ifTrue: [ REvaluationError signal: self prim_curErrorBuf ].
+	res protect.
 	^ res asRObject
-	
-
 ]
 
 { #category : #accessing }

@@ -9,6 +9,12 @@ Class {
 }
 
 { #category : #private }
+RStringVector class >> arrayContentType [
+
+	^ 'RChar' 
+]
+
+{ #category : #private }
 RStringVector class >> arrayType [
 
 	^ RStringArray 
@@ -23,7 +29,7 @@ RStringVector class >> firstPointer [
 RStringVector class >> newFromString: aString [
 	| instance |
 	instance := self primNewFromString: aString.
-	instance setCollection: (self arrayType onAddress: (NBExternalAddress value: instance firstPointer) size: 1).
+	instance setCollection: (self createArrayFromPointer: instance firstPointer size: 1).
 	instance resetToExternalCollection.
 	^ instance
 ]

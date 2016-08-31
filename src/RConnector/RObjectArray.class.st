@@ -1,6 +1,6 @@
 Class {
 	#name : #RObjectArray,
-	#superclass : #NBExternalArray,
+	#superclass : #FFIExternalArray,
 	#pools : [
 		'RLibTypes'
 	],
@@ -8,11 +8,16 @@ Class {
 }
 
 { #category : #'trait - private primitives' }
-RObjectArray class >> asNBExternalType: gen [
-	^ NBExternalObjectType objectClass: self
+RObjectArray class >> externalNew: size [ 
+	^ self externalNewType: RObject size: size
 ]
 
-{ #category : #'trait - private primitives' }
-RObjectArray class >> initialize [
-	self initElementType: 'RObject'
+{ #category : #accessing }
+RObjectArray >> at: index [
+	^ (RObject new handle: (super at: index)) asRObject
+]
+
+{ #category : #accessing }
+RObjectArray >> at: index put: anObject [
+	^ super at: index put: anObject getHandle getHandle
 ]

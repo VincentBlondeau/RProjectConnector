@@ -36,9 +36,6 @@ Class {
 		'VECSXP',
 		'WEAKREFSXP'
 	],
-	#classInstVars : [
-		'typeRelatedToNumberCache'
-	],
 	#category : #'RConnector-Core'
 }
 
@@ -61,7 +58,7 @@ RLibTypes class >> dictionaryOfImplementationClass [
 	CPLXSXP -> RObject."complex vectors"
 	STRSXP -> RStringVector."character vectors"
 	DOTSXP -> RObject."dot-dot-dot object"
-	ANYSXP -> RObject."make “any” args work"
+	ANYSXP -> RObject."make ҡnyӠargs work"
 	VECSXP -> RList."list (generic vector)"
 	EXPRSXP -> RObject."	expression vector"
 	BCODESXP -> RObject.	"byte code"
@@ -77,9 +74,10 @@ RLibTypes class >> implementationClassRelatedTo: index [
 	^ self dictionaryOfImplementationClass at: index ifAbsent: [ self error: 'All the types are already referenced !' ]
 ]
 
-{ #category : #'retrieving symbols' }
+{ #category : #'class initialization' }
 RLibTypes class >> initialize [
-	typeRelatedToNumberCache := Dictionary new
+	SEXP := #RObject.
+	self initializeObjectTypes
 ]
 
 { #category : #initialization }
@@ -100,7 +98,7 @@ RLibTypes class >> initializeObjectTypes [
 	CPLXSXP := 15."complex vectors"
 	STRSXP := 16."character vectors"
 	DOTSXP := 17."dot-dot-dot object"
-	ANYSXP := 18."make “any” args work"
+	ANYSXP := 18."make ҡnyӠargs work"
 	VECSXP := 19."list (generic vector)"
 	EXPRSXP := 20."	expression vector"
 	BCODESXP := 21.	"byte code"
@@ -112,7 +110,6 @@ RLibTypes class >> initializeObjectTypes [
 
 { #category : #'retrieving symbols' }
 RLibTypes class >> typeRelatedToNumber: index [
-	^ typeRelatedToNumberCache 
-		at: index
-		ifAbsentPut: [ self classVarNames detect: [ :classvarname | (self classVarNamed: classvarname) = index ] ]
+	^ self classVarNames detect: [ :classvarname | (self classVarNamed: classvarname) = index ]
+
 ]

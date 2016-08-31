@@ -15,28 +15,26 @@ RCollectionTest >> testConversionRObjectToSubTypeOfRObject [
 			0.
 			51.
 			-42}.
-	dataExternalArrayHandle := data collector address.
+	dataExternalArrayHandle := data collector getHandle.
 	rObject := data asPureRObject.
 	newData := rObject asRObject.
-	self assert: data int equals: newData collector address value.
+	self assert: data int equals: newData collector getHandle asInteger.
 	self assert: data int equals: dataExternalArrayHandle value.
-	self assert:  newData collector address value  equals: dataExternalArrayHandle value.
+	self assert:  newData collector  getHandle asInteger  equals: dataExternalArrayHandle value.
 	
 	
 ]
 
 { #category : #tests }
 RCollectionTest >> testConversionRObjectToSubTypeOfRObject2 [
-	| data  dataExternalArrayHandle rObject newData |
+	| data dataExternalArrayHandle rObject newData |
 	data := RIntVector new.
-	dataExternalArrayHandle := data collector address.
+	dataExternalArrayHandle := data collector getHandle.
 	rObject := data asPureRObject.
 	newData := rObject asRObject.
-	self assert: data int equals: newData collector address value.
+	self assert: data int equals: newData collector getHandle asInteger.
 	self assert: data int equals: dataExternalArrayHandle value.
-	self assert:  newData collector address value  equals: dataExternalArrayHandle value.
-	
-	
+	self assert: newData collector getHandle asInteger equals: dataExternalArrayHandle value
 ]
 
 { #category : #tests }

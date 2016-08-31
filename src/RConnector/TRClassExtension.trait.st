@@ -7,9 +7,14 @@ Trait {
 	#category : #'RConnector-Core'
 }
 
+{ #category : #'trait - deprecated' }
+TRClassExtension classSide >> asExternalType: gen [
+	^ FFIExternalObjectType objectClass: self
+]
+
 { #category : #'trait - converting' }
-TRClassExtension classSide >> asNBExternalType: gen [
-	^ NBExternalObjectType objectClass: self
+TRClassExtension classSide >> asExternalTypeOn: gen [
+	^ FFIExternalObjectType objectClass: self
 ]
 
 { #category : #'trait - private - instance creation' }

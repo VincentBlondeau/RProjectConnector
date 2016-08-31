@@ -10,7 +10,7 @@ Class {
 }
 
 { #category : #'trait - function finding' }
-RIntVector class >> arrayTypePrimitiveType [
+RIntVector class >> arrayContentType [
 	^ 'int'
 ]
 

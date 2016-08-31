@@ -10,7 +10,7 @@ Class {
 }
 
 { #category : #'trait - function finding' }
-RDoubleVector class >> arrayTypePrimitiveType [
+RDoubleVector class >> arrayContentType [
 	^ 'double'
 ]
 

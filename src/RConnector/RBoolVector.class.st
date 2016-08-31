@@ -10,7 +10,7 @@ Class {
 }
 
 { #category : #'trait - function finding' }
-RBoolVector class >> arrayTypePrimitiveType [
+RBoolVector class >> arrayContentType [
 	^ 'RLogical'
 ]
 

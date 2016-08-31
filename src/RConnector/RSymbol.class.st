@@ -11,7 +11,7 @@ Class {
 
 { #category : #'instance creation' }
 RSymbol class >> newFromSymbol: aSymbol [
-	^ (self prim_install: aSymbol)
+	^ (self prim_install: aSymbol asString)
 ]
 
 { #category : #'private - instance creation' }

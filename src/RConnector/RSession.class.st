@@ -30,12 +30,12 @@ RSession class >> checkLibs [
 ]
 
 { #category : #private }
-RSession class >> checkSession [
-	(NativeBoost sessionChanged: RSession)
+RSession class >> checkSession [ 
+	(RSession ~~ Smalltalk session)
 		ifTrue: [ 
-			RSession := NativeBoost uniqueSessionObject.
+			RSession := Smalltalk session.
 			RLibTypes initialize.
-			self initEmbeddedR: #(#R '--no-save' 'silent') ]
+			self initEmbeddedR: #('R' '--no-save' 'silent') ]
 ]
 
 { #category : #private }
@@ -45,23 +45,11 @@ RSession class >> checkWorking [
 ]
 
 { #category : #private }
-RSession class >> initEmbeddedR: params [
-	| strings par |
-	^ [ 
-	"This is 32bit... too bad..."
-	strings := OrderedCollection new.
-	par := NativeBoost allocate: 4 * params size.
-	params
-		keysAndValuesDo: [ :i :each | 
-			| str |
-			str := each asNBExternalString.
-			strings add: str.
-			par nbUInt32AtOffset: (i - 1) * 4 put: str value ].
-	self prim_initEmbeddedRargc: params size argv: par ]
-		ensure: [ 
-			"Free the memory we allocated"
-			par ifNotNil: [ par free ].
-			strings ifNotNil: [ strings do: [ :each | each free ] ] ]
+RSession class >> initEmbeddedR: parameters [
+	| externalArray |
+	externalArray := (FFIExternalArray externalNewType: 'void*' size: parameters size) autoRelease.
+	parameters withIndexDo: [ :string :index | externalArray at: index put: (ExternalAddress fromString: string) ].
+	self prim_initEmbeddedRargc: parameters size argv: externalArray
 ]
 
 { #category : #'class initialization' }
@@ -77,12 +65,9 @@ RSession class >> invalidateOldHandles [
 
 { #category : #testing }
 RSession class >> isExistsRf_initEmbeddedR [
-	^ [(self nbGetSymbolAddress: 'Rf_initEmbeddedR' module: #R) isNotNil] on: PrimitiveFailed do: [  self error: 'Please check that you use the right libraries!' ]
-]
-
-{ #category : #'trait - library path' }
-RSession class >> nbLibraryNameOrHandle [
- ^ #R
+	^ [ (Alien lookupOrNil: 'Rf_initEmbeddedR' inLibrary: #R) isNotNil ]
+		on: PrimitiveFailed
+		do: [ self error: 'Please check that you use the right libraries!' ]
 ]
 
 { #category : #'private - primitives' }
@@ -94,9 +79,9 @@ RSession class >> prim_endEmbeddedR: arg [
 
 { #category : #'private - primitives' }
 RSession class >> prim_initEmbeddedRargc: argc argv: argv [
-    <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
+   
     ^ self
-        nbCall: #(int Rf_initEmbeddedR(int argc, char *argv))
+        ffiCall: #(int Rf_initEmbeddedR(int argc, FFIExternalArrayOfStrings argv))
 ]
 
 { #category : #'private - primitives' }
@@ -116,13 +101,8 @@ RSession class >> startUp [
 
 { #category : #'stats functions' }
 RSession class >> unif_rand [
-    <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
+ 
     ^ self
-        nbCall: #( double unif_rand(void) )
+        ffiCall: #( double unif_rand(void) )
         module: #R
-]
-
-{ #category : #'trait - library path' }
-RSession >> nbLibraryNameOrHandle [
- ^ self class nbLibraryNameOrHandle
 ]
