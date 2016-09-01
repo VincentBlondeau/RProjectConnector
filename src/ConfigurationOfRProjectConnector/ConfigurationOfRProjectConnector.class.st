@@ -489,7 +489,7 @@ ConfigurationOfRProjectConnector >> version21: spec [
 		spec author: 'VincentBlondeau'.
 		spec timestamp: '8/31/2016 14:39'.
 		spec 
-			package: #RConnector with: 'RConnector-VincentBlondeau.69';
+			package: #RConnector with: 'RConnector-VincentBlondeau.70';
 			package: #'RConnector-Tests' with: 'RConnector-Tests-VincentBlondeau.1'. ].
 
 ]
