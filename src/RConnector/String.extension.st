@@ -2,7 +2,7 @@ Extension { #name : #String }
 
 { #category : #'*RConnector' }
 String >> asRChar [
-	^ RChar primNew: self
+	^ RChar primNew: self asString
 ]
 
 { #category : #'*RConnector' }

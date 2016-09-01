@@ -134,7 +134,8 @@ TRHelpers >> ffiLibraryName [
 
 { #category : #'trait - converting' }
 TRHelpers >> int [
-	self isInteger ifFalse: [ CannotBeConvertedToType signal ].
+	(self typeOf = #INTSXP or: [ self isInteger ])
+		ifFalse: [ CannotBeConvertedToType signal ].
 	^ self prim_int
 ]
 

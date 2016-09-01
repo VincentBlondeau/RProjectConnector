@@ -19,5 +19,10 @@ RObjectArray >> at: index [
 
 { #category : #accessing }
 RObjectArray >> at: index put: anObject [
-	^ super at: index put: anObject getHandle getHandle
+	| shouldBeAnExternalAddressOrNot externalAddress |
+	shouldBeAnExternalAddressOrNot := anObject getHandle.
+	externalAddress := shouldBeAnExternalAddressOrNot isExternalAddress
+		ifTrue: [ shouldBeAnExternalAddressOrNot ]
+		ifFalse: [ shouldBeAnExternalAddressOrNot getHandle ].
+	^ super at: index put: externalAddress
 ]
