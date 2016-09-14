@@ -18,10 +18,10 @@ Trait {
 
 { #category : #'trait - library path' }
 TRLibrary classSide >> ffiLibraryName [
- ^ #R
+ ^ RLibrary
 ]
 
 { #category : #'trait - library path' }
 TRLibrary >> ffiLibraryName [
- ^ self class nbLibraryNameOrHandle
+ ^ self class ffiLibraryName
 ]
