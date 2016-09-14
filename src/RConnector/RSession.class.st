@@ -65,7 +65,7 @@ RSession class >> invalidateOldHandles [
 
 { #category : #testing }
 RSession class >> isExistsRf_initEmbeddedR [
-	^ [ (Alien lookupOrNil: 'Rf_initEmbeddedR' inLibrary: #R) isNotNil ]
+	^ [ (ExternalAddress loadSymbol: 'Rf_initEmbeddedR' from: RLibrary) isNotNil ]
 		on: PrimitiveFailed
 		do: [ self error: 'Please check that you use the right libraries!' ]
 ]
