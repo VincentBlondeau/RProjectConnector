@@ -11,13 +11,12 @@ Class {
 { #category : #'accessing platform' }
 RLibrary >> macModuleName [
 	self flag: 'Should be filled afterward'.
-	#('/usr/local/Cellar/r/3.3.1_2/R.framework/Versions/3.3/Resources/lib/R.dylib'
-	"Put other libs locations here!! ;)"
-	)
+	#('/usr/local/Cellar/r/3.3.1_2/R.framework/Versions/3.3/Resources/lib/R.dylib' 'R.dylib')
 		do: [ :path | 
 			path asFileReference exists
 				ifTrue: [ ^ path ] ].
-	self error: 'Cannot locate cairo library. Please check if it installed on your system'
+	"Put other libs locations here!! ;)"
+	^ #R	"default value"
 ]
 
 { #category : #'accessing platform' }
