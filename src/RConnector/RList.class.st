@@ -21,7 +21,16 @@ RList class >> arrayContentType [
 
 { #category : #private }
 RList class >> arrayType [
-	^ RObjectArray 
+	^ RObjectList 
+]
+
+{ #category : #'private - instance creation' }
+RList class >> createArrayFromListPointer: anExternalData size: anInteger [
+	| array |
+	array := self arrayType from: (RObject fromHandle: anExternalData handle) new: anInteger.
+	1 to: anInteger do:
+		[ :idx | array at: idx put: (anExternalData prim_vectorElementAt: idx - 1) ].
+	^ array
 ]
 
 { #category : #'as yet unclassified' }
@@ -128,7 +137,8 @@ RList >> asObject [
 
 { #category : #accessing }
 RList >> associations [
-	^ self withIndexCollect: [ :value :index | (keys at: index) -> (value asRObject) ]
+	^ self
+		withIndexCollect: [ :value :index | (keys at: index) -> value ]
 ]
 
 { #category : #accessing }
@@ -163,7 +173,7 @@ RList >> at: index putValue: anElement [
 { #category : #accessing }
 RList >> atIndex: index [
 	self ensureBoundsFrom: index to: index.
-	^ (array at: index) asRObject
+	^ array at: index
 ]
 
 { #category : #accessing }
@@ -230,7 +240,7 @@ RList >> firstPointer [
 	^ self vector
 ]
 
-{ #category : #accessing }
+{ #category : #private }
 RList >> growAtLast [
 	"overridden to create external objects"
 
@@ -238,10 +248,19 @@ RList >> growAtLast [
 
 	"Protect and unprotect methods should be added too"
 
-	"Overridded to support the extend of the key collection"
-
-	| size newKeyArray |
-	super growAtLast.
+	| newArray newInstance size newKeyArray |
+	size := array size * 2 max: 1.
+	newInstance := self class primNew: size.
+	self handle: newInstance handle.
+	newArray := self class
+		createArrayFromListPointer: newInstance
+		size: size.
+	newArray
+		replaceFrom: firstIndex
+		to: lastIndex
+		with: array
+		startingAt: firstIndex.
+	array := newArray.
 	size := array size.
 	newKeyArray := self class keyArrayType
 		fromHandle: (ExternalAddress fromAddress: self firstKeyPointer)
@@ -336,7 +355,7 @@ RList >> printOn: aStream [
 		withIndexDo: [ :value :index | 
 			aStream << (keys at: index) asString.
 			aStream << '->'.
-			aStream << value asRObject asString.
+			aStream << value asString.
 			aStream << '.' ]
 ]
 

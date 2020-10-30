@@ -66,12 +66,9 @@ RFunctionTest >> testCorrelationXXShouldGiveOne [
 { #category : #tests }
 RFunctionTest >> testExecuteFunctionInAShorterWayShouldWork [
 	| res |
-	res := (#arima
-		asRFunctionWith:
-			{{1.
-			2.
-			3}}) eval.
-	self assert: (res isKindOf: RList)
+	res := (#arima asRFunctionWith: {{1 . 2 . 3}}) eval.
+	self assert: (res isKindOf: RList).
+	self assert: res first first rounded equals: 2
 ]
 
 { #category : #tests }
@@ -134,8 +131,7 @@ RFunctionTest >> testRnormShouldGiveAnArrayOfFloats [
 	res := function eval.
 	self assert: (res isKindOf: RDoubleVector ).
 	self assert: res prim_length equals: 10.
-	self assert: res size equals: 10.
-	
+	self assert: res size equals: 10
 	
 	
 ]
