@@ -171,8 +171,8 @@ RVector >> initializeHandle [
 
 { #category : #'private - primitive' }
 RVector >> prim_attributeAt: attributeName [
-	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
-	^ self nbCall: #(SEXP Rf_getAttrib(self, SEXP attributeName))
+	
+	^ self ffiCall: #(SEXP Rf_getAttrib(self, SEXP attributeName))
 ]
 
 { #category : #private }
@@ -194,7 +194,7 @@ RVector >> species [
 
 { #category : #'private - notused' }
 RVector >> truelength [
-    <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
+    
     ^ self
-        nbCall: #(int TRUELENGTH(self))
+        ffiCall: #(int TRUELENGTH(self))
 ]

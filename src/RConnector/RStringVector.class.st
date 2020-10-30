@@ -36,14 +36,14 @@ RStringVector class >> newFromString: aString [
 
 { #category : #'private - instance creation' }
 RStringVector class >> primNew: size type: type [
-	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
-	^ self nbCall: #(RStringVector Rf_allocVector (int type, int size))
+	
+	^ self ffiCall: #(RStringVector Rf_allocVector (int type, int size))
 ]
 
 { #category : #'private - instance creation' }
 RStringVector class >> primNewFromString: aString [ 
-	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
-	^ self nbCall: #(RStringVector Rf_mkString(String aString))
+	
+	^ self ffiCall: #(RStringVector Rf_mkString(String aString))
 ]
 
 { #category : #accessing }

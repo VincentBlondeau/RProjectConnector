@@ -21,8 +21,8 @@ RIntVector class >> firstPointer [
 
 { #category : #'private - instance creation' }
 RIntVector class >> primNew: size type: type [
-	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
-	^ self nbCall: #(RIntVector Rf_allocVector (int type, int size))
+	
+	^ self ffiCall: #(RIntVector Rf_allocVector (int type, int size))
 ]
 
 { #category : #accessing }

@@ -72,9 +72,9 @@ RSession class >> isExistsRf_initEmbeddedR [
 
 { #category : #'private - primitives' }
 RSession class >> prim_endEmbeddedR: arg [
-    <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
+    
     ^ self
-        nbCall: #(int  Rf_endEmbeddedR( int arg ))
+        ffiCall: #(int  Rf_endEmbeddedR( int arg ))
 ]
 
 { #category : #'private - primitives' }
@@ -86,9 +86,9 @@ RSession class >> prim_initEmbeddedRargc: argc argv: argv [
 
 { #category : #'private - primitives' }
 RSession class >> prim_install: aLibName [
-    <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
+    
     ^ self
-        nbCall: #(SEXP Rf_install(String aLibName))
+        ffiCall: #(SEXP Rf_install(String aLibName))
 ]
 
 { #category : #'system startup' }

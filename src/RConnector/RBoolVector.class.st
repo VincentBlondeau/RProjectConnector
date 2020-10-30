@@ -21,8 +21,8 @@ RBoolVector class >> firstPointer [
 
 { #category : #'private - instance creation' }
 RBoolVector class >> primNew: size type: type [
-	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
-	^ self nbCall: #(RBoolVector Rf_allocVector (int type, int size))
+	
+	^ self ffiCall: #(RBoolVector Rf_allocVector (int type, int size))
 ]
 
 { #category : #accessing }

@@ -31,8 +31,8 @@ RLangageExpression class >> newEmptyChainedList [
 
 { #category : #'private - instance creation' }
 RLangageExpression class >> primNew: size type: type [
-	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
-	^ self nbCall: #(#RLangageExpression #Rf_allocVector #(#int #type #, #int #size))
+	
+	^ self ffiCall: #(#RLangageExpression #Rf_allocVector #(#int #type #, #int #size))
 ]
 
 { #category : #accessing }
@@ -98,17 +98,17 @@ RLangageExpression >> first: element [
 
 { #category : #accessing }
 RLangageExpression >> fourth [
-    <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
+    
     ^ self
-        nbCall: #(SEXP CADDDR(self))
+        ffiCall: #(SEXP CADDDR(self))
 
 ]
 
 { #category : #adding }
 RLangageExpression >> fourth: anElement [
-    <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
+    
     ^ self
-        nbCall: #(SEXP SETCADDDR(self, SEXP anElement))
+        ffiCall: #(SEXP SETCADDDR(self, SEXP anElement))
 
 ]
 
@@ -120,8 +120,8 @@ RLangageExpression >> initialize [
 
 { #category : #'private - primitive' }
 RLangageExpression >> prim_addFirst: anElement [
-	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
-	^ self nbCall: #(SEXP Rf_lcons(SEXP anElement, self))
+	
+	^ self ffiCall: #(SEXP Rf_lcons(SEXP anElement, self))
 
 	
 ]
@@ -150,15 +150,15 @@ RLangageExpression >> reset [
 
 { #category : #accessing }
 RLangageExpression >> second [
-	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
-	^ self nbCall: #(SEXP CADR (self))
+	
+	^ self ffiCall: #(SEXP CADR (self))
 ]
 
 { #category : #adding }
 RLangageExpression >> second: element [
-    <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
+    
     ^ self
-        nbCall: #(SEXP SETCADR(self, SEXP element))
+        ffiCall: #(SEXP SETCADR(self, SEXP element))
 
 ]
 
@@ -171,8 +171,8 @@ RLangageExpression >> size [
 { #category : #accessing }
 RLangageExpression >> tag [
 	"tag is the name representing the element in a list"
-	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
-	^ self nbCall: #(SEXP TAG (self))
+	
+	^ self ffiCall: #(SEXP TAG (self))
 ]
 
 { #category : #accessing }
@@ -182,9 +182,9 @@ RLangageExpression >> third [
 
 { #category : #adding }
 RLangageExpression >> third: element [
-    <primitive: #primitiveNativeCall module: #NativeBoostPlugin error: errorCode>
+    
     ^ self
-        nbCall: #(SEXP SETCADDR(self, SEXP element))
+        ffiCall: #(SEXP SETCADDR(self, SEXP element))
 
 ]
 

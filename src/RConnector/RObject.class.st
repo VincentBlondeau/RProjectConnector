@@ -75,8 +75,8 @@ RObject class >> new: size [
 
 { #category : #'private - instance creation' }
 RObject class >> primNew: size type: type [
-	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
-	^ self nbCall: #(SEXP Rf_allocVector(int type, int size))
+	
+	^ self ffiCall: #(SEXP Rf_allocVector(int type, int size))
 ]
 
 { #category : #accessing }

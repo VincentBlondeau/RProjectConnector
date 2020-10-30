@@ -18,8 +18,8 @@ RChar class >> createNewObjectFrom: aRObject [
 
 { #category : #'trait - private - instance creation' }
 RChar class >> primNew: aString [
-	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
-	^ self nbCall: #(RChar Rf_mkChar(String aString))
+	
+	^ self ffiCall: #(RChar Rf_mkChar(String aString))
 ]
 
 { #category : #'private - instance creation' }

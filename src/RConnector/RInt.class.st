@@ -10,6 +10,6 @@ Class {
 
 { #category : #'instance creation' }
 RInt class >> newFrom: aInt [
-	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
-	^ self nbCall: #(SEXP	 Rf_ScalarInteger(int aInt))
+	
+	^ self ffiCall: #(SEXP	 Rf_ScalarInteger(int aInt))
 ]

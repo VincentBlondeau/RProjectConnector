@@ -14,8 +14,8 @@ RLogical class >> newFrom: aBoolean [
 
 { #category : #'private - instance creation' }
 RLogical class >> primNewFrom: aBooleanAsInt [
-	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
-	^ self nbCall: #(RLogical Rf_ScalarLogical(int aBooleanAsInt))
+	
+	^ self ffiCall: #(RLogical Rf_ScalarLogical(int aBooleanAsInt))
 ]
 
 { #category : #comparing }

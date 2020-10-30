@@ -21,8 +21,8 @@ RDoubleVector class >> firstPointer [
 
 { #category : #'private - instance creation' }
 RDoubleVector class >> primNew: size type: type [
-	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
-	^ self nbCall: #(RDoubleVector Rf_allocVector (int type, int size))
+	
+	^ self ffiCall: #(RDoubleVector Rf_allocVector (int type, int size))
 ]
 
 { #category : #accessing }

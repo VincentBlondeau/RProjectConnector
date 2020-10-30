@@ -33,17 +33,6 @@ RList class >> createArrayFromListPointer: anExternalData size: anInteger [
 	^ array
 ]
 
-{ #category : #'as yet unclassified' }
-RList class >> createArrayFromListPointer: anExternalData size: anInteger [
-	| array |
-	array := self arrayType
-		newType: self arrayContentType
-		size: anInteger.
-	1 to: anInteger do:
-		[ :idx | array at: idx put: (anExternalData prim_vectorElementAt: idx - 1) ].
-	^ array
-]
-
 { #category : #'private - instance creation' }
 RList class >> createNewObjectFrom: aRObject [
 	| instance |
@@ -96,8 +85,8 @@ RList class >> newFromDictionary: aDictionary [
 
 { #category : #'private - instance creation' }
 RList class >> primNew: size type: type [
-	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
-	^ self nbCall: #(RList Rf_allocVector (int type, int size))
+	
+	^ self ffiCall: #(RList Rf_allocVector (int type, int size))
 ]
 
 { #category : #accessing }
@@ -332,21 +321,21 @@ RList >> prim_attributeAt: attributeName put: attributeValue [
 
 { #category : #'private - primitive' }
 RList >> prim_attributes [
-	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
-	^ self nbCall: #(SEXP ATTRIB(self))
+	
+	^ self ffiCall: #(SEXP ATTRIB(self))
 ]
 
 { #category : #'private - primitive' }
 RList >> prim_getAttribute: attributeName [
-	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
-	^ self nbCall: #(SEXP Rf_getAttrib(self, SEXP attributeName))
+	
+	^ self ffiCall: #(SEXP Rf_getAttrib(self, SEXP attributeName))
 ]
 
 { #category : #'private - primitive' }
 RList >> prim_installlAttributeAt: attributeName put: attributeValue [
-	<primitive: #primitiveNativeCall module: #NativeBoostPlugin error: #errorCode>
+	
 
-	^ self nbCall: #(SEXP Rf_installAttrib(self, SEXP attributeName, SEXP attributeValue))
+	^ self ffiCall: #(SEXP Rf_installAttrib(self, SEXP attributeName, SEXP attributeValue))
 ]
 
 { #category : #accessing }
