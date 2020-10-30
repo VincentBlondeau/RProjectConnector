@@ -508,8 +508,9 @@ TRHelpers >> types [
 
 { #category : #'trait - converting' }
 TRHelpers >> vector [
+	self error: 'Must not be used ! Not supported in the latest version.'.
 	"A vector_ptr function exists but doesn't work on vectors..... So we use the string one."
 	self isVector
 		ifFalse: [ CannotBeConvertedToType signal ].
-	^ self prim_string_ptr
+	^ self prim_vectorElementAt: 0
 ]

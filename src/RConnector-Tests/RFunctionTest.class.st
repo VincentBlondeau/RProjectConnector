@@ -156,6 +156,7 @@ RFunctionTest >> testSeqShouldGiveAnArrayOfInt [
 { #category : #tests }
 RFunctionTest >> testTimeSerieCreationWithParameters [
 	| res |
+	self skip.
 	res := RFunction
 		eval: 'ts'
 		withListParameter:

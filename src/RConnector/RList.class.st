@@ -24,9 +24,29 @@ RList class >> arrayType [
 	^ RObjectArray 
 ]
 
+{ #category : #'as yet unclassified' }
+RList class >> createArrayFromListPointer: anExternalData size: anInteger [
+	| array |
+	array := self arrayType
+		newType: self arrayContentType
+		size: anInteger.
+	1 to: anInteger do:
+		[ :idx | array at: idx put: (anExternalData prim_vectorElementAt: idx - 1) ].
+	^ array
+]
+
 { #category : #'private - instance creation' }
 RList class >> createNewObjectFrom: aRObject [
-	^ super createNewObjectFrom: aRObject
+	| instance |
+	instance := self basicNew handle: aRObject handle.
+	instance
+		setCollection:
+			(self
+				createArrayFromListPointer: (aRObject )
+				size: aRObject prim_length).
+	instance initialize.
+	instance resetToExternalCollection.
+	^ instance
 ]
 
 { #category : #'private - instance creation' }
@@ -42,9 +62,18 @@ RList class >> keyArrayType [
 { #category : #'private - instance creation' }
 RList class >> new: size [
 	| instance |
-	instance := super new: size.
+	self
+		assert: size > 0
+		description: 'The initial size should not be zero!'.
+	instance := self primNew: size.
 	instance
-		setKeyArray: (self keyArrayType fromHandle: (ExternalAddress fromAddress: instance firstKeyPointer) type: self arrayContentType size: size).
+		setCollection: (self createArrayFromListPointer: instance size: size).
+	instance
+		setKeyArray:
+			(self keyArrayType
+				fromHandle: (ExternalAddress fromAddress: instance firstKeyPointer)
+				type: self arrayContentType
+				size: size).
 	^ instance
 ]
 
@@ -251,9 +280,8 @@ RList >> gtInspectorItemsIn: composite [
 		beMultiple;
 		withSmalltalkSearch;
 		send: [ :selection | 
-			(selection notNil and: [ selection size = 1 ]) 
-				ifTrue: [ selection anyOne value ] 
-				ifFalse: [ selection collect: #value ] ];
+			
+				 selection collect: #value  ];
 		showOnly: 50;
 		helpMessage: 'Quick selection field. Given your INPUT, it executes: self select: [:each | INPUT ]'
 ]
