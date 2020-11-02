@@ -7,6 +7,8 @@ The following is a copy of the previous project ReadMe
 This binding is done through UFFI primitive calls
 (a NativeBoost binding version can be found in the history of the project).
 
+This branch is compatible to the Pharo 9.0 version. Please use the branch Pharo8.0 for the compatibility to Pharo8.
+
 # Installation
 
 In order to get it work, you should get the R libs.
@@ -102,7 +104,7 @@ For now there is no control of session in the image, try to not use R objects fr
 
 # Links
 
--    Some documentation on external R library on: http://www.math.ncu.edu.tw/~chenwc/R_note/reference/package/R-exts.pdf (p64)
+-    Some documentation on external R library on: https://cran.r-project.org/doc/manuals/r-release/R-exts.pdf (p64)
 -    The RSources http://cran.r-project.org/sources.html. The header C file R-3.1.1\src\include\Rinternals.h shows all the functions that can be called through the primitives. For information, the compilation variable "USE_RINTERNALS" is not defined in the compiled libraries.
 -    Documentation on R environments: http://adv-r.had.co.nz/Environments.html
 -    Example in C: https://gist.github.com/Sharpie/323498
